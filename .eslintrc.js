@@ -17,6 +17,7 @@ module.exports = {
       2,
       { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     ],
+    '@typescript-eslint/no-use-before-define': 'off',
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
