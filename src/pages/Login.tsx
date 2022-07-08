@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function SingIn() {
-  return <h1>SingIn Page</h1>;
+export default function Login() {
+  return <h1>Login Page</h1>;
 }
