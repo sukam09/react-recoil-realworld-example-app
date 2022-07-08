@@ -1,22 +1,31 @@
 import React from 'react';
 import { Routes, Route, HashRouter } from 'react-router-dom';
+import {
+  RecoilRoot,
+  // atom,
+  // selector,
+  // useRecoilState,
+  // useRecoilValue,
+} from 'recoil';
 
 import Home from './pages/Home';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SingUp';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import Settings from './pages/Settings';
-import NewArticle from './pages/NewArticle';
+import Editor from './pages/Editor';
 
 export default function App() {
   return (
     <HashRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<SignIn />} />
-        <Route path="/register" element={<SignUp />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/editor" element={<NewArticle />} />
-      </Routes>
+      <RecoilRoot>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/editor" element={<Editor />} />
+        </Routes>
+      </RecoilRoot>
     </HashRouter>
   );
 }
