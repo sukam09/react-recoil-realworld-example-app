@@ -1,5 +1,58 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-export default function Login() {
-  return <h1>Login Page</h1>;
-}
+import Header from '../layouts/Header';
+
+const handleLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
+  console.log(event.target);
+};
+
+const Login = () => {
+  return (
+    <>
+      <Header />
+      <div className="auth-page">
+        <div className="container page">
+          <div className="row">
+            <div className="col-md-6 offset-md-3 col-xs-12">
+              <h1 className="text-xs-center">Sign in</h1>
+              <p className="text-xs-center">
+                <NavLink to="/register" className="text-xs-center">
+                  Need an account?
+                </NavLink>
+              </p>
+
+              {/* TODO: authentication via JWT */}
+
+              <form>
+                <fieldset className="form-group">
+                  <input
+                    className="form-control form-control-lg"
+                    type="email"
+                    placeholder="Email"
+                  />
+                </fieldset>
+                <fieldset className="form-group">
+                  <input
+                    className="form-control form-control-lg"
+                    type="password"
+                    placeholder="Password"
+                  />
+                </fieldset>
+                <button
+                  type="submit"
+                  className="btn btn-lg btn-primary pull-xs-right"
+                  onClick={(event) => handleLogin(event)}
+                >
+                  Sign in
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Login;
