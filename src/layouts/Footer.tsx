@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function Footer() {
+const Footer = () => {
   return (
     <footer>
-      <div className="container">
+      <div className="  container">
         <a href="/" className="logo-font">
           conduit
         </a>
@@ -15,4 +15,6 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;

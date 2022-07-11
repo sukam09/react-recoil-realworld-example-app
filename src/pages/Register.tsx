@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import Header from '../layouts/Header';
 
-export default function Register() {
+const Register = () => {
   return (
     <>
       <Header />
@@ -22,7 +22,7 @@ export default function Register() {
                 <li>That email is already taken</li>
               </ul> */}
 
-              {/* TODO: form methods and error messages handling */}
+              {/* TODO: authentication via JWT */}
 
               <form>
                 <fieldset className="form-group">
@@ -59,4 +59,6 @@ export default function Register() {
       </div>
     </>
   );
-}
+};
+
+export default Register;

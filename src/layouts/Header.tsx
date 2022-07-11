@@ -1,8 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-// import styled from 'styled-components';
 
-export default function Header() {
+const Header = () => {
   return (
     <nav className="navbar navbar-light">
       <div className="container">
@@ -11,7 +10,7 @@ export default function Header() {
         </NavLink>
         <ul className="nav navbar-nav pull-xs-right">
           <li className="nav-item">
-            <NavLink to="/" className="nav-link active">
+            <NavLink to="/" className="nav-link">
               Home
             </NavLink>
           </li>
@@ -37,4 +36,6 @@ export default function Header() {
       </div>
     </nav>
   );
-}
+};
+
+export default Header;

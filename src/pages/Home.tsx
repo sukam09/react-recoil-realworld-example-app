@@ -5,7 +5,7 @@ import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 
 // TODO: categorize elements below to components
-export default function Home() {
+const Home = () => {
   return (
     <>
       <Header />
@@ -127,4 +127,6 @@ export default function Home() {
       <Footer />
     </>
   );
-}
+};
+
+export default Home;
