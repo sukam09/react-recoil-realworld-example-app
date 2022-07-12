@@ -1,7 +1,6 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
-import Header from '../layouts/Header';
+import Header from "../../components/Header";
 
 const Register = () => {
   return (

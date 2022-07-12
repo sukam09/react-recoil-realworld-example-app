@@ -1,8 +1,7 @@
-import React from 'react';
 // import {NavLink} from 'react-router-dom';
 
-import Header from '../layouts/Header';
-import Footer from '../layouts/Footer';
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 
 // TODO: categorize elements below to components
 const Home = () => {

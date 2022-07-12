@@ -1,13 +1,29 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { useState, useRef } from "react";
+import { NavLink } from "react-router-dom";
 
-import Header from '../layouts/Header';
-
-const handleLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
-  console.log(event.target);
-};
+import Header from "../../components/Header";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    console.log(email, password);
+  };
+
+  const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail((event.target as HTMLInputElement).value);
+  };
+
+  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword((event.target as HTMLInputElement).value);
+  };
+
+  const loginForm = useRef<HTMLFormElement>(null);
+
   return (
     <>
       <Header />
@@ -24,12 +40,13 @@ const Login = () => {
 
               {/* TODO: authentication via JWT */}
 
-              <form>
+              <form ref={loginForm}>
                 <fieldset className="form-group">
                   <input
                     className="form-control form-control-lg"
                     type="email"
                     placeholder="Email"
+                    onChange={(event) => handleEmail(event)}
                   />
                 </fieldset>
                 <fieldset className="form-group">
@@ -37,6 +54,7 @@ const Login = () => {
                     className="form-control form-control-lg"
                     type="password"
                     placeholder="Password"
+                    onChange={(event) => handlePassword(event)}
                   />
                 </fieldset>
                 <button
