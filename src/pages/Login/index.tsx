@@ -1,7 +1,19 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 import Header from "components/Header";
+
+const testApiCall = async () => {
+  try {
+    const response = await axios.post(
+      "https://realworld-example-app-api.herokuapp.com"
+    );
+    console.log(`response >> ${response.data}`);
+  } catch (error) {
+    console.log(`error >> ${error}`);
+  }
+};
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,6 +31,7 @@ const Login = () => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
+    testApiCall();
   };
 
   return (
@@ -34,16 +47,13 @@ const Login = () => {
                   Need an account?
                 </NavLink>
               </p>
-
-              {/* TODO: authentication via JWT */}
-
               <form>
                 <fieldset className="form-group">
                   <input
                     className="form-control form-control-lg"
-                    type="email"
+                    type="text"
                     placeholder="Email"
-                    onChange={(event) => handleEmail(event)}
+                    onChange={handleEmail}
                   />
                 </fieldset>
                 <fieldset className="form-group">
@@ -51,11 +61,10 @@ const Login = () => {
                     className="form-control form-control-lg"
                     type="password"
                     placeholder="Password"
-                    onChange={(event) => handlePassword(event)}
+                    onChange={handlePassword}
                   />
                 </fieldset>
                 <button
-                  type="submit"
                   className="btn btn-lg btn-primary pull-xs-right"
                   onClick={(event) => handleLogin(event)}
                 >
