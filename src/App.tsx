@@ -1,4 +1,5 @@
 import { Routes, Route, HashRouter } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -8,15 +9,17 @@ import Editor from "./pages/Editor";
 
 const App = () => {
   return (
-    <HashRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/editor" element={<Editor />} />
-      </Routes>
-    </HashRouter>
+    <RecoilRoot>
+      <HashRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/editor" element={<Editor />} />
+        </Routes>
+      </HashRouter>
+    </RecoilRoot>
   );
 };
 
