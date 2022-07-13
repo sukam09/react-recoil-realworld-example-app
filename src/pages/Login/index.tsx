@@ -1,18 +1,11 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-import Header from "../../components/Header";
+import Header from "components/Header";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleLogin = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    console.log(email, password);
-  };
 
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail((event.target as HTMLInputElement).value);
@@ -22,7 +15,11 @@ const Login = () => {
     setPassword((event.target as HTMLInputElement).value);
   };
 
-  const loginForm = useRef<HTMLFormElement>(null);
+  const handleLogin = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+  };
 
   return (
     <>
@@ -40,7 +37,7 @@ const Login = () => {
 
               {/* TODO: authentication via JWT */}
 
-              <form ref={loginForm}>
+              <form>
                 <fieldset className="form-group">
                   <input
                     className="form-control form-control-lg"
