@@ -4,13 +4,7 @@
     "es6": true,
     "node": true
   },
-  "extends": [
-    "react-app",
-    "airbnb",
-    "airbnb-typescript",
-    "plugin:prettier/recommended",
-    "prettier"
-  ],
+  "extends": ["react-app", "plugin:prettier/recommended", "prettier"],
   "rules": {
     "prettier/prettier": "error",
     "react/jsx-filename-extension": [
