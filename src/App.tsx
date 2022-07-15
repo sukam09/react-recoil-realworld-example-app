@@ -1,5 +1,4 @@
 import { Routes, Route, HashRouter } from "react-router-dom";
-// import { RecoilRoot } from "recoil";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -9,7 +8,6 @@ import Editor from "./pages/Editor";
 
 const App = () => {
   return (
-    // <RecoilRoot>
     <HashRouter>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -19,7 +17,6 @@ const App = () => {
         <Route path="/editor" element={<Editor />} />
       </Routes>
     </HashRouter>
-    // </RecoilRoot>
   );
 };
 
