@@ -2,17 +2,21 @@ import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
-import Header from "../components/Header";
+import Header from "../components/Header/Header";
 import { postUserLogin } from "../api/user";
-import { User } from "../store/atom";
+import { User, IsLoggedin } from "../store/atom";
 
+// TODO: keep login session when refreshed
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [disabled, setDisabled] = useState(false);
   const [emailError, setEmailError] = useState(undefined);
   const [passwordError, setPasswordError] = useState(undefined);
+  const [emailOrPasswordError, setEmailOrPasswordError] = useState(undefined);
+
   const setUser = useSetRecoilState(User);
+  const setIsLoggedin = useSetRecoilState(IsLoggedin);
   const navigate = useNavigate();
 
   const onLogin = async (
@@ -30,15 +34,19 @@ const Login = () => {
         })
       ).data;
       setUser({
-        email: data.email,
-        username: data.username,
-        bio: data.bio,
-        image: data.image,
-        token: data.token,
-      }); // FIXME: recoil not update
+        email: data.user.email,
+        username: data.user.username,
+        bio: data.user.bio,
+        image: data.user.image,
+        token: data.user.token,
+      });
+      setIsLoggedin(true);
       navigate("/", { replace: true });
     } catch (error: any) {
-      console.log(error.response.data.errors);
+      const errorMessage = error.response.data.errors;
+      setEmailError(errorMessage.email);
+      setPasswordError(errorMessage.password);
+      setEmailOrPasswordError(errorMessage["email or password"]);
     }
     setDisabled(false);
   };
@@ -57,11 +65,17 @@ const Login = () => {
                 </NavLink>
               </p>
 
+              <ul className="error-messages">
+                {emailError && <li>email can't be blank</li>}
+                {passwordError && <li>password can'be blank</li>}
+                {emailOrPasswordError && <li>email or password is invalid</li>}
+              </ul>
+
               <form>
                 <fieldset className="form-group">
                   <input
                     className="form-control form-control-lg"
-                    type="text"
+                    type="email"
                     placeholder="Email"
                     onChange={(event) => setEmail(event.target.value)}
                     disabled={disabled}
