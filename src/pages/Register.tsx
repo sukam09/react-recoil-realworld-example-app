@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
-import Header from "../components/Header";
+import Header from "../components/Header/Header";
 import { postUser } from "../api/user";
 import { User } from "../store/atom";
 
@@ -33,11 +33,11 @@ const Register = () => {
         })
       ).data;
       setUser({
-        email: data.email,
-        username: data.username,
-        bio: data.bio,
-        image: data.image,
-        token: data.token,
+        email: data.user.email,
+        username: data.user.username,
+        bio: data.user.bio,
+        image: data.user.image,
+        token: data.user.token,
       });
       navigate("/", { replace: true });
     } catch (error: any) {
