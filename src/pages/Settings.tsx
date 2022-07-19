@@ -1,4 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 const Settings = () => {
+  const navigate = useNavigate();
+
+  const onLogout = () => {
+    localStorage.clear();
+    navigate("/", { replace: true });
+  };
+
   return (
     <>
       <div className="settings-page">
@@ -48,6 +57,13 @@ const Settings = () => {
                     Update Settings
                   </button>
                 </fieldset>
+                <hr />
+                <button
+                  className="btn btn-outline-danger"
+                  onClick={() => onLogout()}
+                >
+                  Or click here to logout.
+                </button>
               </form>
             </div>
           </div>
