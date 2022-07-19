@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil";
 
 import Header from "../components/Header/Header";
 import { postUser } from "../api/user";
-import { User } from "../store/atom";
+// import { User } from "../store/atom";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -14,7 +14,7 @@ const Register = () => {
   const [usernameError, setUsernameError] = useState(undefined);
   const [emailError, setEmailError] = useState(undefined);
   const [passwordError, setPasswordError] = useState(undefined);
-  const setUser = useSetRecoilState(User);
+  // const setUser = useSetRecoilState(User);
   const navigate = useNavigate();
 
   const onRegister = async (
@@ -32,13 +32,8 @@ const Register = () => {
           },
         })
       ).data;
-      setUser({
-        email: data.user.email,
-        username: data.user.username,
-        bio: data.user.bio,
-        image: data.user.image,
-        token: data.user.token,
-      });
+      const jwtToken = data.user.token;
+      localStorage.setItem("jwtToken", jwtToken);
       navigate("/", { replace: true });
     } catch (error: any) {
       const errorMessage = error.response.data.errors;
@@ -80,6 +75,7 @@ const Register = () => {
                   />
                 </fieldset>
                 <fieldset className="form-group">
+                  {/* FIXME: email type is not applied */}
                   <input
                     className="form-control form-control-lg"
                     type="email"

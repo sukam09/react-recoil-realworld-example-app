@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+
+import api from "../api/api";
 
 import Header from "../components/Header/Header";
 import { postUserLogin } from "../api/user";
-import { User, IsLoggedin } from "../store/atom";
+// import { User, IsLoggedin } from "../store/atom";
 
 // TODO: keep login session when refreshed
 const Login = () => {
@@ -14,9 +15,6 @@ const Login = () => {
   const [emailError, setEmailError] = useState(undefined);
   const [passwordError, setPasswordError] = useState(undefined);
   const [emailOrPasswordError, setEmailOrPasswordError] = useState(undefined);
-
-  const setUser = useSetRecoilState(User);
-  const setIsLoggedin = useSetRecoilState(IsLoggedin);
   const navigate = useNavigate();
 
   const onLogin = async (
@@ -33,14 +31,10 @@ const Login = () => {
           },
         })
       ).data;
-      setUser({
-        email: data.user.email,
-        username: data.user.username,
-        bio: data.user.bio,
-        image: data.user.image,
-        token: data.user.token,
-      });
-      setIsLoggedin(true);
+      const jwtToken = data.user.token;
+      const username = data.user.username;
+      localStorage.setItem("jwtToken", jwtToken);
+      localStorage.setItem("username", username);
       navigate("/", { replace: true });
     } catch (error: any) {
       const errorMessage = error.response.data.errors;
@@ -73,6 +67,7 @@ const Login = () => {
 
               <form>
                 <fieldset className="form-group">
+                  {/* FIXME: email type is not applied */}
                   <input
                     className="form-control form-control-lg"
                     type="email"
