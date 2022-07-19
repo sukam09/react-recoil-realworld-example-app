@@ -16,3 +16,10 @@ export const postUser = async (url: string, body: { user: UserBody }) => {
 export const postUserLogin = async (url: string, body: { user: LoginBody }) => {
   return await api.post(url, body);
 };
+
+export const getUser = async (
+  url: string,
+  headers: { headers: { Authorization: string } }
+) => {
+  return await api.get(url, headers);
+};
