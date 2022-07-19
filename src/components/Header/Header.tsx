@@ -1,12 +1,10 @@
 import { NavLink } from "react-router-dom";
-import { useRecoilValue } from "recoil";
 
-import { IsLoggedin } from "../../store/atom";
 import LoginHeader from "./LoginHeader";
 import LogoutHeader from "./LogoutHeader";
 
 const Header = () => {
-  const isLoggedin = useRecoilValue(IsLoggedin);
+  const isLoggedin = localStorage.getItem("jwtToken") !== null;
 
   return (
     <nav className="navbar navbar-light">

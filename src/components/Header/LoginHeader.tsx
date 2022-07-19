@@ -1,10 +1,7 @@
 import { NavLink } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-
-import { User } from "../../store/atom";
 
 const LoginHeader = () => {
-  const username = useRecoilValue(User).username;
+  const username = localStorage.getItem("username");
 
   return (
     <>
