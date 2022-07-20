@@ -1,13 +1,22 @@
-// import {NavLink} from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-import Header from "../components/Header";
+import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
+import MyFeed from "../components/MyFeed";
+import GlobalFeed from "../components/GlobalFeed";
+import Tag from "../components/Tag";
 
-// TODO: categorize elements below to components
 const Home = () => {
+  const isLoggedin = localStorage.getItem("user") !== null;
+  const [toggle, setToggle] = useState(isLoggedin ? 0 : 1);
+
+  // TODO: useEffect
+
   return (
     <>
       <Header />
+
       <div className="home-page">
         <div className="banner">
           <div className="container">
@@ -22,70 +31,27 @@ const Home = () => {
               <div className="feed-toggle">
                 <ul className="nav nav-pills outline-active">
                   <li className="nav-item">
-                    <a className="nav-link disabled" href="/#/" hidden>
+                    <a
+                      className={`nav-link ${toggle === 0 && "active"}`}
+                      href="/#"
+                      onClick={() => setToggle(0)}
+                      hidden={!isLoggedin}
+                    >
                       Your Feed
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link active" href="/#/">
+                    <a
+                      className={`nav-link ${toggle === 1 && "active"}`}
+                      href="/#"
+                      onClick={() => setToggle(1)}
+                    >
                       Global Feed
                     </a>
                   </li>
                 </ul>
               </div>
-
-              <div className="article-preview">
-                <div className="article-meta">
-                  <a href="profile.html">
-                    <img src="http://i.imgur.com/Qr71crq.jpg" alt="test" />
-                  </a>
-                  <div className="info">
-                    <a href="/#/" className="author">
-                      Eric Simons
-                    </a>
-                    <span className="date">January 20th</span>
-                  </div>
-                  <button
-                    type="button"
-                    className="btn btn-outline-primary btn-sm pull-xs-right"
-                  >
-                    <i className="ion-heart" /> 29
-                  </button>
-                </div>
-                <a href="/#/" className="preview-link">
-                  <h1>How to build webapps that scale</h1>
-                  <p>This is the description for the post.</p>
-                  <span>Read more...</span>
-                </a>
-              </div>
-
-              <div className="article-preview">
-                <div className="article-meta">
-                  <a href="profile.html">
-                    <img src="http://i.imgur.com/N4VcUeJ.jpg" alt="test" />
-                  </a>
-                  <div className="info">
-                    <a href="/#/" className="author">
-                      Albert Pai
-                    </a>
-                    <span className="date">January 20th</span>
-                  </div>
-                  <button
-                    type="button"
-                    className="btn btn-outline-primary btn-sm pull-xs-right"
-                  >
-                    <i className="ion-heart" /> 32
-                  </button>
-                </div>
-                <a href="/#/" className="preview-link">
-                  <h1>
-                    The song you won&apos;t ever stop singing. No matter how
-                    hard you try.
-                  </h1>
-                  <p>This is the description for the post.</p>
-                  <span>Read more...</span>
-                </a>
-              </div>
+              {toggle === 0 ? <MyFeed /> : <GlobalFeed />}
             </div>
 
             <div className="col-md-3">
@@ -93,36 +59,17 @@ const Home = () => {
                 <p>Popular Tags</p>
 
                 <div className="tag-list">
-                  <a href="/#/" className="tag-pill tag-default">
-                    programming
-                  </a>
-                  <a href="/#/" className="tag-pill tag-default">
-                    javascript
-                  </a>
-                  <a href="/#/" className="tag-pill tag-default">
-                    emberjs
-                  </a>
-                  <a href="/#/" className="tag-pill tag-default">
-                    angularjs
-                  </a>
-                  <a href="/#/" className="tag-pill tag-default">
-                    react
-                  </a>
-                  <a href="/#/" className="tag-pill tag-default">
-                    mean
-                  </a>
-                  <a href="/#/" className="tag-pill tag-default">
-                    node
-                  </a>
-                  <a href="/#/" className="tag-pill tag-default">
-                    rails
-                  </a>
+                  <Tag name="programming" />
+                  <Tag name="javascript" />
+                  <Tag name="amberjs" />
+                  <Tag name="angularjs" />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <Footer />
     </>
   );
