@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Article = () => {
   return (
@@ -9,13 +9,13 @@ const Article = () => {
             <h1>How to build webapps that scale</h1>
 
             <div className="article-meta">
-              <NavLink to="">
+              <Link to="">
                 <img src="http://i.imgur.com/Qr71crq.jpg" />
-              </NavLink>
+              </Link>
               <div className="info">
-                <NavLink to="" className="author">
+                <Link to="" className="author">
                   Eric Simons
-                </NavLink>
+                </Link>
                 <span className="date">January 20th</span>
               </div>
               <button className="btn btn-sm btn-outline-secondary">
@@ -49,13 +49,13 @@ const Article = () => {
 
           <div className="article-actions">
             <div className="article-meta">
-              <NavLink to="profile.html">
+              <Link to="profile.html">
                 <img src="http://i.imgur.com/Qr71crq.jpg" />
-              </NavLink>
+              </Link>
               <div className="info">
-                <NavLink to="" className="author">
+                <Link to="" className="author">
                   Eric Simons
-                </NavLink>
+                </Link>
                 <span className="date">January 20th</span>
               </div>
               <button className="btn btn-sm btn-outline-secondary">
@@ -99,16 +99,16 @@ const Article = () => {
                   </p>
                 </div>
                 <div className="card-footer">
-                  <NavLink to="" className="comment-author">
+                  <Link to="" className="comment-author">
                     <img
                       src="http://i.imgur.com/Qr71crq.jpg"
                       className="comment-author-img"
                     />
-                  </NavLink>
+                  </Link>
                   &nbsp;
-                  <NavLink to="" className="comment-author">
+                  <Link to="" className="comment-author">
                     Jacob Schmidt
-                  </NavLink>
+                  </Link>
                   <span className="date-posted">Dec 29th</span>
                 </div>
               </div>
@@ -121,16 +121,16 @@ const Article = () => {
                   </p>
                 </div>
                 <div className="card-footer">
-                  <NavLink to="" className="comment-author">
+                  <Link to="" className="comment-author">
                     <img
                       src="http://i.imgur.com/Qr71crq.jpg"
                       className="comment-author-img"
                     />
-                  </NavLink>
+                  </Link>
                   &nbsp;
-                  <NavLink to="" className="comment-author">
+                  <Link to="" className="comment-author">
                     Jacob Schmidt
-                  </NavLink>
+                  </Link>
                   <span className="date-posted">Dec 29th</span>
                   <span className="mod-options">
                     <i className="ion-edit"></i>
