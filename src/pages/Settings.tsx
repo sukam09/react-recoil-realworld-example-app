@@ -1,19 +1,27 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Header from "../components/Header/Header";
-
-interface UserProps {
-  image: string;
-  username: string;
-  bio: string;
-  email: string;
-  password: string;
-}
+import { UserProps } from "../types/type";
+import { putUser } from "../api/user";
 
 const Settings = () => {
+  const [user, setUser] = useState<UserProps>({
+    image: "",
+    username: "",
+    bio: "",
+    email: "",
+    password: "",
+  });
+
   const navigate = useNavigate();
-  const user: UserProps = JSON.parse(localStorage.getItem("user")!);
-  const { image, username, bio, email, password } = user;
+  useEffect(() => setUser(JSON.parse(localStorage.getItem("user")!)), []);
+
+  // const onEditProfile = () => {
+  //   putUser("/user", {
+  //     user: {},
+  //   });
+  // };
 
   const onLogout = () => {
     localStorage.clear();
@@ -37,7 +45,7 @@ const Settings = () => {
                       className="form-control"
                       type="text"
                       placeholder="URL of profile picture"
-                      defaultValue={image}
+                      defaultValue={user.image}
                     />
                   </fieldset>
                   <fieldset className="form-group">
@@ -45,7 +53,7 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       type="text"
                       placeholder="Your Name"
-                      defaultValue={username}
+                      defaultValue={user.username}
                     />
                   </fieldset>
                   <fieldset className="form-group">
@@ -53,7 +61,7 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       rows={8}
                       placeholder="Short bio about you"
-                      defaultValue={bio}
+                      defaultValue={user.bio}
                     ></textarea>
                   </fieldset>
                   <fieldset className="form-group">
@@ -61,7 +69,7 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       type="text"
                       placeholder="Email"
-                      defaultValue={email}
+                      defaultValue={user.email}
                     />
                   </fieldset>
                   <fieldset className="form-group">
@@ -69,7 +77,7 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       type="password"
                       placeholder="Password"
-                      defaultValue={password}
+                      defaultValue={user.password}
                     />
                   </fieldset>
                   <button className="btn btn-lg btn-primary pull-xs-right">
