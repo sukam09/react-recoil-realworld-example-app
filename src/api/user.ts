@@ -8,3 +8,7 @@ export const postUser = async (url: string, body: { user: UserProps }) => {
 export const postUserLogin = async (url: string, body: { user: UserProps }) => {
   return await api.post(url, body);
 };
+
+export const putUser = async (url: string, body: { user: UserProps }) => {
+  return await api.put(url, body);
+};
