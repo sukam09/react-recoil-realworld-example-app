@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Settings from "./pages/Settings";
 import Editor from "./pages/Editor";
 import Profile from "./pages/Profile";
+import Favorites from "./pages/Favorites";
 
 const App = () => {
   return (
@@ -16,7 +17,8 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/editor" element={<Editor />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/:username" element={<Profile />} />
+        <Route path="/profile/:username/favorites" element={<Favorites />} />
       </Routes>
     </HashRouter>
   );
