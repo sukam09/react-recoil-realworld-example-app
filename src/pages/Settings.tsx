@@ -1,7 +1,19 @@
 import { useNavigate } from "react-router-dom";
 
+import Header from "../components/Header/Header";
+
+interface UserProps {
+  image: string;
+  username: string;
+  bio: string;
+  email: string;
+  password: string;
+}
+
 const Settings = () => {
   const navigate = useNavigate();
+  const user: UserProps = JSON.parse(localStorage.getItem("user")!);
+  const { image, username, bio, email, password } = user;
 
   const onLogout = () => {
     localStorage.clear();
@@ -10,6 +22,8 @@ const Settings = () => {
 
   return (
     <>
+      <Header />
+
       <div className="settings-page">
         <div className="container page">
           <div className="row">
@@ -23,6 +37,7 @@ const Settings = () => {
                       className="form-control"
                       type="text"
                       placeholder="URL of profile picture"
+                      defaultValue={image}
                     />
                   </fieldset>
                   <fieldset className="form-group">
@@ -30,6 +45,7 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       type="text"
                       placeholder="Your Name"
+                      defaultValue={username}
                     />
                   </fieldset>
                   <fieldset className="form-group">
@@ -37,6 +53,7 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       rows={8}
                       placeholder="Short bio about you"
+                      defaultValue={bio}
                     ></textarea>
                   </fieldset>
                   <fieldset className="form-group">
@@ -44,6 +61,7 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       type="text"
                       placeholder="Email"
+                      defaultValue={email}
                     />
                   </fieldset>
                   <fieldset className="form-group">
@@ -51,6 +69,7 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       type="password"
                       placeholder="Password"
+                      defaultValue={password}
                     />
                   </fieldset>
                   <button className="btn btn-lg btn-primary pull-xs-right">
