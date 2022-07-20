@@ -1,8 +1,14 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import Header from "../components/Header/Header";
 
 const Profile = () => {
+  const username = JSON.parse(localStorage.getItem("user")!).username;
+
   return (
     <>
+      <Header />
+
       <div className="profile-page">
         <div className="user-info">
           <div className="container">
@@ -18,9 +24,11 @@ const Profile = () => {
                   Cofounder @GoThinkster, lived in Aol's HQ for a few months,
                   kinda looks like Peeta from the Hunger Games
                 </p>
-                <button className="btn btn-sm btn-outline-secondary action-btn">
-                  <i className="ion-plus-round"></i> Follow Eric Simons
-                </button>
+                <Link to="/settings">
+                  <button className="btn btn-sm btn-outline-secondary action-btn">
+                    <i className="ion-gear-a"></i> Edit Profile Settings
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -32,56 +40,56 @@ const Profile = () => {
               <div className="articles-toggle">
                 <ul className="nav nav-pills outline-active">
                   <li className="nav-item">
-                    <NavLink className="nav-link active" to="">
+                    <Link className="nav-link active" to={`/@${username}`}>
                       My Articles
-                    </NavLink>
+                    </Link>
                   </li>
                   <li className="nav-item">
-                    <NavLink className="nav-link" to="">
+                    <Link className="nav-link" to={`/@${username}/favorites`}>
                       Favorited Articles
-                    </NavLink>
+                    </Link>
                   </li>
                 </ul>
               </div>
 
               <div className="article-preview">
                 <div className="article-meta">
-                  <NavLink to="">
+                  <Link to="">
                     <img src="http://i.imgur.com/Qr71crq.jpg" />
-                  </NavLink>
+                  </Link>
                   <div className="info">
-                    <NavLink to="" className="author">
+                    <Link to="" className="author">
                       Eric Simons
-                    </NavLink>
+                    </Link>
                     <span className="date">January 20th</span>
                   </div>
                   <button className="btn btn-outline-primary btn-sm pull-xs-right">
                     <i className="ion-heart"></i> 29
                   </button>
                 </div>
-                <NavLink to="" className="preview-link">
+                <Link to="" className="preview-link">
                   <h1>How to build webapps that scale</h1>
                   <p>This is the description for the post.</p>
                   <span>Read more...</span>
-                </NavLink>
+                </Link>
               </div>
 
               <div className="article-preview">
                 <div className="article-meta">
-                  <NavLink to="">
+                  <Link to="">
                     <img src="http://i.imgur.com/N4VcUeJ.jpg" />
-                  </NavLink>
+                  </Link>
                   <div className="info">
-                    <NavLink to="" className="author">
+                    <Link to="" className="author">
                       Albert Pai
-                    </NavLink>
+                    </Link>
                     <span className="date">January 20th</span>
                   </div>
                   <button className="btn btn-outline-primary btn-sm pull-xs-right">
                     <i className="ion-heart"></i> 32
                   </button>
                 </div>
-                <NavLink to="" className="preview-link">
+                <Link to="" className="preview-link">
                   <h1>
                     The song you won't ever stop singing. No matter how hard you
                     try.
@@ -92,7 +100,7 @@ const Profile = () => {
                     <li className="tag-default tag-pill tag-outline">Music</li>
                     <li className="tag-default tag-pill tag-outline">Song</li>
                   </ul>
-                </NavLink>
+                </Link>
               </div>
             </div>
           </div>
