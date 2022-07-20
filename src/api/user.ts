@@ -1,17 +1,10 @@
 import api from "./api";
+import { UserProps } from "../types/type";
 
-interface UserProps {
-  user: {
-    username?: string;
-    email: string;
-    password: string;
-  };
-}
-
-export const postUser = async (url: string, body: UserProps) => {
+export const postUser = async (url: string, body: { user: UserProps }) => {
   return await api.post(url, body);
 };
 
-export const postUserLogin = async (url: string, body: UserProps) => {
+export const postUserLogin = async (url: string, body: { user: UserProps }) => {
   return await api.post(url, body);
 };
