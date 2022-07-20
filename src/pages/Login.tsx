@@ -1,13 +1,9 @@
-import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-
-import api from "../api/api";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import Header from "../components/Header/Header";
 import { postUserLogin } from "../api/user";
-// import { User, IsLoggedin } from "../store/atom";
 
-// TODO: keep login session when refreshed
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,9 +13,7 @@ const Login = () => {
   const [emailOrPasswordError, setEmailOrPasswordError] = useState(undefined);
   const navigate = useNavigate();
 
-  const onLogin = async (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const onLogin = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setDisabled(true);
     try {
@@ -31,10 +25,8 @@ const Login = () => {
           },
         })
       ).data;
-      const jwtToken = data.user.token;
-      const username = data.user.username;
-      localStorage.setItem("jwtToken", jwtToken);
-      localStorage.setItem("username", username);
+      const user = data.user;
+      localStorage.setItem("user", JSON.stringify(user));
       navigate("/", { replace: true });
     } catch (error: any) {
       const errorMessage = error.response.data.errors;
@@ -54,9 +46,9 @@ const Login = () => {
             <div className="col-md-6 offset-md-3 col-xs-12">
               <h1 className="text-xs-center">Sign in</h1>
               <p className="text-xs-center">
-                <NavLink to="/register" className="text-xs-center">
+                <Link to="/register" className="text-xs-center">
                   Need an account?
-                </NavLink>
+                </Link>
               </p>
 
               <ul className="error-messages">

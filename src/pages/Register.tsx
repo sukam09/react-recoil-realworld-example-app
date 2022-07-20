@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { Link, useNavigate } from "react-router-dom";
 
 import Header from "../components/Header/Header";
 import { postUser } from "../api/user";
-// import { User } from "../store/atom";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -14,12 +12,9 @@ const Register = () => {
   const [usernameError, setUsernameError] = useState(undefined);
   const [emailError, setEmailError] = useState(undefined);
   const [passwordError, setPasswordError] = useState(undefined);
-  // const setUser = useSetRecoilState(User);
   const navigate = useNavigate();
 
-  const onRegister = async (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const onRegister = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setDisabled(true);
     try {
@@ -32,8 +27,8 @@ const Register = () => {
           },
         })
       ).data;
-      const jwtToken = data.user.token;
-      localStorage.setItem("jwtToken", jwtToken);
+      const user = data.user;
+      localStorage.setItem("user", JSON.stringify(user));
       navigate("/", { replace: true });
     } catch (error: any) {
       const errorMessage = error.response.data.errors;
@@ -53,9 +48,9 @@ const Register = () => {
             <div className="col-md-6 offset-md-3 col-xs-12">
               <h1 className="text-xs-center">Sign up</h1>
               <p className="text-xs-center">
-                <NavLink to="/login" className="text-xs-center">
+                <Link to="/login" className="text-xs-center">
                   Have an account?
-                </NavLink>
+                </Link>
               </p>
 
               <ul className="error-messages">

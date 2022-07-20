@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 
 const LoginHeader = () => {
-  const username = localStorage.getItem("username");
+  const username = JSON.parse(localStorage.getItem("user")!).username;
 
   return (
     <>
@@ -16,7 +16,7 @@ const LoginHeader = () => {
         </NavLink>
       </li>
       <li className="nav-item">
-        <NavLink to="/profile" className="nav-link">
+        <NavLink to={`/profile/@${username}`} className="nav-link">
           {username}
         </NavLink>
       </li>

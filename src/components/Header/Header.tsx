@@ -4,7 +4,7 @@ import LoginHeader from "./LoginHeader";
 import LogoutHeader from "./LogoutHeader";
 
 const Header = () => {
-  const isLoggedin = localStorage.getItem("jwtToken") !== null;
+  const isLoggedin = localStorage.getItem("user") !== null;
 
   return (
     <nav className="navbar navbar-light">
