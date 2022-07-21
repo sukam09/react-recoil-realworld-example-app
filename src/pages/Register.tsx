@@ -3,15 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 
 import Header from "../components/Header/Header";
 import { postUser } from "../api/user";
+import { ErrorProps } from "../types/type";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<ErrorProps>({
+    email: "",
+    username: "",
+    password: "",
+  });
   const [disabled, setDisabled] = useState(false);
-  const [usernameError, setUsernameError] = useState(undefined);
-  const [emailError, setEmailError] = useState(undefined);
-  const [passwordError, setPasswordError] = useState(undefined);
   const navigate = useNavigate();
 
   const onRegister = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -32,9 +35,11 @@ const Register = () => {
       navigate("/", { replace: true });
     } catch (error: any) {
       const errorMessage = error.response.data.errors;
-      setUsernameError(errorMessage.username);
-      setEmailError(errorMessage.email);
-      setPasswordError(errorMessage.password);
+      setError({
+        email: errorMessage.email,
+        username: errorMessage.username,
+        password: errorMessage.password,
+      });
     }
     setDisabled(false);
   };
@@ -54,9 +59,9 @@ const Register = () => {
               </p>
 
               <ul className="error-messages">
-                {emailError && <li>email {emailError}</li>}
-                {usernameError && <li>username {usernameError}</li>}
-                {passwordError && <li>password {passwordError}</li>}
+                {error.email && <li>email {error.email}</li>}
+                {error.username && <li>username {error.username}</li>}
+                {error.password && <li>password {error.password}</li>}
               </ul>
 
               <form>

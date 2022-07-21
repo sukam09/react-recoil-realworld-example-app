@@ -3,14 +3,17 @@ import { Link, useNavigate } from "react-router-dom";
 
 import Header from "../components/Header/Header";
 import { postUserLogin } from "../api/user";
+import { ErrorProps } from "../types/type";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const [emailError, setEmailError] = useState(undefined);
-  const [passwordError, setPasswordError] = useState(undefined);
-  const [emailOrPasswordError, setEmailOrPasswordError] = useState(undefined);
+  const [error, setError] = useState({
+    email: "",
+    password: "",
+    emailOrPassword: "",
+  });
   const navigate = useNavigate();
 
   const onLogin = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -30,9 +33,11 @@ const Login = () => {
       navigate("/", { replace: true });
     } catch (error: any) {
       const errorMessage = error.response.data.errors;
-      setEmailError(errorMessage.email);
-      setPasswordError(errorMessage.password);
-      setEmailOrPasswordError(errorMessage["email or password"]);
+      setError({
+        email: errorMessage.email,
+        password: errorMessage.password,
+        emailOrPassword: errorMessage["email or password"],
+      });
     }
     setDisabled(false);
   };
@@ -52,9 +57,9 @@ const Login = () => {
               </p>
 
               <ul className="error-messages">
-                {emailError && <li>email can't be blank</li>}
-                {passwordError && <li>password can'be blank</li>}
-                {emailOrPasswordError && <li>email or password is invalid</li>}
+                {error.email && <li>email can't be blank</li>}
+                {error.password && <li>password can'be blank</li>}
+                {error.emailOrPassword && <li>email or password is invalid</li>}
               </ul>
 
               <form>
