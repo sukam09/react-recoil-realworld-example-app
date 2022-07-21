@@ -1,14 +1,15 @@
 import api from "./api";
-import { UserProps } from "../types/type";
+import { BodyProps } from "../types/type";
 
-export const postUser = async (url: string, body: { user: UserProps }) => {
+export const postUser = async (url: string, body: BodyProps) => {
   return await api.post(url, body);
 };
 
-export const postUserLogin = async (url: string, body: { user: UserProps }) => {
+export const postUserLogin = async (url: string, body: BodyProps) => {
   return await api.post(url, body);
 };
 
-export const putUser = async (url: string, body: { user: UserProps }) => {
-  return await api.put(url, body);
+// TODO: change config type
+export const putUser = async (url: string, body: BodyProps, config: any) => {
+  return await api.put(url, body, config);
 };
