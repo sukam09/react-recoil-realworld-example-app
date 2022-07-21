@@ -1,17 +1,17 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const LogoutHeader = () => {
   return (
     <>
       <li className="nav-item">
-        <NavLink to="/login" className="nav-link">
+        <Link to="/login" className="nav-link">
           Sign in
-        </NavLink>
+        </Link>
       </li>
       <li className="nav-item">
-        <NavLink to="/register" className="nav-link">
+        <Link to="/register" className="nav-link">
           Sign up
-        </NavLink>
+        </Link>
       </li>
     </>
   );

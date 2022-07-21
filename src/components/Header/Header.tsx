@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import LoginHeader from "./LoginHeader";
 import LogoutHeader from "./LogoutHeader";
@@ -9,14 +9,14 @@ const Header = () => {
   return (
     <nav className="navbar navbar-light">
       <div className="container">
-        <NavLink to="/" className="navbar-brand">
+        <Link to="/" className="navbar-brand">
           conduit
-        </NavLink>
+        </Link>
         <ul className="nav navbar-nav pull-xs-right">
           <li className="nav-item">
-            <NavLink to="/" className="nav-link">
+            <Link to="/" className="nav-link">
               Home
-            </NavLink>
+            </Link>
           </li>
           {isLoggedin ? <LoginHeader /> : <LogoutHeader />}
         </ul>

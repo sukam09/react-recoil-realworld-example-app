@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const LoginHeader = () => {
   const username = JSON.parse(localStorage.getItem("user")!).username;
@@ -6,19 +6,19 @@ const LoginHeader = () => {
   return (
     <>
       <li className="nav-item">
-        <NavLink to="/editor" className="nav-link">
+        <Link to="/editor" className="nav-link">
           <i className="ion-compose"></i> New Article
-        </NavLink>
+        </Link>
       </li>
       <li className="nav-item">
-        <NavLink to="/settings" className="nav-link">
+        <Link to="/settings" className="nav-link">
           <i className="ion-gear-a"></i> Settings
-        </NavLink>
+        </Link>
       </li>
       <li className="nav-item">
-        <NavLink to={`/profile/@${username}`} className="nav-link">
+        <Link to={`/profile/${username}`} className="nav-link">
           {username}
-        </NavLink>
+        </Link>
       </li>
     </>
   );
