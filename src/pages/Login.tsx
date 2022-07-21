@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import Header from "../components/Header/Header";
+import Footer from "../components/Footer";
 import { postUserLogin } from "../api/user";
 
 const Login = () => {
@@ -22,8 +23,8 @@ const Login = () => {
       const data = await (
         await postUserLogin("/users/login", {
           user: {
-            email: `${email}`,
-            password: `${password}`,
+            email: email,
+            password: password,
           },
         })
       ).data;
@@ -44,6 +45,7 @@ const Login = () => {
   return (
     <>
       <Header />
+
       <div className="auth-page">
         <div className="container page">
           <div className="row">
@@ -93,6 +95,8 @@ const Login = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   );
 };
