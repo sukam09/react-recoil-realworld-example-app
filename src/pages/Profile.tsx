@@ -40,12 +40,18 @@ const Profile = () => {
               <div className="articles-toggle">
                 <ul className="nav nav-pills outline-active">
                   <li className="nav-item">
-                    <Link className="nav-link active" to={`/@${username}`}>
+                    <Link
+                      className="nav-link active"
+                      to={`/profile/${username}`}
+                    >
                       My Articles
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to={`/@${username}/favorites`}>
+                    <Link
+                      className="nav-link"
+                      to={`/profile/${username}/favorites`}
+                    >
                       Favorited Articles
                     </Link>
                   </li>
