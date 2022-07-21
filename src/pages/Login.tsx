@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 import Header from "../components/Header/Header";
 import { postUserLogin } from "../api/user";
-import { ErrorProps } from "../types/type";
 
 const Login = () => {
   const [email, setEmail] = useState("");

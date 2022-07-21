@@ -3,13 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 
 import Header from "../components/Header/Header";
 import { postUser } from "../api/user";
-import { ErrorProps } from "../types/type";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<ErrorProps>({
+  const [error, setError] = useState({
     email: "",
     username: "",
     password: "",
