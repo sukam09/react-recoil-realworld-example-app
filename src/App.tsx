@@ -6,7 +6,7 @@ import Register from "@/pages/Register";
 import Settings from "@/pages/Settings";
 import Editor from "@/pages/Editor";
 import Profile from "@/pages/Profile";
-import Favorites from "@/pages/Favorites";
+import Favorites from "@/pages/Profile/Favorites";
 
 const App = () => {
   return (

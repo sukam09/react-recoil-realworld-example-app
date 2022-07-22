@@ -1,4 +1,4 @@
-import api from "@/api/api";
+import api from "@/api";
 import { BodyProps } from "@/types/type";
 
 export const postUser = async (url: string, body: BodyProps) => {

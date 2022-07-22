@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Header from "@/components/Header/Header";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getUser, putUser } from "@/api/user";
 
@@ -11,6 +11,7 @@ const Settings = () => {
   const [bio, setBio] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -39,6 +40,7 @@ const Settings = () => {
   }, [getSettings]);
 
   const updateSettings = async () => {
+    setDisabled(true);
     try {
       const data = await (
         await putUser(
@@ -64,6 +66,7 @@ const Settings = () => {
     } catch (error: any) {
       console.log(error.response.data.errors);
     }
+    setDisabled(false);
   };
 
   const onLogout = () => {
@@ -90,6 +93,7 @@ const Settings = () => {
                       placeholder="URL of profile picture"
                       defaultValue={image}
                       onChange={(event) => setImage(event.target.value)}
+                      disabled={disabled}
                     />
                   </fieldset>
                   <fieldset className="form-group">
@@ -99,6 +103,7 @@ const Settings = () => {
                       placeholder="Your Name"
                       defaultValue={username}
                       onChange={(event) => setUsername(event.target.value)}
+                      disabled={disabled}
                     />
                   </fieldset>
                   <fieldset className="form-group">
@@ -108,6 +113,7 @@ const Settings = () => {
                       placeholder="Short bio about you"
                       defaultValue={bio}
                       onChange={(event) => setBio(event.target.value)}
+                      disabled={disabled}
                     ></textarea>
                   </fieldset>
                   <fieldset className="form-group">
@@ -117,6 +123,7 @@ const Settings = () => {
                       placeholder="Email"
                       defaultValue={email}
                       onChange={(event) => setEmail(event.target.value)}
+                      disabled={disabled}
                     />
                   </fieldset>
                   <fieldset className="form-group">
@@ -125,6 +132,7 @@ const Settings = () => {
                       type="password"
                       placeholder="New Password"
                       onChange={(event) => setPassword(event.target.value)}
+                      disabled={disabled}
                     />
                   </fieldset>
                   <button
