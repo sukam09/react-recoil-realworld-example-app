@@ -30,7 +30,7 @@ const Register = () => {
         })
       ).data;
       const user = data.user;
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", user.token);
       navigate("/", { replace: true });
     } catch (error: any) {
       const errorMessage = error.response.data.errors;
