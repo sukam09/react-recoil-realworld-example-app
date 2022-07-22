@@ -5,7 +5,9 @@ import Header from "../components/Header/Header";
 import { getUser } from "../api/user";
 
 const Profile = () => {
+  const [image, setImage] = useState("");
   const [username, setUsername] = useState("");
+  const [bio, setBio] = useState("");
 
   const getUsername = async () => {
     const token = localStorage.getItem("token");
@@ -17,7 +19,13 @@ const Profile = () => {
           },
         })
       ).data;
+      // FIXME: GET /user API not working
+      // setImage(data.user.image);
+      setImage(
+        "https://static.solved.ac/uploads/profile/360x360/sukam09-picture-1656571593328.png"
+      ); // arbitrary
       setUsername(data.user.username);
+      setBio(data.user.bio);
     } catch (error: any) {
       console.log(error.response.data.errors);
     }
@@ -36,16 +44,9 @@ const Profile = () => {
           <div className="container">
             <div className="row">
               <div className="col-xs-12 col-md-10 offset-md-1">
-                <img
-                  src="http://i.imgur.com/Qr71crq.jpg"
-                  className="user-img"
-                  alt="profile"
-                />
-                <h4>Eric Simons</h4>
-                <p>
-                  Cofounder @GoThinkster, lived in Aol's HQ for a few months,
-                  kinda looks like Peeta from the Hunger Games
-                </p>
+                <img src={image} className="user-img" alt="profile" />
+                <h4>{username}</h4>
+                <p>{bio}</p>
                 <Link to="/settings">
                   <button className="btn btn-sm btn-outline-secondary action-btn">
                     <i className="ion-gear-a"></i> Edit Profile Settings
