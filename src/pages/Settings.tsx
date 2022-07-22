@@ -29,6 +29,7 @@ const Settings = () => {
       setBio(user.bio);
       setEmail(user.email);
       setPassword(user.password);
+      console.log(user);
     } catch (error: any) {
       console.log(error.response.data.errors);
     }
@@ -123,8 +124,7 @@ const Settings = () => {
                     <input
                       className="form-control form-control-lg"
                       type="password"
-                      placeholder="Password"
-                      defaultValue={password}
+                      placeholder="New Password"
                       onChange={(event) => setPassword(event.target.value)}
                     />
                   </fieldset>
