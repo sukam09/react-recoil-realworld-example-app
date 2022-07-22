@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { getUser } from "../../api/user";
+import { getUser } from "@/api/user";
 
 const LoginHeader = () => {
   const [username, setUsername] = useState("");
@@ -22,7 +22,6 @@ const LoginHeader = () => {
     }
   };
 
-  // TODO: can render only once?
   useEffect(() => {
     getUsername();
   }, []);

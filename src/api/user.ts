@@ -1,5 +1,5 @@
-import api from "./api";
-import { BodyProps } from "../types/type";
+import api from "@/api/api";
+import { BodyProps } from "@/types/type";
 
 export const postUser = async (url: string, body: BodyProps) => {
   return await api.post(url, body);

@@ -1,5 +1,14 @@
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer";
+
 const Favorites = () => {
-  return <></>;
+  return (
+    <>
+      <Header />
+
+      <Footer />
+    </>
+  );
 };
 
 export default Favorites;

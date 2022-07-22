@@ -1,12 +1,12 @@
 import { Routes, Route, HashRouter } from "react-router-dom";
 
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Settings from "./pages/Settings";
-import Editor from "./pages/Editor";
-import Profile from "./pages/Profile";
-import Favorites from "./pages/Favorites";
+import Home from "@/pages/Home";
+import Login from "@/pages/Login";
+import Register from "@/pages/Register";
+import Settings from "@/pages/Settings";
+import Editor from "@/pages/Editor";
+import Profile from "@/pages/Profile";
+import Favorites from "@/pages/Favorites";
 
 const App = () => {
   return (

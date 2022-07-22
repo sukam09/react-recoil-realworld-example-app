@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import Header from "../components/Header/Header";
-import { postUser } from "../api/user";
+import Header from "@/components/Header/Header";
+import { postUser } from "@/api/user";
 
 const Register = () => {
   const [username, setUsername] = useState("");

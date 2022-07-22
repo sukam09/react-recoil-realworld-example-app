@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer";
-import { postUserLogin } from "../api/user";
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer";
+import { postUserLogin } from "@/api/user";
 
 const Login = () => {
   const [email, setEmail] = useState("");

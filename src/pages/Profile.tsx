@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import Header from "../components/Header/Header";
-import { getUser } from "../api/user";
+import Header from "@/components/Header/Header";
+import { getUser } from "@/api/user";
 
 const Profile = () => {
   const [image, setImage] = useState("");
@@ -99,7 +99,7 @@ const Profile = () => {
                 <Link to="" className="preview-link">
                   <h1>How to build webapps that scale</h1>
                   <p>This is the description for the post.</p>
-                  <span>Read more...</span>
+                  <span>Read more@.</span>
                 </Link>
               </div>
 
@@ -124,7 +124,7 @@ const Profile = () => {
                     try.
                   </h1>
                   <p>This is the description for the post.</p>
-                  <span>Read more...</span>
+                  <span>Read more@.</span>
                   <ul className="tag-list">
                     <li className="tag-default tag-pill tag-outline">Music</li>
                     <li className="tag-default tag-pill tag-outline">Song</li>

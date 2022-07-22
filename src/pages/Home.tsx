@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer";
-import MyFeed from "../components/MyFeed";
-import GlobalFeed from "../components/GlobalFeed";
-import Tag from "../components/Tag";
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer";
+import MyFeed from "@/components/MyFeed";
+import GlobalFeed from "@/components/GlobalFeed";
+import Tag from "@/components/Tag";
 
 const Home = () => {
   const isLoggedin = localStorage.getItem("user") !== null;
   const [toggle, setToggle] = useState(isLoggedin ? 0 : 1);
-
-  // TODO: useEffect
 
   return (
     <>

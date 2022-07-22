@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer";
-import { getUser, putUser } from "../api/user";
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer";
+import { getUser, putUser } from "@/api/user";
 
 const Settings = () => {
   const [image, setImage] = useState("");
@@ -29,7 +29,6 @@ const Settings = () => {
       setBio(user.bio);
       setEmail(user.email);
       setPassword(user.password);
-      console.log(user);
     } catch (error: any) {
       console.log(error.response.data.errors);
     }

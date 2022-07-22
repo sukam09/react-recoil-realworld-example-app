@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-import LoginHeader from "./LoginHeader";
-import LogoutHeader from "./LogoutHeader";
+import LoginHeader from "@/components/Header/LoginHeader";
+import LogoutHeader from "@/components/Header/LogoutHeader";
 
 const Header = () => {
   const isLoggedin = localStorage.getItem("token") !== null;
