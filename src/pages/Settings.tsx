@@ -14,7 +14,7 @@ const Settings = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user")!);
 
-  const onSettings = async () => {
+  const updateSettings = async () => {
     try {
       const data = await (
         await putUser(
@@ -106,7 +106,7 @@ const Settings = () => {
                   </fieldset>
                   <button
                     className="btn btn-lg btn-primary pull-xs-right"
-                    onClick={onSettings}
+                    onClick={updateSettings}
                   >
                     Update Settings
                   </button>
