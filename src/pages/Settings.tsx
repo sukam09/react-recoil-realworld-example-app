@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
-import { putUser } from "../api/user";
+import { getUser, putUser } from "../api/user";
 
 const Settings = () => {
   const [image, setImage] = useState("");
@@ -12,7 +12,31 @@ const Settings = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user")!);
+  const token = localStorage.getItem("token");
+
+  const getSettings = useCallback(async () => {
+    try {
+      const data = await (
+        await getUser("/user", {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        })
+      ).data;
+      const user = data.user;
+      setImage(user.image);
+      setUsername(user.username);
+      setBio(user.bio);
+      setEmail(user.email);
+      setPassword(user.password);
+    } catch (error: any) {
+      console.log(error.response.data.errors);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    getSettings();
+  }, [getSettings]);
 
   const updateSettings = async () => {
     try {
@@ -30,13 +54,13 @@ const Settings = () => {
           },
           {
             headers: {
-              Authorization: `Token ${user.token}`,
+              Authorization: `Token ${token}`,
             },
           }
         )
       ).data;
       console.log(data.user);
-      navigate(`/profile/:${user.username}`);
+      navigate(`/profile/:${username}`);
     } catch (error: any) {
       console.log(error.response.data.errors);
     }
@@ -64,7 +88,7 @@ const Settings = () => {
                       className="form-control"
                       type="text"
                       placeholder="URL of profile picture"
-                      defaultValue={user.image}
+                      defaultValue={image}
                       onChange={(event) => setImage(event.target.value)}
                     />
                   </fieldset>
@@ -73,7 +97,7 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       type="text"
                       placeholder="Your Name"
-                      defaultValue={user.username}
+                      defaultValue={username}
                       onChange={(event) => setUsername(event.target.value)}
                     />
                   </fieldset>
@@ -82,7 +106,7 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       rows={8}
                       placeholder="Short bio about you"
-                      defaultValue={user.bio}
+                      defaultValue={bio}
                       onChange={(event) => setBio(event.target.value)}
                     ></textarea>
                   </fieldset>
@@ -91,7 +115,7 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       type="text"
                       placeholder="Email"
-                      defaultValue={user.email}
+                      defaultValue={email}
                       onChange={(event) => setEmail(event.target.value)}
                     />
                   </fieldset>
@@ -100,7 +124,7 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       type="password"
                       placeholder="Password"
-                      defaultValue={user.password}
+                      defaultValue={password}
                       onChange={(event) => setPassword(event.target.value)}
                     />
                   </fieldset>
