@@ -4,7 +4,7 @@ import LoginHeader from "./LoginHeader";
 import LogoutHeader from "./LogoutHeader";
 
 const Header = () => {
-  const isLoggedin = localStorage.getItem("user") !== null;
+  const isLoggedin = localStorage.getItem("token") !== null;
 
   return (
     <nav className="navbar navbar-light">
