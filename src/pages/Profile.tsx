@@ -1,9 +1,31 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import Header from "../components/Header/Header";
+import { getUser } from "../api/user";
 
 const Profile = () => {
-  const username = JSON.parse(localStorage.getItem("user")!).username;
+  const [username, setUsername] = useState("");
+
+  const getUsername = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const data = await (
+        await getUser("/user", {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        })
+      ).data;
+      setUsername(data.user.username);
+    } catch (error: any) {
+      console.log(error.response.data.errors);
+    }
+  };
+
+  useEffect(() => {
+    getUsername();
+  }, []);
 
   return (
     <>
