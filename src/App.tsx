@@ -8,7 +8,7 @@ import Settings from "@/pages/Settings";
 import Editor from "@/pages/Editor";
 import Profile from "@/pages/Profile";
 import Favorites from "@/pages/Profile/Favorites";
-import Footer from "./components/Footer";
+import Footer from "@/components/Footer";
 
 const App = () => {
   return (
@@ -20,8 +20,8 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/editor" element={<Editor />} />
-        <Route path="/profile/:username" element={<Profile />} />
-        <Route path="/profile/:username/favorites" element={<Favorites />} />
+        <Route path="/profile/:userId" element={<Profile />} />
+        <Route path="/profile/:userId/favorites" element={<Favorites />} />
       </Routes>
       <Footer />
     </HashRouter>
