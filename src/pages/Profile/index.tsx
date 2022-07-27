@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import Helmet from "react-helmet";
 
 import { getProfile } from "@/api/profile";
 
@@ -35,6 +36,10 @@ const Profile = () => {
 
   return (
     <>
+      <Helmet>
+        <title>@{userId} — Conduit</title>
+      </Helmet>
+
       <div className="profile-page">
         <div className="user-info">
           <div className="container">

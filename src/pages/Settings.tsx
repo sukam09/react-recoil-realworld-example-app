@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import { Helmet } from "react-helmet";
 
 import { getUser, putUser } from "@/api/user";
 import { tokenState, loginState } from "@/store/state";
@@ -90,6 +91,10 @@ const Settings = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Settings — Conduit</title>
+      </Helmet>
+
       <div className="settings-page">
         <div className="container page">
           <div className="row">

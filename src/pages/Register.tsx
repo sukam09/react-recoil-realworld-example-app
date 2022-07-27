@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+import { Helmet } from "react-helmet";
 
 import { postUser } from "@/api/user";
 import { tokenState } from "@/store/state";
@@ -58,6 +59,10 @@ const Register = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Sign up — Conduit</title>
+      </Helmet>
+
       <div className="auth-page">
         <div className="container page">
           <div className="row">

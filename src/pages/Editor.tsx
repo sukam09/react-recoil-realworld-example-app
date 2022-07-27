@@ -1,6 +1,12 @@
+import { Helmet } from "react-helmet";
+
 const Editor = () => {
   return (
     <>
+      <Helmet>
+        <title>Editor — Conduit</title>
+      </Helmet>
+
       <div className="editor-page">
         <div className="container page">
           <div className="row">
