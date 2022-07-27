@@ -1,5 +1,6 @@
 import { Routes, Route, HashRouter } from "react-router-dom";
 
+import Header from "@/components/Header";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
@@ -7,10 +8,12 @@ import Settings from "@/pages/Settings";
 import Editor from "@/pages/Editor";
 import Profile from "@/pages/Profile";
 import Favorites from "@/pages/Profile/Favorites";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
     <HashRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -20,6 +23,7 @@ const App = () => {
         <Route path="/profile/:username" element={<Profile />} />
         <Route path="/profile/:username/favorites" element={<Favorites />} />
       </Routes>
+      <Footer />
     </HashRouter>
   );
 };

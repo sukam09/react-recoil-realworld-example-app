@@ -1,30 +1,42 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 
 import { getUser } from "@/api/user";
+import { tokenState } from "@/store/state";
 
 const LoginHeader = () => {
-  const [username, setUsername] = useState("");
-
-  const getUsername = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const data = await (
-        await getUser("/user", {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        })
-      ).data;
-      setUsername(data.user.username);
-    } catch (error: any) {
-      console.log(error.response.data.errors);
-    }
-  };
+  const [userInfo, setUserInfo] = useState({
+    image: "",
+    username: "",
+  });
+  const { image, username } = userInfo;
+  const token = useRecoilValue(tokenState);
 
   useEffect(() => {
+    const getUsername = async () => {
+      try {
+        const data = await (
+          await getUser("/user", {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          })
+        ).data;
+        const user = data.user;
+        setUserInfo({
+          // FIXME: API error
+          // image: user.image,
+          image:
+            "https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003",
+          username: user.username,
+        });
+      } catch (error: any) {
+        console.log(error);
+      }
+    };
     getUsername();
-  }, []);
+  }, [token]);
 
   return (
     <>
@@ -40,6 +52,7 @@ const LoginHeader = () => {
       </li>
       <li className="nav-item">
         <Link to={`/profile/${username}`} className="nav-link">
+          <img className="user-pic" src={image} />
           {username}
         </Link>
       </li>

@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { getUser, putUser } from "@/api/user";
 import { tokenState, loginState } from "@/store/state";
 
@@ -89,8 +87,6 @@ const Settings = () => {
 
   return (
     <>
-      <Header />
-
       <div className="settings-page">
         <div className="container page">
           <div className="row">
@@ -174,8 +170,6 @@ const Settings = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 };

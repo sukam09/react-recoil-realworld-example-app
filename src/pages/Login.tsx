@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { postUserLogin } from "@/api/user";
 import { tokenState, loginState } from "@/store/state";
 
@@ -60,8 +58,6 @@ const Login = () => {
 
   return (
     <>
-      <Header />
-
       <div className="auth-page">
         <div className="container page">
           <div className="row">
@@ -116,8 +112,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 };

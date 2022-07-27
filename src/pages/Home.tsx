@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { MyFeed, GlobalFeed } from "@/components/Feed";
 import Tag from "@/components/Tag";
 import { loginState } from "@/store/state";
@@ -14,8 +12,6 @@ const Home = () => {
 
   return (
     <>
-      <Header />
-
       <div className="home-page">
         <div className="banner">
           <div className="container">
@@ -68,8 +64,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 };

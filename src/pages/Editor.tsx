@@ -1,10 +1,6 @@
-import Header from "@/components/Header";
-
 const Editor = () => {
   return (
     <>
-      <Header />
-
       <div className="editor-page">
         <div className="container page">
           <div className="row">

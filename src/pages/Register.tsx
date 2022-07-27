@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
-import Header from "@/components/Header";
 import { postUser } from "@/api/user";
 import { tokenState } from "@/store/state";
 
@@ -59,7 +58,6 @@ const Register = () => {
 
   return (
     <>
-      <Header />
       <div className="auth-page">
         <div className="container page">
           <div className="row">
