@@ -1,20 +1,34 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 
 import Header from "@/components/Header";
 import { postUser } from "@/api/user";
+import { tokenState } from "@/store/state";
 
 const Register = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [account, setAccount] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const { username, email, password } = account;
   const [error, setError] = useState({
     email: "",
     username: "",
     password: "",
   });
   const [disabled, setDisabled] = useState(false);
+  const setToken = useSetRecoilState(tokenState);
   const navigate = useNavigate();
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setAccount({
+      ...account,
+      [name]: value,
+    });
+  };
 
   const onRegister = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -23,14 +37,14 @@ const Register = () => {
       const data = await (
         await postUser("/users", {
           user: {
-            username: `${username}`,
-            email: `${email}`,
-            password: `${password}`,
+            username: username,
+            email: email,
+            password: password,
           },
         })
       ).data;
-      const user = data.user;
-      localStorage.setItem("token", user.token);
+      const token = data.user.token;
+      setToken(token);
       navigate("/", { replace: true });
     } catch (error: any) {
       const errorMessage = error.response.data.errors;
@@ -69,8 +83,11 @@ const Register = () => {
                     className="form-control form-control-lg"
                     type="text"
                     placeholder="Username"
-                    onChange={(event) => setUsername(event.target.value)}
+                    name="username"
+                    value={username}
+                    onChange={onChange}
                     disabled={disabled}
+                    autoComplete="off"
                   />
                 </fieldset>
                 <fieldset className="form-group">
@@ -79,8 +96,11 @@ const Register = () => {
                     className="form-control form-control-lg"
                     type="email"
                     placeholder="Email"
-                    onChange={(event) => setEmail(event.target.value)}
+                    name="email"
+                    value={email}
+                    onChange={onChange}
                     disabled={disabled}
+                    autoComplete="off"
                   />
                 </fieldset>
                 <fieldset className="form-group">
@@ -88,7 +108,9 @@ const Register = () => {
                     className="form-control form-control-lg"
                     type="password"
                     placeholder="Password"
-                    onChange={(event) => setPassword(event.target.value)}
+                    name="password"
+                    value={password}
+                    onChange={onChange}
                     disabled={disabled}
                   />
                 </fieldset>

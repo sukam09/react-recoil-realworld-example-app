@@ -1,75 +1,88 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getUser, putUser } from "@/api/user";
+import { tokenState, loginState } from "@/store/state";
 
 const Settings = () => {
-  const [image, setImage] = useState("");
-  const [username, setUsername] = useState("");
-  const [bio, setBio] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState({
+    image: "",
+    username: "",
+    bio: "",
+    email: "",
+    password: "",
+  });
+  const { image, username, bio, email, password } = user;
   const [disabled, setDisabled] = useState(false);
+  const token = useRecoilValue(tokenState);
+  const setLogin = useSetRecoilState(loginState);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
 
-  const getSettings = useCallback(async () => {
-    try {
-      const data = await (
-        await getUser("/user", {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        })
-      ).data;
-      const user = data.user;
-      setImage(user.image);
-      setUsername(user.username);
-      setBio(user.bio);
-      setEmail(user.email);
-      setPassword(user.password);
-    } catch (error: any) {
-      console.log(error.response.data.errors);
-    }
-  }, [token]);
+  const onChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setUser({
+      ...user,
+      [name]: value,
+    });
+  };
 
   useEffect(() => {
-    getSettings();
-  }, [getSettings]);
-
-  const updateSettings = async () => {
-    setDisabled(true);
-    try {
-      const data = await (
-        await putUser(
-          "/user",
-          {
-            user: {
-              image: image,
-              username: username,
-              bio: bio,
-              email: email,
-              password: password,
-            },
-          },
-          {
+    const getSettings = async () => {
+      try {
+        const data = await (
+          await getUser("/user", {
             headers: {
               Authorization: `Token ${token}`,
             },
-          }
-        )
-      ).data;
-      console.log(data.user);
+          })
+        ).data;
+        const user = data.user;
+        setUser({
+          ...user,
+          password: "",
+        });
+      } catch (error: any) {
+        console.log(error);
+      }
+    };
+    getSettings();
+  }, [token]);
+
+  const updateSettings = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setDisabled(true);
+    try {
+      await putUser(
+        "/user",
+        {
+          user: {
+            image: image,
+            username: username,
+            bio: bio,
+            email: email,
+            password: password,
+          },
+        },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
       navigate(`/profile/:${username}`);
     } catch (error: any) {
-      console.log(error.response.data.errors);
+      console.log(error);
     }
     setDisabled(false);
   };
 
   const onLogout = () => {
+    setLogin(false);
     localStorage.clear();
     navigate("/", { replace: true });
   };
@@ -91,8 +104,9 @@ const Settings = () => {
                       className="form-control"
                       type="text"
                       placeholder="URL of profile picture"
-                      defaultValue={image}
-                      onChange={(event) => setImage(event.target.value)}
+                      name="image"
+                      value={image}
+                      onChange={onChange}
                       disabled={disabled}
                     />
                   </fieldset>
@@ -101,8 +115,9 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       type="text"
                       placeholder="Your Name"
-                      defaultValue={username}
-                      onChange={(event) => setUsername(event.target.value)}
+                      name="username"
+                      value={username}
+                      onChange={onChange}
                       disabled={disabled}
                     />
                   </fieldset>
@@ -111,8 +126,9 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       rows={8}
                       placeholder="Short bio about you"
-                      defaultValue={bio}
-                      onChange={(event) => setBio(event.target.value)}
+                      name="bio"
+                      value={bio}
+                      onChange={onChange}
                       disabled={disabled}
                     ></textarea>
                   </fieldset>
@@ -121,8 +137,9 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       type="text"
                       placeholder="Email"
-                      defaultValue={email}
-                      onChange={(event) => setEmail(event.target.value)}
+                      name="email"
+                      value={email}
+                      onChange={onChange}
                       disabled={disabled}
                     />
                   </fieldset>
@@ -131,19 +148,25 @@ const Settings = () => {
                       className="form-control form-control-lg"
                       type="password"
                       placeholder="New Password"
-                      onChange={(event) => setPassword(event.target.value)}
+                      name="password"
+                      value={password}
+                      onChange={onChange}
                       disabled={disabled}
                     />
                   </fieldset>
                   <button
                     className="btn btn-lg btn-primary pull-xs-right"
-                    onClick={updateSettings}
+                    onClick={(event) => updateSettings(event)}
                   >
                     Update Settings
                   </button>
                 </fieldset>
                 <hr />
-                <button className="btn btn-outline-danger" onClick={onLogout}>
+                <button
+                  type="button"
+                  className="btn btn-outline-danger"
+                  onClick={onLogout}
+                >
                   Or click here to logout.
                 </button>
               </form>

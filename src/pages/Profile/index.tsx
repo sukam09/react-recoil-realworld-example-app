@@ -1,16 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 
 import Header from "@/components/Header";
 import { getUser } from "@/api/user";
+import { tokenState } from "@/store/state";
 
 const Profile = () => {
-  const [image, setImage] = useState("");
-  const [username, setUsername] = useState("");
-  const [bio, setBio] = useState("");
+  const [profile, setProfile] = useState({
+    image: "",
+    username: "",
+    bio: "",
+  });
+  const { image, username, bio } = profile;
+  const token = useRecoilValue(tokenState);
 
-  const getUsername = async () => {
-    const token = localStorage.getItem("token");
+  const getProfile = useCallback(async () => {
     try {
       const data = await (
         await getUser("/user", {
@@ -19,21 +24,22 @@ const Profile = () => {
           },
         })
       ).data;
-      // FIXME: GET /user API not working
-      // setImage(data.user.image);
-      setImage(
-        "https://static.solved.ac/uploads/profile/360x360/sukam09-picture-1656571593328.png"
-      ); // arbitrary
-      setUsername(data.user.username);
-      setBio(data.user.bio);
+      const user = data.user;
+      setProfile({
+        // image: user.image,
+        image:
+          "https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003",
+        username: user.username,
+        bio: user.bio,
+      });
     } catch (error: any) {
-      console.log(error.response.data.errors);
+      console.log(error);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
-    getUsername();
-  }, []);
+    getProfile();
+  }, [getProfile]);
 
   return (
     <>

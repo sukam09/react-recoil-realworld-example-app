@@ -1,20 +1,35 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { postUserLogin } from "@/api/user";
+import { tokenState, loginState } from "@/store/state";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [disabled, setDisabled] = useState(false);
+  const [account, setAccount] = useState({
+    email: "",
+    password: "",
+  });
+  const { email, password } = account;
   const [error, setError] = useState({
     email: "",
     password: "",
     emailOrPassword: "",
   });
+  const [disabled, setDisabled] = useState(false);
+  const setToken = useSetRecoilState(tokenState);
+  const setLogin = useSetRecoilState(loginState);
   const navigate = useNavigate();
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setAccount({
+      ...account,
+      [name]: value,
+    });
+  };
 
   const onLogin = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -28,8 +43,9 @@ const Login = () => {
           },
         })
       ).data;
-      const user = data.user;
-      localStorage.setItem("token", user.token);
+      const token = data.user.token;
+      setToken(token);
+      setLogin(true);
       navigate("/", { replace: true });
     } catch (error: any) {
       const errorMessage = error.response.data.errors;
@@ -70,8 +86,11 @@ const Login = () => {
                     className="form-control form-control-lg"
                     type="email"
                     placeholder="Email"
-                    onChange={(event) => setEmail(event.target.value)}
+                    name="email"
+                    value={email}
+                    onChange={onChange}
                     disabled={disabled}
+                    autoComplete="off"
                   />
                 </fieldset>
                 <fieldset className="form-group">
@@ -79,7 +98,9 @@ const Login = () => {
                     className="form-control form-control-lg"
                     type="password"
                     placeholder="Password"
-                    onChange={(event) => setPassword(event.target.value)}
+                    name="password"
+                    value={password}
+                    onChange={onChange}
                     disabled={disabled}
                   />
                 </fieldset>
