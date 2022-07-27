@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { getUser, putUser } from "@/api/user";
 import { tokenState, loginState } from "@/store/state";
 
 const Settings = () => {
-  const [user, setUser] = useState({
+  const [settings, setSettings] = useState({
     image: "",
     username: "",
     bio: "",
     email: "",
     password: "",
   });
-  const { image, username, bio, email, password } = user;
+  const { image, username, bio, email, password } = settings;
   const [disabled, setDisabled] = useState(false);
-  const token = useRecoilValue(tokenState);
+  const [token, setToken] = useRecoilState(tokenState);
   const setLogin = useSetRecoilState(loginState);
   const navigate = useNavigate();
 
@@ -23,14 +23,14 @@ const Settings = () => {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = event.target;
-    setUser({
-      ...user,
+    setSettings({
+      ...settings,
       [name]: value,
     });
   };
 
   useEffect(() => {
-    const getSettings = async () => {
+    const initSettings = async () => {
       try {
         const data = await (
           await getUser("/user", {
@@ -40,39 +40,43 @@ const Settings = () => {
           })
         ).data;
         const user = data.user;
-        setUser({
+        setSettings({
           ...user,
           password: "",
         });
+        setToken(user.token);
       } catch (error: any) {
         console.log(error);
       }
     };
-    getSettings();
-  }, [token]);
+    initSettings();
+  }, [token, setToken]);
 
   const updateSettings = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setDisabled(true);
     try {
-      await putUser(
-        "/user",
-        {
-          user: {
-            image: image,
-            username: username,
-            bio: bio,
-            email: email,
-            password: password,
+      const data = await (
+        await putUser(
+          "/user",
+          {
+            user: {
+              image: image,
+              username: username,
+              bio: bio,
+              email: email,
+              password: password,
+            },
           },
-        },
-        {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
-      navigate(`/profile/:${username}`);
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        )
+      ).data;
+      setToken(data.user.token);
+      navigate(`/profile/${username}`);
     } catch (error: any) {
       console.log(error);
     }
@@ -115,6 +119,7 @@ const Settings = () => {
                       value={username}
                       onChange={onChange}
                       disabled={disabled}
+                      autoComplete="off"
                     />
                   </fieldset>
                   <fieldset className="form-group">
@@ -137,6 +142,7 @@ const Settings = () => {
                       value={email}
                       onChange={onChange}
                       disabled={disabled}
+                      autoComplete="off"
                     />
                   </fieldset>
                   <fieldset className="form-group">

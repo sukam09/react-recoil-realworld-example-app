@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { getUser } from "@/api/user";
 import { tokenState } from "@/store/state";
@@ -12,6 +12,7 @@ const LoginHeader = () => {
   });
   const { image, username } = userInfo;
   const token = useRecoilValue(tokenState);
+  const setToken = useSetRecoilState(tokenState);
 
   useEffect(() => {
     const getUsername = async () => {
@@ -31,12 +32,13 @@ const LoginHeader = () => {
             "https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003",
           username: user.username,
         });
+        setToken(user.token);
       } catch (error: any) {
         console.log(error);
       }
     };
     getUsername();
-  }, [token]);
+  }, [token, setToken]);
 
   return (
     <>
