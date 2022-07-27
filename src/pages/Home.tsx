@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import MyFeed from "@/components/MyFeed";
-import GlobalFeed from "@/components/GlobalFeed";
+import { MyFeed, GlobalFeed } from "@/components/Feed";
 import Tag from "@/components/Tag";
+import { loginState } from "@/store/state";
 
 const Home = () => {
-  const isLoggedin = localStorage.getItem("user") !== null;
-  const [toggle, setToggle] = useState(isLoggedin ? 0 : 1);
+  const login = useRecoilValue(loginState);
+  const [toggle, setToggle] = useState(login ? 0 : 1);
 
   return (
     <>
@@ -29,23 +30,23 @@ const Home = () => {
               <div className="feed-toggle">
                 <ul className="nav nav-pills outline-active">
                   <li className="nav-item">
-                    <a
+                    <Link
                       className={`nav-link ${toggle === 0 && "active"}`}
-                      href="/#"
+                      to="/"
                       onClick={() => setToggle(0)}
-                      hidden={!isLoggedin}
+                      hidden={!login}
                     >
                       Your Feed
-                    </a>
+                    </Link>
                   </li>
                   <li className="nav-item">
-                    <a
+                    <Link
                       className={`nav-link ${toggle === 1 && "active"}`}
-                      href="/#"
+                      to="/"
                       onClick={() => setToggle(1)}
                     >
                       Global Feed
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>

@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 
 import LoginHeader from "@/components/Header/LoginHeader";
 import LogoutHeader from "@/components/Header/LogoutHeader";
+import { loginState } from "@/store/state";
 
 const Header = () => {
-  const isLoggedin = localStorage.getItem("token") !== null;
+  const login = useRecoilValue(loginState);
 
   return (
     <nav className="navbar navbar-light">
@@ -18,7 +20,7 @@ const Header = () => {
               Home
             </Link>
           </li>
-          {isLoggedin ? <LoginHeader /> : <LogoutHeader />}
+          {login ? <LoginHeader /> : <LogoutHeader />}
         </ul>
       </div>
     </nav>
