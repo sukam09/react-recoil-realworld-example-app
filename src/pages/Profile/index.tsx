@@ -1,44 +1,37 @@
 import { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { Link, useParams } from "react-router-dom";
 
-import { getUser } from "@/api/user";
-import { tokenState } from "@/store/state";
+import { getProfile } from "@/api/profile";
 
 const Profile = () => {
   const [profile, setProfile] = useState({
     image: "",
     username: "",
     bio: "",
+    following: false,
   });
-  const { image, username, bio } = profile;
-  const token = useRecoilValue(tokenState);
-
-  const getProfile = useCallback(async () => {
-    try {
-      const data = await (
-        await getUser("/user", {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        })
-      ).data;
-      const user = data.user;
-      setProfile({
-        // image: user.image,
-        image:
-          "https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003",
-        username: user.username,
-        bio: user.bio,
-      });
-    } catch (error: any) {
-      console.log(error);
-    }
-  }, [token]);
+  const { image, username, bio, following } = profile;
+  const { userId } = useParams();
 
   useEffect(() => {
-    getProfile();
-  }, [getProfile]);
+    const initProfile = async () => {
+      try {
+        const data = await (await getProfile(`/profiles/${userId}`)).data;
+        const profileData = data.profile;
+        setProfile({
+          // image: profileData.image,
+          image:
+            "https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003",
+          username: profileData.username,
+          bio: profileData.bio,
+          following: profileData.following,
+        });
+      } catch (error: any) {
+        console.log(error);
+      }
+    };
+    initProfile();
+  }, [userId]);
 
   return (
     <>
@@ -87,7 +80,7 @@ const Profile = () => {
               <div className="article-preview">
                 <div className="article-meta">
                   <Link to="">
-                    <img src="http://i.imgur.com/Qr71crq.jpg" />
+                    <img src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003" />
                   </Link>
                   <div className="info">
                     <Link to="" className="author">
@@ -109,7 +102,7 @@ const Profile = () => {
               <div className="article-preview">
                 <div className="article-meta">
                   <Link to="">
-                    <img src="http://i.imgur.com/N4VcUeJ.jpg" />
+                    <img src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003" />
                   </Link>
                   <div className="info">
                     <Link to="" className="author">
