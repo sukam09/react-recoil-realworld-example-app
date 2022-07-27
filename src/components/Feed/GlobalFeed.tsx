@@ -1,15 +1,20 @@
+import { Link } from "react-router-dom";
+
 const GlobalFeed = () => {
   return (
     <>
       <div className="article-preview">
         <div className="article-meta">
-          <a href="profile.html">
-            <img src="http://i.imgur.com/Qr71crq.jpg" alt="test" />
-          </a>
+          <Link to="/">
+            <img
+              src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003"
+              alt="test"
+            />
+          </Link>
           <div className="info">
-            <a href="/#/" className="author">
+            <Link to="/" className="author">
               Eric Simons
-            </a>
+            </Link>
             <span className="date">January 20th</span>
           </div>
           <button
@@ -19,11 +24,11 @@ const GlobalFeed = () => {
             <i className="ion-heart" /> 29
           </button>
         </div>
-        <a href="/#/" className="preview-link">
+        <Link to="/" className="preview-link">
           <h1>How to build webapps that scale</h1>
           <p>This is the description for the post.</p>
           <span>Read more...</span>
-        </a>
+        </Link>
       </div>
     </>
   );
