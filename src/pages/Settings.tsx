@@ -44,13 +44,12 @@ const Settings = () => {
           ...user,
           password: "",
         });
-        setToken(user.token);
       } catch (error: any) {
         console.log(error);
       }
     };
     initSettings();
-  }, [token, setToken]);
+  }, [token]);
 
   const updateSettings = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
