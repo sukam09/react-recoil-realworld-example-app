@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { Helmet } from "react-helmet";
 
 import { MyFeed, GlobalFeed } from "@/components/Feed";
 import Tag from "@/components/Tag";
@@ -12,6 +13,10 @@ const Home = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Home — Conduit</title>
+      </Helmet>
+
       <div className="home-page">
         <div className="banner">
           <div className="container">
