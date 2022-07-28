@@ -30,28 +30,6 @@ const Settings = () => {
     });
   };
 
-  useEffect(() => {
-    const initSettings = async () => {
-      try {
-        const data = await (
-          await getUser("/user", {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          })
-        ).data;
-        const user = data.user;
-        setSettings({
-          ...user,
-          password: "",
-        });
-      } catch (error: any) {
-        console.log(error);
-      }
-    };
-    initSettings();
-  }, [token]);
-
   const updateSettings = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setDisabled(true);
@@ -88,6 +66,28 @@ const Settings = () => {
     localStorage.clear();
     navigate("/", { replace: true });
   };
+
+  useEffect(() => {
+    const initSettings = async () => {
+      try {
+        const data = await (
+          await getUser("/user", {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          })
+        ).data;
+        const user = data.user;
+        setSettings({
+          ...user,
+          password: "",
+        });
+      } catch (error: any) {
+        console.log(error);
+      }
+    };
+    initSettings();
+  }, [token]);
 
   return (
     <>
