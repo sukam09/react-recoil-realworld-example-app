@@ -54,7 +54,7 @@ const Settings = () => {
         )
       ).data;
       setToken(data.user.token);
-      navigate(`/profile/${username}`);
+      navigate(`/@${username}`);
     } catch (error: any) {
       console.log(error);
     }

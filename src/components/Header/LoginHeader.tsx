@@ -51,7 +51,7 @@ const LoginHeader = () => {
         </Link>
       </li>
       <li className="nav-item">
-        <Link to={`/profile/${username}`} className="nav-link">
+        <Link to={`/@${username}`} className="nav-link">
           <img className="user-pic" src={image} />
           {username}
         </Link>
