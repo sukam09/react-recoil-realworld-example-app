@@ -30,7 +30,7 @@ const Register = () => {
     });
   };
 
-  const onRegister = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setDisabled(true);
     try {
@@ -82,7 +82,7 @@ const Register = () => {
                 {error.password && <li>password {error.password}</li>}
               </ul>
 
-              <form>
+              <form onSubmit={(event) => onRegister(event)}>
                 <fieldset className="form-group">
                   <input
                     className="form-control form-control-lg"
@@ -96,7 +96,6 @@ const Register = () => {
                   />
                 </fieldset>
                 <fieldset className="form-group">
-                  {/* FIXME: email type is not applied */}
                   <input
                     className="form-control form-control-lg"
                     type="email"
@@ -120,9 +119,7 @@ const Register = () => {
                   />
                 </fieldset>
                 <button
-                  type="submit"
                   className="btn btn-lg btn-primary pull-xs-right"
-                  onClick={onRegister}
                   disabled={disabled}
                 >
                   Sign up
