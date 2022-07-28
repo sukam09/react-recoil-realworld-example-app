@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { postUserLogin } from "@/api/user";
 import { tokenState, loginState } from "@/store/state";
@@ -59,9 +59,11 @@ const Login = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Sign in — Conduit</title>
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>Sign in — Conduit</title>
+        </Helmet>
+      </HelmetProvider>
 
       <div className="auth-page">
         <div className="container page">

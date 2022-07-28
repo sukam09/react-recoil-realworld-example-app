@@ -1,11 +1,13 @@
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const Editor = () => {
   return (
     <>
-      <Helmet>
-        <title>Editor — Conduit</title>
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>Editor — Conduit</title>
+        </Helmet>
+      </HelmetProvider>
 
       <div className="editor-page">
         <div className="container page">

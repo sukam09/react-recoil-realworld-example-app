@@ -1,14 +1,16 @@
 import { useParams } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const Favorites = () => {
   const { userId } = useParams();
 
   return (
     <>
-      <Helmet>
-        <title>Articles favorited by {userId}— Conduit</title>
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>Articles favorited by @{userId}</title>
+        </Helmet>
+      </HelmetProvider>
     </>
   );
 };

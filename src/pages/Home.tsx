@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { MyFeed, GlobalFeed } from "@/components/Feed";
 import Tag from "@/components/Tag";
@@ -13,9 +13,11 @@ const Home = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Home — Conduit</title>
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>Home — Conduit</title>
+        </Helmet>
+      </HelmetProvider>
 
       <div className="home-page">
         <div className="banner">
