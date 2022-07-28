@@ -9,6 +9,7 @@ import Editor from "@/pages/Editor";
 import Profile from "@/pages/Profile";
 import Favorites from "@/pages/Profile/Favorites";
 import Footer from "@/components/Footer";
+import PrivateRoute from "@/lib/PrivateRoute";
 
 const App = () => {
   return (
@@ -18,10 +19,12 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/editor" element={<Editor />} />
         <Route path="/profile/:userId" element={<Profile />} />
         <Route path="/profile/:userId/favorites" element={<Favorites />} />
+        <Route path="/*" element={<PrivateRoute />}>
+          <Route path="settings" element={<Settings />} />
+          <Route path="editor" element={<Editor />} />
+        </Route>
       </Routes>
       <Footer />
     </HashRouter>
