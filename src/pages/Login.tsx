@@ -30,7 +30,7 @@ const Login = () => {
     });
   };
 
-  const onLogin = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setDisabled(true);
     try {
@@ -82,9 +82,8 @@ const Login = () => {
                 {error.emailOrPassword && <li>email or password is invalid</li>}
               </ul>
 
-              <form>
+              <form onSubmit={(event) => onLogin(event)}>
                 <fieldset className="form-group">
-                  {/* FIXME: email type is not applied */}
                   <input
                     className="form-control form-control-lg"
                     type="email"
@@ -109,7 +108,6 @@ const Login = () => {
                 </fieldset>
                 <button
                   className="btn btn-lg btn-primary pull-xs-right"
-                  onClick={(event) => onLogin(event)}
                   disabled={disabled}
                 >
                   Sign in
