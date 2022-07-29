@@ -1,3 +1,4 @@
+// import { Suspense } from "react";
 import { Routes, Route, HashRouter } from "react-router-dom";
 
 import Header from "@/components/Header";
@@ -9,11 +10,15 @@ import Editor from "@/pages/Editor";
 import Profile from "@/pages/Profile";
 import Favorites from "@/pages/Profile/Favorites";
 import Footer from "@/components/Footer";
+// import Loading from "@/components/Loading";
+
 import PrivateRoute from "@/lib/PrivateRoute";
+import NotFound from "@/lib/NotFound";
 
 const App = () => {
   return (
     <HashRouter>
+      {/* <Suspense fallback={<Loading />}> */}
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -21,12 +26,14 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/@:userId" element={<Profile />} />
         <Route path="/@:userId/favorites" element={<Favorites />} />
-        <Route path="/*" element={<PrivateRoute />}>
-          <Route path="settings" element={<Settings />} />
-          <Route path="editor" element={<Editor />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/editor" element={<Editor />} />
         </Route>
+        <Route path="/*" element={<NotFound />} />
       </Routes>
       <Footer />
+      {/* </Suspense> */}
     </HashRouter>
   );
 };
