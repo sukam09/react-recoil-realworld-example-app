@@ -1,6 +1,16 @@
+import { useEffect } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useSetRecoilState } from "recoil";
+
+import { menuState } from "@/store/state";
 
 const Editor = () => {
+  const setMenu = useSetRecoilState(menuState);
+
+  useEffect(() => {
+    setMenu(3);
+  }, [setMenu]);
+
   return (
     <>
       <HelmetProvider>

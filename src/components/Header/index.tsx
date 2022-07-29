@@ -3,10 +3,11 @@ import { useRecoilValue } from "recoil";
 
 import LoginHeader from "@/components/Header/LoginHeader";
 import LogoutHeader from "@/components/Header/LogoutHeader";
-import { loginState } from "@/store/state";
+import { loginState, menuState } from "@/store/state";
 
 const Header = () => {
   const login = useRecoilValue(loginState);
+  const menu = useRecoilValue(menuState);
 
   return (
     <nav className="navbar navbar-light">
@@ -16,7 +17,7 @@ const Header = () => {
         </Link>
         <ul className="nav navbar-nav pull-xs-right">
           <li className="nav-item">
-            <Link to="/" className="nav-link active">
+            <Link to="/" className={`nav-link ${menu === 0 && "active"}`}>
               Home
             </Link>
           </li>

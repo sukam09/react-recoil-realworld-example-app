@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { getUser } from "@/api/user";
-import { tokenState } from "@/store/state";
+import { tokenState, menuState } from "@/store/state";
 
 const LoginHeader = () => {
   const [userInfo, setUserInfo] = useState({
@@ -12,6 +12,7 @@ const LoginHeader = () => {
   });
   const { image, username } = userInfo;
   const token = useRecoilValue(tokenState);
+  const menu = useRecoilValue(menuState);
 
   useEffect(() => {
     const getUsername = async () => {
@@ -41,17 +42,20 @@ const LoginHeader = () => {
   return (
     <>
       <li className="nav-item">
-        <Link to="/editor" className="nav-link">
+        <Link to="/editor" className={`nav-link ${menu === 3 && "active"}`}>
           <i className="ion-compose"></i> New Article
         </Link>
       </li>
       <li className="nav-item">
-        <Link to="/settings" className="nav-link">
+        <Link to="/settings" className={`nav-link ${menu === 4 && "active"}`}>
           <i className="ion-gear-a"></i> Settings
         </Link>
       </li>
       <li className="nav-item">
-        <Link to={`/@${username}`} className="nav-link">
+        <Link
+          to={`/@${username}`}
+          className={`nav-link ${menu === 5 && "active"}`}
+        >
           <img className="user-pic" src={image} />
           {username}
         </Link>

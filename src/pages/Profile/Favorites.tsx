@@ -1,8 +1,17 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useSetRecoilState } from "recoil";
+
+import { menuState } from "@/store/state";
 
 const Favorites = () => {
   const { userId } = useParams();
+  const setMenu = useSetRecoilState(menuState);
+
+  useEffect(() => {
+    setMenu(6);
+  }, [setMenu]);
 
   return (
     <>

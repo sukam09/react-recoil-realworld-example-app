@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { postUser } from "@/api/user";
-import { tokenState } from "@/store/state";
+import { menuState, tokenState } from "@/store/state";
 
 const Register = () => {
   const [account, setAccount] = useState({
@@ -20,6 +20,7 @@ const Register = () => {
   });
   const [disabled, setDisabled] = useState(false);
   const setToken = useSetRecoilState(tokenState);
+  const setMenu = useSetRecoilState(menuState);
   const navigate = useNavigate();
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +57,10 @@ const Register = () => {
     }
     setDisabled(false);
   };
+
+  useEffect(() => {
+    setMenu(2);
+  }, [setMenu]);
 
   return (
     <>

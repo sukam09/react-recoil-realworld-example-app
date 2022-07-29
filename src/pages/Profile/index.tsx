@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useSetRecoilState } from "recoil";
 
 import { getProfile } from "@/api/profile";
+import { menuState } from "@/store/state";
 
 const Profile = () => {
   const [profile, setProfile] = useState({
@@ -13,6 +15,7 @@ const Profile = () => {
   });
   const { image, username, bio, following } = profile;
   const { userId } = useParams();
+  const setMenu = useSetRecoilState(menuState);
 
   useEffect(() => {
     const initProfile = async () => {
@@ -33,6 +36,10 @@ const Profile = () => {
     };
     initProfile();
   }, [userId]);
+
+  useEffect(() => {
+    setMenu(5);
+  }, [setMenu]);
 
   return (
     <>

@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { MyFeed, GlobalFeed } from "@/components/Feed";
 import Tag from "@/components/Tag";
-import { loginState } from "@/store/state";
+import { loginState, menuState } from "@/store/state";
 
 const Home = () => {
   const login = useRecoilValue(loginState);
   const [toggle, setToggle] = useState(login ? 0 : 1);
+  const setMenu = useSetRecoilState(menuState);
+
+  useEffect(() => {
+    setMenu(0);
+  }, [setMenu]);
 
   return (
     <>
