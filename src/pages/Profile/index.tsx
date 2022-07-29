@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { getProfile } from "@/api/profile";
-import { menuState } from "@/store/state";
+import { menuState, loginState } from "@/store/state";
+import { getUser } from "@/api/user";
+import { tokenState } from "@/store/state";
 
 const Profile = () => {
   const [profile, setProfile] = useState({
@@ -14,8 +16,11 @@ const Profile = () => {
     following: false,
   });
   const { image, username, bio, following } = profile;
+  const [loginUsername, setLoginUsername] = useState("");
   const { userId } = useParams();
+  const token = useRecoilValue(tokenState);
   const setMenu = useSetRecoilState(menuState);
+  const setLogin = useSetRecoilState(loginState);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,8 +44,25 @@ const Profile = () => {
   }, [userId, navigate]);
 
   useEffect(() => {
-    setMenu(5);
-  }, [setMenu]);
+    const getLoginUsername = async () => {
+      try {
+        const data = await (
+          await getUser("/user", {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          })
+        ).data;
+        setLoginUsername(data.user.username);
+      } catch (error: any) {
+        setLogin(false);
+        localStorage.clear();
+        navigate("/", { replace: true });
+      }
+    };
+    getLoginUsername();
+    username === loginUsername ? setMenu(5) : setMenu(6);
+  }, [loginUsername, setMenu, token, username, navigate, setLogin]);
 
   return (
     <>
