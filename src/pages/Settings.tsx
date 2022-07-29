@@ -4,7 +4,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { getUser, putUser } from "@/api/user";
-import { tokenState, loginState, menuState } from "@/store/state";
+import { tokenState, menuState, loginState } from "@/store/state";
 
 const Settings = () => {
   const [settings, setSettings] = useState({
@@ -17,8 +17,8 @@ const Settings = () => {
   const { image, username, bio, email, password } = settings;
   const [disabled, setDisabled] = useState(false);
   const [token, setToken] = useRecoilState(tokenState);
-  const setLogin = useSetRecoilState(loginState);
   const setMenu = useSetRecoilState(menuState);
+  const setLogin = useSetRecoilState(loginState);
   const navigate = useNavigate();
 
   const onChange = (
@@ -57,7 +57,9 @@ const Settings = () => {
       setToken(data.user.token);
       navigate(`/@${username}`);
     } catch (error: any) {
-      console.log(error);
+      setLogin(false);
+      localStorage.clear();
+      navigate("/", { replace: true });
     }
     setDisabled(false);
   };
@@ -84,11 +86,13 @@ const Settings = () => {
           password: "",
         });
       } catch (error: any) {
-        console.log(error);
+        setLogin(false);
+        localStorage.clear();
+        navigate("/", { replace: true });
       }
     };
     initSettings();
-  }, [token]);
+  }, [token, navigate, setLogin]);
 
   useEffect(() => {
     setMenu(4);
