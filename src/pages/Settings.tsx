@@ -31,7 +31,7 @@ const Settings = () => {
     });
   };
 
-  const updateSettings = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const updateSettings = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setDisabled(true);
     try {
@@ -108,7 +108,7 @@ const Settings = () => {
             <div className="col-md-6 offset-md-3 col-xs-12">
               <h1 className="text-xs-center">Your Settings</h1>
 
-              <form>
+              <form onSubmit={(event) => updateSettings(event)}>
                 <fieldset>
                   <fieldset className="form-group">
                     <input
@@ -147,7 +147,7 @@ const Settings = () => {
                   <fieldset className="form-group">
                     <input
                       className="form-control form-control-lg"
-                      type="text"
+                      type="email"
                       placeholder="Email"
                       name="email"
                       value={email}
@@ -167,10 +167,7 @@ const Settings = () => {
                       disabled={disabled}
                     />
                   </fieldset>
-                  <button
-                    className="btn btn-lg btn-primary pull-xs-right"
-                    onClick={(event) => updateSettings(event)}
-                  >
+                  <button className="btn btn-lg btn-primary pull-xs-right">
                     Update Settings
                   </button>
                 </fieldset>
