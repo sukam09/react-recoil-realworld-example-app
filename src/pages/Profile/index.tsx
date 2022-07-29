@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useSetRecoilState } from "recoil";
 
@@ -16,6 +16,7 @@ const Profile = () => {
   const { image, username, bio, following } = profile;
   const { userId } = useParams();
   const setMenu = useSetRecoilState(menuState);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const initProfile = async () => {
@@ -31,11 +32,11 @@ const Profile = () => {
           following: profileData.following,
         });
       } catch (error: any) {
-        console.log(error);
+        navigate("/", { replace: true });
       }
     };
     initProfile();
-  }, [userId]);
+  }, [userId, navigate]);
 
   useEffect(() => {
     setMenu(5);
