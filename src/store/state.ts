@@ -15,14 +15,12 @@ export const loginState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-// export const userState = atom({
-//   key: "user",
-//   default: {
-//     email: "",
-//     username: "",
-//     bio: "",
-//     image: "",
-//     token: "",
-//   },
-//   effects_UNSTABLE: [persistAtom],
+export const menuState = atom({
+  key: "menu",
+  default: 0,
+});
+
+// export const loadingState = atom({
+//   key: "loading",
+//   default: false,
 // });
