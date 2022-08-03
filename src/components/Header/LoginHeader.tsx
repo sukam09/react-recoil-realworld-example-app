@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { getUser } from "@/api/user";
-import { tokenState, menuState } from "@/store/state";
+import { tokenState, menuState, loginState } from "@/store/state";
 
 const LoginHeader = () => {
   const [userInfo, setUserInfo] = useState({
@@ -13,6 +13,7 @@ const LoginHeader = () => {
   const { image, username } = userInfo;
   const token = useRecoilValue(tokenState);
   const menu = useRecoilValue(menuState);
+  const setLogin = useSetRecoilState(loginState);
 
   useEffect(() => {
     const getUsername = async () => {
@@ -33,11 +34,12 @@ const LoginHeader = () => {
           username: user.username,
         });
       } catch (error: any) {
-        console.log(error);
+        setLogin(false);
+        localStorage.clear();
       }
     };
     getUsername();
-  }, [token]);
+  }, [token, setLogin]);
 
   return (
     <>
