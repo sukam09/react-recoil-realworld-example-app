@@ -1,5 +1,5 @@
 {
-  "name": "realworld-example-app",
+  "name": "react-recoil-realworld-example-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
