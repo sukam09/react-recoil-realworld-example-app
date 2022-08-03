@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import { postUserLogin } from "@/api/user";
+import { postUser } from "@/api/user";
 import { tokenState, loginState, menuState } from "@/store/state";
 
 const Login = () => {
@@ -36,7 +36,7 @@ const Login = () => {
     setDisabled(true);
     try {
       const data = await (
-        await postUserLogin("/users/login", {
+        await postUser("/users/login", {
           user: {
             email: email,
             password: password,
