@@ -67,10 +67,10 @@ const UserProfile = () => {
 
   return (
     <>
-      {loading ? (
-        <Loading />
-      ) : (
-        <div className="user-info">
+      <div className="user-info">
+        {loading ? (
+          <Loading height="30vh" />
+        ) : (
           <div className="container">
             <div className="row">
               <div className="col-xs-12 col-md-10 offset-md-1">
@@ -85,8 +85,8 @@ const UserProfile = () => {
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };

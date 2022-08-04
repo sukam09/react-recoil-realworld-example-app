@@ -108,15 +108,15 @@ const Settings = () => {
           <title>Settings — Conduit</title>
         </Helmet>
       </HelmetProvider>
-      {loading ? (
-        <Loading />
-      ) : (
-        <div className="settings-page">
-          <div className="container page">
-            <div className="row">
-              <div className="col-md-6 offset-md-3 col-xs-12">
-                <h1 className="text-xs-center">Your Settings</h1>
 
+      <div className="settings-page">
+        <div className="container page">
+          <div className="row">
+            <div className="col-md-6 offset-md-3 col-xs-12">
+              <h1 className="text-xs-center">Your Settings</h1>
+              {loading ? (
+                <Loading height="50vh" />
+              ) : (
                 <form onSubmit={(event) => updateSettings(event)}>
                   <fieldset>
                     <fieldset className="form-group">
@@ -189,11 +189,11 @@ const Settings = () => {
                     Or click here to logout.
                   </button>
                 </form>
-              </div>
+              )}
             </div>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };
