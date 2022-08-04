@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSetRecoilState, useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { postUser } from "@/api/user";
@@ -20,7 +20,7 @@ const Login = () => {
   const [disabled, setDisabled] = useState(false);
   const setToken = useSetRecoilState(tokenState);
   const setLogin = useSetRecoilState(loginState);
-  const [menu, setMenu] = useRecoilState(menuState);
+  const setMenu = useSetRecoilState(menuState);
   const navigate = useNavigate();
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
