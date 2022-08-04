@@ -1,19 +1,22 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { getUser } from "@/api/user";
 import { tokenState, menuState, loginState } from "@/store/state";
+import Loading from "@/components/Loading";
 
-const LoginHeader = () => {
+const UserImage = () => {
   const [userInfo, setUserInfo] = useState({
     image: "",
     username: "",
   });
   const { image, username } = userInfo;
+  const [loading, setLoading] = useState(true);
   const token = useRecoilValue(tokenState);
   const menu = useRecoilValue(menuState);
   const setLogin = useSetRecoilState(loginState);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUsername = async () => {
@@ -33,37 +36,35 @@ const LoginHeader = () => {
             "https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003",
           username: user.username,
         });
+        setLoading(false);
       } catch (error: any) {
         setLogin(false);
         localStorage.clear();
+        navigate("/", { replace: true });
       }
     };
     getUsername();
-  }, [token, setLogin]);
+  }, [token, setLogin, navigate]);
 
   return (
     <>
-      <li className="nav-item">
-        <Link to="/editor" className={`nav-link ${menu === 3 && "active"}`}>
-          <i className="ion-compose"></i> New Article
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link to="/settings" className={`nav-link ${menu === 4 && "active"}`}>
-          <i className="ion-gear-a"></i> Settings
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link
-          to={`/@${username}`}
-          className={`nav-link ${menu === 5 && "active"}`}
-        >
-          <img className="user-pic" src={image} />
-          {username}
-        </Link>
-      </li>
+      {loading ? (
+        <li className="nav-item">
+          <Loading />
+        </li>
+      ) : (
+        <li className="nav-item">
+          <Link
+            to={`/@${username}`}
+            className={`nav-link ${menu === 5 && "active"}`}
+          >
+            <img className="user-pic" src={image} />
+            {username}
+          </Link>
+        </li>
+      )}
     </>
   );
 };
 
-export default LoginHeader;
+export default UserImage;
