@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { getUser, putUser } from "@/api/user";
 import { tokenState, menuState, loginState } from "@/store/state";
+import Loading from "@/components/Loading";
 
 const Settings = () => {
   const [settings, setSettings] = useState({
@@ -16,6 +17,7 @@ const Settings = () => {
   });
   const { image, username, bio, email, password } = settings;
   const [disabled, setDisabled] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [token, setToken] = useRecoilState(tokenState);
   const setMenu = useSetRecoilState(menuState);
   const setLogin = useSetRecoilState(loginState);
@@ -85,6 +87,7 @@ const Settings = () => {
           ...user,
           password: "",
         });
+        setLoading(false);
       } catch (error: any) {
         setLogin(false);
         localStorage.clear();
@@ -105,89 +108,92 @@ const Settings = () => {
           <title>Settings — Conduit</title>
         </Helmet>
       </HelmetProvider>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="settings-page">
+          <div className="container page">
+            <div className="row">
+              <div className="col-md-6 offset-md-3 col-xs-12">
+                <h1 className="text-xs-center">Your Settings</h1>
 
-      <div className="settings-page">
-        <div className="container page">
-          <div className="row">
-            <div className="col-md-6 offset-md-3 col-xs-12">
-              <h1 className="text-xs-center">Your Settings</h1>
-
-              <form onSubmit={(event) => updateSettings(event)}>
-                <fieldset>
-                  <fieldset className="form-group">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="URL of profile picture"
-                      name="image"
-                      value={image}
-                      onChange={onChange}
-                      disabled={disabled}
-                    />
+                <form onSubmit={(event) => updateSettings(event)}>
+                  <fieldset>
+                    <fieldset className="form-group">
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="URL of profile picture"
+                        name="image"
+                        value={image}
+                        onChange={onChange}
+                        disabled={disabled}
+                      />
+                    </fieldset>
+                    <fieldset className="form-group">
+                      <input
+                        className="form-control form-control-lg"
+                        type="text"
+                        placeholder="Your Name"
+                        name="username"
+                        value={username}
+                        onChange={onChange}
+                        disabled={disabled}
+                        autoComplete="off"
+                      />
+                    </fieldset>
+                    <fieldset className="form-group">
+                      <textarea
+                        className="form-control form-control-lg"
+                        rows={8}
+                        placeholder="Short bio about you"
+                        name="bio"
+                        value={bio}
+                        onChange={onChange}
+                        disabled={disabled}
+                      ></textarea>
+                    </fieldset>
+                    <fieldset className="form-group">
+                      <input
+                        className="form-control form-control-lg"
+                        type="email"
+                        placeholder="Email"
+                        name="email"
+                        value={email}
+                        onChange={onChange}
+                        disabled={disabled}
+                        autoComplete="off"
+                      />
+                    </fieldset>
+                    <fieldset className="form-group">
+                      <input
+                        className="form-control form-control-lg"
+                        type="password"
+                        placeholder="New Password"
+                        name="password"
+                        value={password}
+                        onChange={onChange}
+                        disabled={disabled}
+                      />
+                    </fieldset>
+                    <button className="btn btn-lg btn-primary pull-xs-right">
+                      Update Settings
+                    </button>
                   </fieldset>
-                  <fieldset className="form-group">
-                    <input
-                      className="form-control form-control-lg"
-                      type="text"
-                      placeholder="Your Name"
-                      name="username"
-                      value={username}
-                      onChange={onChange}
-                      disabled={disabled}
-                      autoComplete="off"
-                    />
-                  </fieldset>
-                  <fieldset className="form-group">
-                    <textarea
-                      className="form-control form-control-lg"
-                      rows={8}
-                      placeholder="Short bio about you"
-                      name="bio"
-                      value={bio}
-                      onChange={onChange}
-                      disabled={disabled}
-                    ></textarea>
-                  </fieldset>
-                  <fieldset className="form-group">
-                    <input
-                      className="form-control form-control-lg"
-                      type="email"
-                      placeholder="Email"
-                      name="email"
-                      value={email}
-                      onChange={onChange}
-                      disabled={disabled}
-                      autoComplete="off"
-                    />
-                  </fieldset>
-                  <fieldset className="form-group">
-                    <input
-                      className="form-control form-control-lg"
-                      type="password"
-                      placeholder="New Password"
-                      name="password"
-                      value={password}
-                      onChange={onChange}
-                      disabled={disabled}
-                    />
-                  </fieldset>
-                  <button className="btn btn-lg btn-primary pull-xs-right">
-                    Update Settings
+                  <hr />
+                  <button
+                    type="button"
+                    className="btn btn-outline-danger"
+                    onClick={onLogout}
+                  >
+                    Or click here to logout.
                   </button>
-                </fieldset>
-                <hr />
-                <button
-                  type="button"
-                  className="btn btn-outline-danger"
-                  onClick={onLogout}
-                >
-                  Or click here to logout.
-                </button>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
