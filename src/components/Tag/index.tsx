@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 interface TagProps {
   name: string;
 }
@@ -5,9 +7,9 @@ interface TagProps {
 const Tag = ({ name }: TagProps) => {
   return (
     <>
-      <a href="/#/" className="tag-pill tag-default">
+      <Link to="/" className="tag-pill tag-default">
         {name}
-      </a>
+      </Link>
     </>
   );
 };
