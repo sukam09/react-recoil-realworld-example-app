@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { getUser, putUser } from "@/api/user";
@@ -18,9 +18,11 @@ const Settings = () => {
   const { image, username, bio, email, password } = settings;
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(true);
+
   const [token, setToken] = useRecoilState(tokenState);
   const setMenu = useSetRecoilState(menuState);
   const setLogin = useSetRecoilState(loginState);
+
   const navigate = useNavigate();
 
   const onChange = (
