@@ -17,10 +17,12 @@ const UserProfile = () => {
   const { image, username, bio, following } = profile;
   const [loginUsername, setLoginUsername] = useState("");
   const [loading, setLoading] = useState(true);
-  const { userId } = useParams();
+
   const token = useRecoilValue(tokenState);
   const setMenu = useSetRecoilState(menuState);
   const setLogin = useSetRecoilState(loginState);
+
+  const { userId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,6 +38,7 @@ const UserProfile = () => {
           bio: profileData.bio,
           following: profileData.following,
         });
+        setLoading(false);
       } catch (error: any) {
         navigate("/", { replace: true });
       }
@@ -44,7 +47,7 @@ const UserProfile = () => {
   }, [navigate, userId]);
 
   useEffect(() => {
-    const getLoginUsername = async () => {
+    const checkLoginUsername = async () => {
       try {
         const data = await (
           await getUser("/user", {
@@ -54,16 +57,18 @@ const UserProfile = () => {
           })
         ).data;
         setLoginUsername(data.user.username);
-        setLoading(false);
       } catch (error: any) {
         setLogin(false);
         localStorage.clear();
         navigate("/", { replace: true });
       }
     };
-    getLoginUsername();
-    username === loginUsername ? setMenu(5) : setMenu(-1);
+    checkLoginUsername();
   }, [loginUsername, setMenu, token, username, navigate, setLogin]);
+
+  useEffect(() => {
+    username === loginUsername ? setMenu(5) : setMenu(-1);
+  }, [username, loginUsername, setMenu]);
 
   return (
     <>
