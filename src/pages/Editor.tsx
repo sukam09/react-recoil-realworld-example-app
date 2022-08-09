@@ -5,7 +5,7 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 
 import { menuState, tokenState, loginState } from "@/store/state";
 import { postArticles } from "@/api/article";
-import RemovableTag from "@/components/Tag/RemovableTag";
+import EditorTag from "@/components/Tag/EditorTag";
 
 interface EditorProps {
   title: string;
@@ -183,9 +183,9 @@ const Editor = () => {
                   </fieldset>
 
                   <div>
-                    {tagList.map((tag) => (
-                      <RemovableTag
-                        key={tag}
+                    {tagList.map((tag, index) => (
+                      <EditorTag
+                        key={index}
                         name={tag}
                         onClick={() => removeTag(tag)}
                       />

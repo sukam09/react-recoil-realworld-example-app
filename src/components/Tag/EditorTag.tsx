@@ -1,9 +1,9 @@
-interface RemovableTagProps {
+interface EditorTagProps {
   name: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const RemovableTag = ({ name, onClick }: RemovableTagProps) => {
+const EditorTag = ({ name, onClick }: EditorTagProps) => {
   return (
     <span className="tag-default tag-pill">
       <i
@@ -16,4 +16,4 @@ const RemovableTag = ({ name, onClick }: RemovableTagProps) => {
   );
 };
 
-export default RemovableTag;
+export default EditorTag;
