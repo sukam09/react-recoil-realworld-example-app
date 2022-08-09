@@ -10,3 +10,7 @@ export const postArticles = async (
 ) => {
   return await api.post(url, data, config);
 };
+
+export const getArticles = async (url: string) => {
+  return await api.get(url);
+};
