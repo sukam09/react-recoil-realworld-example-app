@@ -4,13 +4,26 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { MyFeed, GlobalFeed } from "@/components/Feed";
-import Tag from "@/components/Tag";
+import LinkTag from "@/components/Tag/LinkTag";
 import { loginState, menuState } from "@/store/state";
 
 const Home = () => {
   const login = useRecoilValue(loginState);
-  const [toggle, setToggle] = useState(login ? 0 : 1);
   const setMenu = useSetRecoilState(menuState);
+
+  const [toggle, setToggle] = useState(login ? 0 : 1);
+  // test
+  const [tagList, setTagList] = useState([
+    "implementations",
+    "welcome",
+    "introduction",
+    "codebaseShow",
+  ]);
+
+  const onClick = (tag: string) => {
+    // test
+    console.log(tag);
+  };
 
   useEffect(() => {
     setMenu(0);
@@ -64,12 +77,14 @@ const Home = () => {
             <div className="col-md-3">
               <div className="sidebar">
                 <p>Popular Tags</p>
-
                 <div className="tag-list">
-                  <Tag name="programming" />
-                  <Tag name="javascript" />
-                  <Tag name="amberjs" />
-                  <Tag name="angularjs" />
+                  {tagList.map((tag) => (
+                    <LinkTag
+                      key={tag}
+                      name={tag}
+                      onClick={() => onClick(tag)}
+                    />
+                  ))}
                 </div>
               </div>
             </div>

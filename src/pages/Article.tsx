@@ -139,8 +139,8 @@ const Article = () => {
               </div>
             </div>
             <div>
-              {tagList.map((tag, index) => (
-                <Tag key={index} name={tag} />
+              {tagList.map((tag) => (
+                <Tag key={tag} name={tag} />
               ))}
             </div>
 

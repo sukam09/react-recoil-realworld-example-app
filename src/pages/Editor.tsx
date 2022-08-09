@@ -183,9 +183,9 @@ const Editor = () => {
                   </fieldset>
 
                   <div>
-                    {tagList.map((tag, index) => (
+                    {tagList.map((tag) => (
                       <EditorTag
-                        key={index}
+                        key={tag}
                         name={tag}
                         onClick={() => removeTag(tag)}
                       />
