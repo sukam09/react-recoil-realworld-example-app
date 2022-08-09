@@ -55,7 +55,7 @@ const UserImage = () => {
       ) : (
         <li className="nav-item">
           <Link
-            to={`/@${username}`}
+            to={`/profile/${username}`}
             className={`nav-link ${menu === 5 && "active"}`}
           >
             <img className="user-pic" src={image} />

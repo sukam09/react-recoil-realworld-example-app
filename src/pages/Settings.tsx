@@ -59,7 +59,7 @@ const Settings = () => {
         )
       ).data;
       setToken(data.user.token);
-      navigate(`/@${username}`);
+      navigate(`/profile/${username}`);
     } catch (error: any) {
       setLogin(false);
       localStorage.clear();
