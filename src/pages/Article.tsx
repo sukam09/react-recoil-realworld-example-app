@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useSetRecoilState } from "recoil";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import { getArticles } from "@/api/article";
 import Tag from "@/components/Tag/ArticleTag";
 import { menuState } from "@/store/state";
 import Loading from "@/components/Loading";
+
+import { TEST_IMAGE } from "@/shared/dummy";
 
 // interface ArticleProps {
 //   title: string;
@@ -15,7 +19,7 @@ import Loading from "@/components/Loading";
 //   tagList: string[];
 //   createdAt: string;
 //   updatedAt: string;
-//   favoritesCount: boolean;
+//   favorited: boolean;
 //   favoritesCount: number;
 //   author: UserProps;
 // }
@@ -50,7 +54,7 @@ const Article = () => {
   const setMenu = useSetRecoilState(menuState);
 
   const { slug } = useParams();
-  const pageTitle = loading ? "Loading..." : `${title} — Conduit`;
+  const pageTitle = loading ? "Loading articles..." : `${title} — Conduit`;
 
   useEffect(() => {
     const initArticle = async () => {
@@ -103,7 +107,7 @@ const Article = () => {
                 <Link to={`/profile/${username}`}>
                   {/* FIXME: API error */}
                   {/* <img src={image} /> */}
-                  <img src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003" />
+                  <img src={TEST_IMAGE} />
                 </Link>
                 <div className="info">
                   <Link to={`/profile/${username}`} className="author">
@@ -126,16 +130,7 @@ const Article = () => {
           <div className="container page">
             <div className="row article-content">
               <div className="col-md-12">
-                {/* <p>
-                Web development technologies have evolved at an incredible clip
-                over the past few years.
-              </p>
-              <h2 id="introducing-ionic">Introducing RealWorld.</h2>
-              <p>
-                It's a great solution for learning how other frameworks work.
-              </p> */}
-                {/* TODO: apply markdown syntax */}
-                <p>{body}</p>
+                <ReactMarkdown children={body} remarkPlugins={[remarkGfm]} />
               </div>
             </div>
             <div>
@@ -151,7 +146,7 @@ const Article = () => {
                 <Link to={`/profile/${username}`}>
                   {/* FIXME: API console.error(); */}
                   {/* <img src={image} /> */}
-                  <img src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003" />
+                  <img src={TEST_IMAGE} />
                 </Link>
                 <div className="info">
                   <Link to={`/profile/${username}`} className="author">
