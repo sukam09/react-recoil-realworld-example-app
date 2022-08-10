@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { getArticles } from "@/api/article";
+import { postComments } from "@/api/comment";
 import Tag from "@/components/Tag/ArticleTag";
-import { menuState } from "@/store/state";
+import { menuState, tokenState } from "@/store/state";
 import Loading from "@/components/Loading";
 
 import { TEST_IMAGE } from "@/shared/dummy";
@@ -49,12 +50,37 @@ const Article = () => {
     author,
   } = article;
   const { username, image } = author;
-
+  const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(true);
+
   const setMenu = useSetRecoilState(menuState);
+  const token = useRecoilValue(tokenState);
 
   const { slug } = useParams();
   const pageTitle = loading ? "Loading articles..." : `${title} — Conduit`;
+
+  const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = event.target;
+    setComment(value);
+  };
+
+  const postComment = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      await postComments(
+        `/articles/${slug}/comments`,
+        { comment: { body: comment } },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+    } catch (error: any) {
+      console.log(error);
+      // TODO: forced logout when 404
+    }
+  };
 
   useEffect(() => {
     const initArticle = async () => {
@@ -166,12 +192,14 @@ const Article = () => {
 
             <div className="row">
               <div className="col-xs-12 col-md-8 offset-md-2">
-                <form className="card comment-form">
+                <form className="card comment-form" onSubmit={postComment}>
                   <div className="card-block">
                     <textarea
                       className="form-control"
                       placeholder="Write a comment..."
                       rows={3}
+                      value={comment}
+                      onChange={onChange}
                     ></textarea>
                   </div>
                   <div className="card-footer">
@@ -184,52 +212,7 @@ const Article = () => {
                     </button>
                   </div>
                 </form>
-
-                <div className="card">
-                  <div className="card-block">
-                    <p className="card-text">
-                      With supporting text below as a natural lead-in to
-                      additional content.
-                    </p>
-                  </div>
-                  <div className="card-footer">
-                    <Link to="" className="comment-author">
-                      <img
-                        src="http://i.imgur.com/Qr71crq.jpg"
-                        className="comment-author-img"
-                      />
-                    </Link>{" "}
-                    <Link to="" className="comment-author">
-                      Jacob Schmidt
-                    </Link>
-                    <span className="date-posted">Dec 29th</span>
-                  </div>
-                </div>
-
-                <div className="card">
-                  <div className="card-block">
-                    <p className="card-text">
-                      With supporting text below as a natural lead-in to
-                      additional content.
-                    </p>
-                  </div>
-                  <div className="card-footer">
-                    <Link to="" className="comment-author">
-                      <img
-                        src="http://i.imgur.com/Qr71crq.jpg"
-                        className="comment-author-img"
-                      />
-                    </Link>{" "}
-                    <Link to="" className="comment-author">
-                      Jacob Schmidt
-                    </Link>
-                    <span className="date-posted">Dec 29th</span>
-                    <span className="mod-options">
-                      <i className="ion-edit"></i>
-                      <i className="ion-trash-a"></i>
-                    </span>
-                  </div>
-                </div>
+                {/* TODO: comment section */}
               </div>
             </div>
           </div>
