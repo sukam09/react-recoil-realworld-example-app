@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { getArticles } from "@/api/article";
-import { postComments } from "@/api/comment";
+import { getComments, postComments } from "@/api/comment";
 import Tag from "@/components/Tag/ArticleTag";
 import { menuState, tokenState } from "@/store/state";
 import Loading from "@/components/Loading";
@@ -52,6 +52,7 @@ const Article = () => {
   const { username, image } = author;
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(true);
+  const [disabled, setDisabled] = useState(false);
 
   const setMenu = useSetRecoilState(menuState);
   const token = useRecoilValue(tokenState);
@@ -64,18 +65,22 @@ const Article = () => {
     setComment(value);
   };
 
-  const postComment = async (event: React.FormEvent<HTMLFormElement>) => {
+  const publishComment = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setDisabled(true);
     try {
-      await postComments(
-        `/articles/${slug}/comments`,
-        { comment: { body: comment } },
-        {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
+      const data = await (
+        await postComments(
+          `/articles/${slug}/comments`,
+          { comment: { body: comment } },
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        )
+      ).data;
+      setDisabled(false);
     } catch (error: any) {
       console.log(error);
       // TODO: forced logout when 404
@@ -192,7 +197,7 @@ const Article = () => {
 
             <div className="row">
               <div className="col-xs-12 col-md-8 offset-md-2">
-                <form className="card comment-form" onSubmit={postComment}>
+                <form className="card comment-form" onSubmit={publishComment}>
                   <div className="card-block">
                     <textarea
                       className="form-control"
@@ -200,14 +205,19 @@ const Article = () => {
                       rows={3}
                       value={comment}
                       onChange={onChange}
+                      disabled={disabled}
                     ></textarea>
                   </div>
                   <div className="card-footer">
                     <img
-                      src="http://i.imgur.com/Qr71crq.jpg"
+                      // src={image} // FIXME: API error
+                      src={TEST_IMAGE}
                       className="comment-author-img"
                     />
-                    <button className="btn btn-sm btn-primary">
+                    <button
+                      className="btn btn-sm btn-primary"
+                      disabled={disabled}
+                    >
                       Post Comment
                     </button>
                   </div>
