@@ -1,15 +1,15 @@
 import { AxiosRequestConfig } from "axios";
 
 import api from "@/api";
-import { UserDataProps } from "@/types/type";
+import { UserProps } from "@/shared/type";
 
-export const postUser = async (url: string, data: UserDataProps) => {
+export const postUser = async (url: string, data: { user: UserProps }) => {
   return await api.post(url, data);
 };
 
 export const putUser = async (
   url: string,
-  data: UserDataProps,
+  data: { user: UserProps },
   config: AxiosRequestConfig
 ) => {
   return await api.put(url, data, config);

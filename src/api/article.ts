@@ -1,11 +1,11 @@
 import { AxiosRequestConfig } from "axios";
 
 import api from "@/api";
-import { ArticleDataProps } from "@/types/type";
+import { ArticleProps } from "@/shared/type";
 
 export const postArticles = async (
   url: string,
-  data: ArticleDataProps,
+  data: { article: ArticleProps },
   config: AxiosRequestConfig
 ) => {
   return await api.post(url, data, config);

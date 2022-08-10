@@ -1,5 +1,5 @@
 export interface UserProps {
-  email: string;
+  email?: string;
   password?: string;
   username?: string;
   bio?: string;
@@ -19,12 +19,4 @@ export interface ArticleProps {
   favorited?: boolean;
   favoritesCount?: number;
   author?: UserProps;
-}
-
-export interface UserDataProps {
-  user: UserProps;
-}
-
-export interface ArticleDataProps {
-  article: ArticleProps;
 }
