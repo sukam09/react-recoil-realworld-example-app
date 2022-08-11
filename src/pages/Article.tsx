@@ -139,8 +139,7 @@ const Article = () => {
         const config = login
           ? { headers: { Authorization: `Token ${token}` } }
           : undefined;
-        const data = await // FIXME: getComments endpoint not working
-        (
+        const data = await (
           await getComments(`/articles/${slug}/comments`, config)
         ).data;
         const commentsData = data.comments;
@@ -211,7 +210,7 @@ const Article = () => {
             <div className="article-actions">
               <div className="article-meta">
                 <Link to={`/profile/${username}`}>
-                  {/* FIXME: API console.error(); */}
+                  {/* FIXME: API error*/}
                   {/* <img src={image} /> */}
                   <img src={TEST_IMAGE} />
                 </Link>
