@@ -10,6 +10,6 @@ export const postComments = async (
   return await api.post(url, data, config);
 };
 
-export const getComments = async (url: string) => {
-  return await api.get(url);
+export const getComments = async (url: string, config?: AxiosRequestConfig) => {
+  return await api.get(url, config);
 };
