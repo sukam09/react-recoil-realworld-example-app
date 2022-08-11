@@ -5,12 +5,15 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import { getArticles } from "@/api/article";
-import { getComments, postComments } from "@/api/comment";
-import Tag from "@/components/Tag/ArticleTag";
-import { menuState, tokenState } from "@/store/state";
+import ArticleTag from "@/components/Tag/ArticleTag";
+import Comment from "@/components/Comment";
 import Loading from "@/components/Loading";
 
+import { getArticles } from "@/api/article";
+import { getComments, postComments } from "@/api/comment";
+
+import { menuState, tokenState, loginState } from "@/store/state";
+import { UserProps } from "@/shared/type";
 import { TEST_IMAGE } from "@/shared/dummy";
 
 // interface ArticleProps {
@@ -24,6 +27,14 @@ import { TEST_IMAGE } from "@/shared/dummy";
 //   favoritesCount: number;
 //   author: UserProps;
 // }
+
+export interface CommentProps {
+  id?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  body: string;
+  author?: UserProps;
+}
 
 const Article = () => {
   const [article, setArticle] = useState({
@@ -51,11 +62,13 @@ const Article = () => {
   } = article;
   const { username, image } = author;
   const [comment, setComment] = useState("");
+  const [comments, setComments] = useState<CommentProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(false);
 
   const setMenu = useSetRecoilState(menuState);
   const token = useRecoilValue(tokenState);
+  const login = useRecoilValue(loginState);
 
   const { slug } = useParams();
   const pageTitle = loading ? "Loading articles..." : `${title} — Conduit`;
@@ -80,11 +93,14 @@ const Article = () => {
           }
         )
       ).data;
-      setDisabled(false);
+      const newComment = data.comment;
+      setComments([newComment, ...comments]);
+      setComment("");
     } catch (error: any) {
       console.log(error);
       // TODO: forced logout when 404
     }
+    setDisabled(false);
   };
 
   useEffect(() => {
@@ -107,6 +123,7 @@ const Article = () => {
         });
         setLoading(false);
       } catch (error: any) {
+        // TODO: forced logout when 404
         // setLogin(false);
         // localStorage.clear();
         // navigate("/", { replace: true });
@@ -115,6 +132,25 @@ const Article = () => {
     };
     initArticle();
   }, [slug]);
+
+  useEffect(() => {
+    const initComments = async () => {
+      try {
+        const config = login
+          ? { headers: { Authorization: `Token ${token}` } }
+          : undefined;
+        const data = await // FIXME: getComments endpoint not working
+        (
+          await getComments(`/articles/${slug}/comments`, config)
+        ).data;
+        const commentsData = data.comments;
+        setComments(commentsData);
+      } catch (error: any) {
+        console.log(error);
+      }
+    };
+    initComments();
+  }, [slug, token, login]);
 
   useEffect(() => setMenu(-1), [setMenu]);
 
@@ -166,7 +202,7 @@ const Article = () => {
             </div>
             <div>
               {tagList.map((tag) => (
-                <Tag key={tag} name={tag} />
+                <ArticleTag key={tag} name={tag} />
               ))}
             </div>
 
@@ -197,32 +233,45 @@ const Article = () => {
 
             <div className="row">
               <div className="col-xs-12 col-md-8 offset-md-2">
-                <form className="card comment-form" onSubmit={publishComment}>
-                  <div className="card-block">
-                    <textarea
-                      className="form-control"
-                      placeholder="Write a comment..."
-                      rows={3}
-                      value={comment}
-                      onChange={onChange}
-                      disabled={disabled}
-                    ></textarea>
-                  </div>
-                  <div className="card-footer">
-                    <img
-                      // src={image} // FIXME: API error
-                      src={TEST_IMAGE}
-                      className="comment-author-img"
-                    />
-                    <button
-                      className="btn btn-sm btn-primary"
-                      disabled={disabled}
-                    >
-                      Post Comment
-                    </button>
-                  </div>
-                </form>
-                {/* TODO: comment section */}
+                {login ? (
+                  <form className="card comment-form" onSubmit={publishComment}>
+                    <div className="card-block">
+                      <textarea
+                        className="form-control"
+                        placeholder="Write a comment..."
+                        rows={3}
+                        value={comment}
+                        onChange={onChange}
+                        disabled={disabled}
+                      ></textarea>
+                    </div>
+                    <div className="card-footer">
+                      <img
+                        // src={image} // FIXME: API error
+                        src={TEST_IMAGE}
+                        className="comment-author-img"
+                      />
+                      <button
+                        className="btn btn-sm btn-primary"
+                        disabled={disabled}
+                      >
+                        Post Comment
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  <p>
+                    <Link to="/login">Sign in</Link> or{" "}
+                    <Link to="/register">Sign up</Link> to add comments on this
+                    article.
+                  </p>
+                )}
+
+                <div>
+                  {comments.map((comment) => (
+                    <Comment key={comment.id} body={comment.body} />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
