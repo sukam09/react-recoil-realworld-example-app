@@ -1,10 +1,12 @@
-export interface UserProps {
-  email?: string;
-  password?: string;
+export interface LoginUserProps {
   username?: string;
-  bio?: string;
-  image?: string;
-  token?: string;
+  email: string;
+  password: string;
+}
+
+export interface UserProps extends LoginUserProps {
+  bio: string;
+  image: string;
   following?: boolean;
 }
 
