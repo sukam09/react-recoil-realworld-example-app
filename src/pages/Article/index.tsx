@@ -15,6 +15,7 @@ import { getComments, postComments } from "@/api/comment";
 import { menuState, tokenState, loginState } from "@/store/state";
 import { UserProps } from "@/shared/type";
 import { TEST_IMAGE } from "@/shared/dummy";
+import useLogout from "@/hooks/useLogout";
 
 // interface ArticleProps {
 //   title: string;
@@ -71,6 +72,7 @@ const Article = () => {
   const login = useRecoilValue(loginState);
 
   const { slug } = useParams();
+  const onLogout = useLogout();
   const pageTitle = loading ? "Loading articles..." : `${title} — Conduit`;
 
   const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -99,6 +101,7 @@ const Article = () => {
     } catch (error: any) {
       console.log(error);
       // TODO: forced logout when 404
+      onLogout();
     }
     setDisabled(false);
   };
@@ -124,14 +127,11 @@ const Article = () => {
         setLoading(false);
       } catch (error: any) {
         // TODO: forced logout when 404
-        // setLogin(false);
-        // localStorage.clear();
-        // navigate("/", { replace: true });
-        console.log(error);
+        onLogout();
       }
     };
     initArticle();
-  }, [slug]);
+  }, [slug, onLogout]);
 
   useEffect(() => {
     const initComments = async () => {
