@@ -1,4 +1,2 @@
-import MyFeed from "@/components/Feed/MyFeed";
-import GlobalFeed from "@/components/Feed/GlobalFeed";
-
-export { MyFeed, GlobalFeed };
+export { default as MyFeed } from "@/components/Feed/MyFeed";
+export { default as GlobalFeed } from "@/components/Feed/GlobalFeed";
