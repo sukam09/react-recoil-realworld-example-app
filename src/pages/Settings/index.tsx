@@ -6,6 +6,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { getUser, putUser } from "@/api/user";
 import { tokenState, menuState, loginState } from "@/store/state";
 import Loading from "@/components/Loading";
+import useLogout from "@/hooks/useLogout";
 
 const Settings = () => {
   const [settings, setSettings] = useState({
@@ -24,6 +25,7 @@ const Settings = () => {
   const setLogin = useSetRecoilState(loginState);
 
   const navigate = useNavigate();
+  const onLogout = useLogout();
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -61,17 +63,9 @@ const Settings = () => {
       setToken(data.user.token);
       navigate(`/profile/${username}`);
     } catch (error: any) {
-      setLogin(false);
-      localStorage.clear();
-      navigate("/", { replace: true });
+      onLogout();
     }
     setDisabled(false);
-  };
-
-  const onLogout = () => {
-    setLogin(false);
-    localStorage.clear();
-    navigate("/", { replace: true });
   };
 
   useEffect(() => {

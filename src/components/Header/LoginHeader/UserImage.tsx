@@ -5,6 +5,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { getUser } from "@/api/user";
 import { tokenState, menuState, loginState } from "@/store/state";
 import Loading from "@/components/Loading";
+import useLogout from "@/hooks/useLogout";
 
 const UserImage = () => {
   const [userInfo, setUserInfo] = useState({
@@ -13,10 +14,13 @@ const UserImage = () => {
   });
   const { image, username } = userInfo;
   const [loading, setLoading] = useState(true);
+
   const token = useRecoilValue(tokenState);
   const menu = useRecoilValue(menuState);
   const setLogin = useSetRecoilState(loginState);
+
   const navigate = useNavigate();
+  const onLogout = useLogout();
 
   useEffect(() => {
     const getUsername = async () => {
@@ -38,13 +42,11 @@ const UserImage = () => {
         });
         setLoading(false);
       } catch (error: any) {
-        setLogin(false);
-        localStorage.clear();
-        navigate("/", { replace: true });
+        onLogout();
       }
     };
     getUsername();
-  }, [token, setLogin, navigate]);
+  }, [token, setLogin, navigate, onLogout]);
 
   return (
     <>

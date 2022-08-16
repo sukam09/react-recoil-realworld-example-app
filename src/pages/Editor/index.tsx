@@ -6,6 +6,7 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 import { menuState, tokenState, loginState } from "@/store/state";
 import { postArticles } from "@/api/article";
 import EditorTag from "@/components/Tag/EditorTag";
+import useLogout from "@/hooks/useLogout";
 
 interface EditorProps {
   title: string;
@@ -36,6 +37,7 @@ const Editor = () => {
   const setLogin = useSetRecoilState(loginState);
 
   const navigate = useNavigate();
+  const onLogout = useLogout();
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -102,10 +104,7 @@ const Editor = () => {
         });
       } else {
         // 404
-        // TODO: may be separated to react hooks?
-        setLogin(false);
-        localStorage.clear();
-        navigate("/", { replace: true });
+        onLogout();
       }
     }
     setDisabled(false);
