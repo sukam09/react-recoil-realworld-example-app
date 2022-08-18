@@ -7,18 +7,16 @@ interface LoadingProps {
 
 const Loading = ({ height = "100%" }: LoadingProps) => {
   return (
-    <>
-      <Box
-        sx={{
-          height: height,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <CircularProgress sx={{ color: "gray" }} />
-      </Box>
-    </>
+    <Box
+      sx={{
+        height: height,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <CircularProgress sx={{ color: "gray" }} />
+    </Box>
   );
 };
 
