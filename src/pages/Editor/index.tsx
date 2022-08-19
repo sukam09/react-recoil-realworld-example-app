@@ -52,7 +52,9 @@ const Editor = () => {
   const onEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      if (!tagList.includes(tag)) addTag(tag);
+      if (!tagList.includes(tag)) {
+        addTag(tag);
+      }
     }
   };
 
