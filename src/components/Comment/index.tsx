@@ -1,23 +1,28 @@
 import { Link } from "react-router-dom";
-import { CommentProps } from "@/pages/Article";
+import { CommentProps } from "@/shared/type";
+import { TEST_IMAGE } from "@/shared/dummy";
 
-const Comment = ({ body }: CommentProps) => {
+const Comment = ({
+  id,
+  createdAt,
+  body,
+  author: { username, image },
+}: CommentProps) => {
   return (
     <div className="card">
       <div className="card-block">
         <p className="card-text">{body}</p>
       </div>
       <div className="card-footer">
-        <Link to="" className="comment-author">
-          <img
-            src="http://i.imgur.com/Qr71crq.jpg"
-            className="comment-author-img"
-          />
+        <Link to={`/profile/${username}`} className="comment-author">
+          {/* FIXME: API error */}
+          {/* <img src={image} className="comment-author-img" /> */}
+          <img src={TEST_IMAGE} className="comment-author-img" />
         </Link>{" "}
-        <Link to="" className="comment-author">
-          Jacob Schmidt
+        <Link to={`/profile/${username}`} className="comment-author">
+          {username}
         </Link>
-        <span className="date-posted">Dec 29th</span>
+        <span className="date-posted">{createdAt}</span>
       </div>
     </div>
   );
