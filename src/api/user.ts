@@ -1,9 +1,9 @@
 import { AxiosRequestConfig } from "axios";
 
 import api from "@/api";
-import { LoginUserProps, UserProps } from "@/shared/type";
+import { AuthProps, UserProps } from "@/shared/type";
 
-export const postUser = async (url: string, data: { user: LoginUserProps }) => {
+export const postUser = async (url: string, data: { user: AuthProps }) => {
   return await api.post(url, data);
 };
 

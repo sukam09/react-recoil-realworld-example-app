@@ -1,24 +1,43 @@
-export interface LoginUserProps {
+export interface AuthProps {
   username?: string;
   email: string;
   password: string;
 }
 
-export interface UserProps extends LoginUserProps {
+export interface UserProps {
+  email: string;
+  password: string;
+  username: string;
   bio: string;
   image: string;
-  following?: boolean;
 }
 
-export interface ArticleProps {
+export interface ProfileProps {
+  username: string;
+  bio: string;
+  image: string;
+  following: boolean;
+}
+
+export interface ArticlePreviewProps {
+  slug: string;
   title: string;
   description: string;
-  body: string;
   tagList: string[];
-  slug?: string;
-  createdAt?: string;
+  createdAt: string;
+  favorited: boolean;
+  favoritesCount: number;
+  author: ProfileProps;
+}
+
+export interface ArticleProps extends ArticlePreviewProps {
+  body: string;
   updatedAt?: string;
-  favorited?: boolean;
-  favoritesCount?: number;
-  author?: UserProps;
+}
+
+export interface CommentProps {
+  id?: number;
+  createdAt: string;
+  body: string;
+  author: ProfileProps;
 }
