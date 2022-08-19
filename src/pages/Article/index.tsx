@@ -13,33 +13,15 @@ import { getArticles } from "@/api/article";
 import { getComments, postComments } from "@/api/comment";
 
 import { menuState, tokenState, loginState } from "@/store/state";
-import { UserProps } from "@/shared/type";
+import { ArticleProps, CommentProps } from "@/shared/type";
 import { TEST_IMAGE } from "@/shared/dummy";
 import useLogout from "@/hooks/useLogout";
 
-// interface ArticleProps {
-//   title: string;
-//   description: string;
-//   body: string;
-//   tagList: string[];
-//   createdAt: string;
-//   updatedAt: string;
-//   favorited: boolean;
-//   favoritesCount: number;
-//   author: UserProps;
-// }
-
-export interface CommentProps {
-  id?: number;
-  createdAt?: string;
-  updatedAt?: string;
-  body: string;
-  author?: UserProps;
-}
-
 const Article = () => {
-  const [article, setArticle] = useState({
+  const [article, setArticle] = useState<ArticleProps>({
+    slug: "",
     title: "",
+    description: "",
     body: "",
     tagList: [],
     createdAt: "",
@@ -49,19 +31,22 @@ const Article = () => {
     author: {
       username: "",
       image: "",
+      bio: "",
+      following: false,
     },
   });
   const {
     title,
+    description,
     body,
     tagList,
     createdAt,
     updatedAt,
     favorited,
     favoritesCount,
-    author,
+    author: { username, image },
   } = article;
-  const { username, image } = author;
+
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<CommentProps[]>([]);
   const [loading, setLoading] = useState(true);
@@ -71,7 +56,7 @@ const Article = () => {
   const token = useRecoilValue(tokenState);
   const login = useRecoilValue(loginState);
 
-  const { slug } = useParams();
+  const { URLSlug } = useParams();
   const onLogout = useLogout();
   const pageTitle = loading ? "Loading articles..." : `${title} — Conduit`;
 
@@ -86,7 +71,7 @@ const Article = () => {
     try {
       const data = await (
         await postComments(
-          `/articles/${slug}/comments`,
+          `/articles/${URLSlug}/comments`,
           { comment: { body: comment } },
           {
             headers: {
@@ -99,8 +84,6 @@ const Article = () => {
       setComments([newComment, ...comments]);
       setComment("");
     } catch (error: any) {
-      console.log(error);
-      // TODO: forced logout when 404
       onLogout();
     }
     setDisabled(false);
@@ -109,10 +92,13 @@ const Article = () => {
   useEffect(() => {
     const initArticle = async () => {
       try {
-        const data = await (await getArticles(`/articles/${slug}`)).data;
-        const article = data.article;
+        const article = await (
+          await getArticles(`/articles/${URLSlug}`)
+        ).data.article;
         setArticle({
+          slug: article.slug,
           title: article.title,
+          description: article.description,
           body: article.body,
           tagList: article.tagList,
           createdAt: article.createdAt,
@@ -121,17 +107,18 @@ const Article = () => {
           favoritesCount: article.favoritesCount,
           author: {
             username: article.author.username,
+            bio: article.author.bio,
             image: article.author.image,
+            following: article.author.following,
           },
         });
         setLoading(false);
       } catch (error: any) {
-        // TODO: forced logout when 404
         onLogout();
       }
     };
     initArticle();
-  }, [slug, onLogout]);
+  }, [URLSlug, onLogout]);
 
   useEffect(() => {
     const initComments = async () => {
@@ -140,16 +127,16 @@ const Article = () => {
           ? { headers: { Authorization: `Token ${token}` } }
           : undefined;
         const data = await (
-          await getComments(`/articles/${slug}/comments`, config)
+          await getComments(`/articles/${URLSlug}/comments`, config)
         ).data;
         const commentsData = data.comments;
         setComments(commentsData);
       } catch (error: any) {
-        console.log(error);
+        onLogout();
       }
     };
     initComments();
-  }, [slug, token, login]);
+  }, [URLSlug, token, login, onLogout]);
 
   useEffect(() => setMenu(-1), [setMenu]);
 
@@ -268,7 +255,13 @@ const Article = () => {
 
                 <div>
                   {comments.map((comment) => (
-                    <Comment key={comment.id} body={comment.body} />
+                    <Comment
+                      key={comment.id}
+                      id={comment.id}
+                      createdAt={comment.createdAt}
+                      body={comment.body}
+                      author={comment.author}
+                    />
                   ))}
                 </div>
               </div>
