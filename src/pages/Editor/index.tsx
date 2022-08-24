@@ -74,24 +74,14 @@ const Editor = () => {
     event.preventDefault();
     setDisabled(true);
     try {
-      const data = await (
-        await postArticles(
-          "/articles",
-          {
-            article: {
-              title: title,
-              description: description,
-              body: body,
-              tagList: tagList,
-            },
-          },
-          {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          }
-        )
-      ).data;
+      const data = await postArticles("/articles", {
+        article: {
+          title: title,
+          description: description,
+          body: body,
+          tagList: tagList,
+        },
+      });
       const slug = data.article.slug;
       navigate(`/article/${slug}`);
     } catch (error: any) {

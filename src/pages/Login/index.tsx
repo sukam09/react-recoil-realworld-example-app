@@ -35,16 +35,13 @@ const Login = () => {
     event.preventDefault();
     setDisabled(true);
     try {
-      const data = await (
-        await postUser("/users/login", {
-          user: {
-            email: email,
-            password: password,
-          },
-        })
-      ).data;
-      const token = data.user.token;
-      setToken(token);
+      const data = await postUser("/users/login", {
+        user: {
+          email: email,
+          password: password,
+        },
+      });
+      setToken(data.user.token);
       setLogin(true);
       navigate("/", { replace: true });
     } catch (error: any) {

@@ -1,5 +1,3 @@
-import api from "@/api";
+import { GET } from "@/api";
 
-export const getProfile = async (url: string) => {
-  return await api.get(url);
-};
+export const getProfile = (url: string) => GET(url);

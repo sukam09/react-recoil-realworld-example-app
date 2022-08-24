@@ -1,15 +1,8 @@
-import { AxiosRequestConfig } from "axios";
+import { GET, POST } from "@/api";
 
-import api from "@/api";
-
-export const postComments = async (
+export const postComments = (
   url: string,
-  data: { comment: { body: string } },
-  config: AxiosRequestConfig
-) => {
-  return await api.post(url, data, config);
-};
+  body: { comment: { body: string } }
+) => POST(url, body);
 
-export const getComments = async (url: string, config?: AxiosRequestConfig) => {
-  return await api.get(url, config);
-};
+export const getComments = (url: string) => GET(url);

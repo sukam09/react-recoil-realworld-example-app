@@ -1,21 +1,15 @@
-import { AxiosRequestConfig } from "axios";
-import api from "@/api";
+import { GET, POST } from "@/api";
 
-export const postArticles = async (
+export const postArticles = (
   url: string,
-  data: {
+  body: {
     article: {
       title: string;
       description: string;
       body: string;
       tagList: string[];
     };
-  },
-  config: AxiosRequestConfig
-) => {
-  return await api.post(url, data, config);
-};
+  }
+) => POST(url, body);
 
-export const getArticles = async (url: string, config?: AxiosRequestConfig) => {
-  return await api.get(url, config);
-};
+export const getArticles = (url: string) => GET(url);

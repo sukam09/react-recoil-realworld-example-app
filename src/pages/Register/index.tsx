@@ -35,15 +35,13 @@ const Register = () => {
     event.preventDefault();
     setDisabled(true);
     try {
-      const data = await (
-        await postUser("/users", {
-          user: {
-            username: username,
-            email: email,
-            password: password,
-          },
-        })
-      ).data;
+      const data = await postUser("/users", {
+        user: {
+          username: username,
+          email: email,
+          password: password,
+        },
+      });
       const token = data.user.token;
       setToken(token);
       navigate("/", { replace: true });

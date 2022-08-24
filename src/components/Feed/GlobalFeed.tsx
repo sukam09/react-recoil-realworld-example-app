@@ -18,16 +18,11 @@ const GlobalFeed = () => {
     const query = ""; // temporary
     const initArticles = async () => {
       try {
-        const config = login
-          ? { headers: { Authorization: `Token ${token}` } }
-          : undefined;
-        const articles = await (
-          await getArticles(`/articles?${query}`, config)
-        ).data.articles;
-        setArticles(articles);
+        const data = await getArticles(`/articles?${query}`);
+        setArticles(data.articles);
         setLoading(false);
       } catch (error: any) {
-        console.error(error);
+        console.log(error);
       }
     };
     initArticles();

@@ -69,17 +69,9 @@ const Article = () => {
     event.preventDefault();
     setDisabled(true);
     try {
-      const data = await (
-        await postComments(
-          `/articles/${URLSlug}/comments`,
-          { comment: { body: comment } },
-          {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          }
-        )
-      ).data;
+      const data = await postComments(`/articles/${URLSlug}/comments`, {
+        comment: { body: comment },
+      });
       const newComment = data.comment;
       setComments([newComment, ...comments]);
       setComment("");
@@ -92,26 +84,26 @@ const Article = () => {
   useEffect(() => {
     const initArticle = async () => {
       try {
-        const article = await (
-          await getArticles(`/articles/${URLSlug}`)
-        ).data.article;
-        setArticle({
-          slug: article.slug,
-          title: article.title,
-          description: article.description,
-          body: article.body,
-          tagList: article.tagList,
-          createdAt: article.createdAt,
-          updatedAt: article.updatedAt,
-          favorited: article.favorited,
-          favoritesCount: article.favoritesCount,
-          author: {
-            username: article.author.username,
-            bio: article.author.bio,
-            image: article.author.image,
-            following: article.author.following,
-          },
-        });
+        const data = await getArticles(`/articles/${URLSlug}`);
+        const article = data.article;
+        // setArticle({
+        //   slug: article.slug,
+        //   title: article.title,
+        //   description: article.description,
+        //   body: article.body,
+        //   tagList: article.tagList,
+        //   createdAt: article.createdAt,
+        //   updatedAt: article.updatedAt,
+        //   favorited: article.favorited,
+        //   favoritesCount: article.favoritesCount,
+        //   author: {
+        //     username: article.author.username,
+        //     bio: article.author.bio,
+        //     image: article.author.image,
+        //     following: article.author.following,
+        //   },
+        // });
+        setArticle(article);
         setLoading(false);
       } catch (error: any) {
         onLogout();
@@ -123,14 +115,9 @@ const Article = () => {
   useEffect(() => {
     const initComments = async () => {
       try {
-        const config = login
-          ? { headers: { Authorization: `Token ${token}` } }
-          : undefined;
-        const data = await (
-          await getComments(`/articles/${URLSlug}/comments`, config)
-        ).data;
-        const commentsData = data.comments;
-        setComments(commentsData);
+        const data = await getComments(`/articles/${URLSlug}/comments`);
+        const comments = data.comments;
+        setComments(comments);
       } catch (error: any) {
         onLogout();
       }

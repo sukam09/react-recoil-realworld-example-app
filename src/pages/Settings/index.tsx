@@ -41,25 +41,15 @@ const Settings = () => {
     event.preventDefault();
     setDisabled(true);
     try {
-      const data = await (
-        await putUser(
-          "/user",
-          {
-            user: {
-              image: image,
-              username: username,
-              bio: bio,
-              email: email,
-              password: password,
-            },
-          },
-          {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          }
-        )
-      ).data;
+      const data = await putUser("/user", {
+        user: {
+          image: image,
+          username: username,
+          bio: bio,
+          email: email,
+          password: password,
+        },
+      });
       setToken(data.user.token);
       navigate(`/profile/${username}`);
     } catch (error: any) {
@@ -71,13 +61,7 @@ const Settings = () => {
   useEffect(() => {
     const initSettings = async () => {
       try {
-        const data = await (
-          await getUser("/user", {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          })
-        ).data;
+        const data = await getUser("/user");
         const user = data.user;
         setSettings({
           ...user,

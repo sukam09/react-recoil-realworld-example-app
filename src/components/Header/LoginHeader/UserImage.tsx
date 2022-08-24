@@ -7,6 +7,8 @@ import { tokenState, menuState, loginState } from "@/store/state";
 import Loading from "@/components/Loading";
 import useLogout from "@/hooks/useLogout";
 
+import { TEST_IMAGE } from "@/shared/dummy";
+
 const UserImage = () => {
   const [userInfo, setUserInfo] = useState({
     image: "",
@@ -25,19 +27,12 @@ const UserImage = () => {
   useEffect(() => {
     const getUsername = async () => {
       try {
-        const data = await (
-          await getUser("/user", {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          })
-        ).data;
+        const data = await getUser("/user");
         const user = data.user;
         setUserInfo({
           // FIXME: API error
           // image: user.image,
-          image:
-            "https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003",
+          image: TEST_IMAGE,
           username: user.username,
         });
         setLoading(false);

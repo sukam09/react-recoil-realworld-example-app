@@ -6,6 +6,7 @@ import { getUser } from "@/api/user";
 import { getProfile } from "@/api/profile";
 import { tokenState, menuState, loginState } from "@/store/state";
 import Loading from "@/components/Loading";
+import { TEST_IMAGE } from "@/shared/dummy";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState({
@@ -28,12 +29,11 @@ const UserProfile = () => {
   useEffect(() => {
     const initProfile = async () => {
       try {
-        const data = await (await getProfile(`/profiles/${userId}`)).data;
+        const data = await getProfile(`/profiles/${userId}`);
         const profileData = data.profile;
         setProfile({
           // image: profileData.image,
-          image:
-            "https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003",
+          image: TEST_IMAGE,
           username: profileData.username,
           bio: profileData.bio,
           following: profileData.following,
@@ -49,13 +49,7 @@ const UserProfile = () => {
   useEffect(() => {
     const checkLoginUsername = async () => {
       try {
-        const data = await (
-          await getUser("/user", {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          })
-        ).data;
+        const data = await getUser("/user");
         setLoginUsername(data.user.username);
       } catch (error: any) {
         setLogin(false);
