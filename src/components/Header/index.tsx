@@ -3,10 +3,10 @@ import { useRecoilValue } from "recoil";
 
 import LoginHeader from "@/components/Header/LoginHeader";
 import LogoutHeader from "@/components/Header/LogoutHeader";
-import { loginState, menuState } from "@/store/state";
+import { menuState } from "@/shared/atom";
 
 const Header = () => {
-  const login = useRecoilValue(loginState);
+  const isLoggedIn = localStorage.getItem("token");
   const menu = useRecoilValue(menuState);
 
   return (
@@ -21,7 +21,7 @@ const Header = () => {
               Home
             </Link>
           </li>
-          {login ? <LoginHeader /> : <LogoutHeader />}
+          {isLoggedIn ? <LoginHeader /> : <LogoutHeader />}
         </ul>
       </div>
     </nav>

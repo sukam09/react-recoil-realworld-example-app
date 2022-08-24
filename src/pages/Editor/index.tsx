@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 
-import { menuState, tokenState, loginState } from "@/store/state";
-import { postArticles } from "@/api/article";
 import EditorTag from "@/components/Tag/EditorTag";
+import { postArticles } from "@/api/article";
+
+import { menuState } from "@/shared/atom";
 import useLogout from "@/hooks/useLogout";
 
 interface EditorProps {
@@ -32,10 +33,7 @@ const Editor = () => {
   });
   const [disabled, setDisabled] = useState(false);
 
-  const token = useRecoilValue(tokenState);
   const setMenu = useSetRecoilState(menuState);
-  const setLogin = useSetRecoilState(loginState);
-
   const navigate = useNavigate();
   const onLogout = useLogout();
 

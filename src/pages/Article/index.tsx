@@ -12,7 +12,7 @@ import Loading from "@/components/Loading";
 import { getArticles } from "@/api/article";
 import { getComments, postComments } from "@/api/comment";
 
-import { menuState, tokenState, loginState } from "@/store/state";
+import { menuState } from "@/shared/atom";
 import { ArticleProps, CommentProps } from "@/shared/type";
 import { TEST_IMAGE } from "@/shared/dummy";
 import useLogout from "@/hooks/useLogout";
@@ -52,10 +52,8 @@ const Article = () => {
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(false);
 
+  const isLoggedIn = localStorage.getItem("token");
   const setMenu = useSetRecoilState(menuState);
-  const token = useRecoilValue(tokenState);
-  const login = useRecoilValue(loginState);
-
   const { URLSlug } = useParams();
   const onLogout = useLogout();
   const pageTitle = loading ? "Loading articles..." : `${title} — Conduit`;
@@ -123,7 +121,7 @@ const Article = () => {
       }
     };
     initComments();
-  }, [URLSlug, token, login, onLogout]);
+  }, [URLSlug, onLogout]);
 
   useEffect(() => setMenu(-1), [setMenu]);
 
@@ -206,7 +204,7 @@ const Article = () => {
 
             <div className="row">
               <div className="col-xs-12 col-md-8 offset-md-2">
-                {login ? (
+                {isLoggedIn ? (
                   <form className="card comment-form" onSubmit={publishComment}>
                     <div className="card-block">
                       <textarea

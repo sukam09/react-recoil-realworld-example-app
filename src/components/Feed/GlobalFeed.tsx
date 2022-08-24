@@ -3,16 +3,12 @@ import { useRecoilValue } from "recoil";
 
 import Loading from "@/components/Loading";
 import { ArticlePreview } from "@/components/Article";
-import { loginState, tokenState } from "@/store/state";
 import { getArticles } from "@/api/article";
 import { ArticleProps } from "@/shared/type";
 
 const GlobalFeed = () => {
   const [articles, setArticles] = useState<ArticleProps[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const login = useRecoilValue(loginState);
-  const token = useRecoilValue(tokenState);
 
   useEffect(() => {
     const query = ""; // temporary
@@ -26,7 +22,7 @@ const GlobalFeed = () => {
       }
     };
     initArticles();
-  }, [login, token]);
+  }, []);
 
   return (
     <>

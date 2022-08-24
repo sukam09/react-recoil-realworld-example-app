@@ -5,13 +5,12 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { MyFeed, GlobalFeed } from "@/components/Feed";
 import LinkTag from "@/components/Tag/LinkTag";
-import { loginState, menuState } from "@/store/state";
+import { menuState } from "@/shared/atom";
 
 const Home = () => {
-  const login = useRecoilValue(loginState);
   const setMenu = useSetRecoilState(menuState);
-
-  const [toggle, setToggle] = useState(login ? 0 : 1);
+  const isLoggedIn = localStorage.getItem("token");
+  const [toggle, setToggle] = useState(isLoggedIn ? 0 : 1);
   // test
   const [tagList, setTagList] = useState([
     "implementations",
@@ -55,7 +54,7 @@ const Home = () => {
                       className={`nav-link ${toggle === 0 && "active"}`}
                       to="/"
                       onClick={() => setToggle(0)}
-                      hidden={!login}
+                      hidden={!isLoggedIn}
                     >
                       Your Feed
                     </Link>

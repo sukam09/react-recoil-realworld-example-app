@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
+import Loading from "@/components/Loading";
 import { getUser } from "@/api/user";
 import { getProfile } from "@/api/profile";
-import { tokenState, menuState, loginState } from "@/store/state";
-import Loading from "@/components/Loading";
+
+import { menuState } from "@/shared/atom";
 import { TEST_IMAGE } from "@/shared/dummy";
+import useLogout from "@/hooks/useLogout";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState({
@@ -19,12 +21,10 @@ const UserProfile = () => {
   const [loginUsername, setLoginUsername] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const token = useRecoilValue(tokenState);
   const setMenu = useSetRecoilState(menuState);
-  const setLogin = useSetRecoilState(loginState);
-
   const { userId } = useParams();
   const navigate = useNavigate();
+  const onLogout = useLogout();
 
   useEffect(() => {
     const initProfile = async () => {
@@ -52,13 +52,11 @@ const UserProfile = () => {
         const data = await getUser("/user");
         setLoginUsername(data.user.username);
       } catch (error: any) {
-        setLogin(false);
-        localStorage.clear();
-        navigate("/", { replace: true });
+        onLogout();
       }
     };
     checkLoginUsername();
-  }, [loginUsername, setMenu, token, username, navigate, setLogin]);
+  }, [loginUsername, setMenu, username, navigate, onLogout]);
 
   useEffect(() => {
     username === loginUsername ? setMenu(5) : setMenu(-1);

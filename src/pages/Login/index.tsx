@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { postUser } from "@/api/user";
-import { tokenState, loginState, menuState } from "@/store/state";
+import { menuState } from "@/shared/atom";
 
 const Login = () => {
   const [account, setAccount] = useState({
@@ -18,8 +18,6 @@ const Login = () => {
     emailOrPassword: "",
   });
   const [disabled, setDisabled] = useState(false);
-  const setToken = useSetRecoilState(tokenState);
-  const setLogin = useSetRecoilState(loginState);
   const setMenu = useSetRecoilState(menuState);
   const navigate = useNavigate();
 
@@ -41,8 +39,7 @@ const Login = () => {
           password: password,
         },
       });
-      setToken(data.user.token);
-      setLogin(true);
+      localStorage.setItem("token", data.token);
       navigate("/", { replace: true });
     } catch (error: any) {
       const errorMessage = error.response.data.errors;

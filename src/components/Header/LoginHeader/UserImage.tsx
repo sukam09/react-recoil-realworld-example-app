@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 import { getUser } from "@/api/user";
-import { tokenState, menuState, loginState } from "@/store/state";
+import { menuState } from "@/shared/atom";
 import Loading from "@/components/Loading";
 import useLogout from "@/hooks/useLogout";
 
@@ -17,10 +17,7 @@ const UserImage = () => {
   const { image, username } = userInfo;
   const [loading, setLoading] = useState(true);
 
-  const token = useRecoilValue(tokenState);
   const menu = useRecoilValue(menuState);
-  const setLogin = useSetRecoilState(loginState);
-
   const navigate = useNavigate();
   const onLogout = useLogout();
 
@@ -41,7 +38,7 @@ const UserImage = () => {
       }
     };
     getUsername();
-  }, [token, setLogin, navigate, onLogout]);
+  }, [navigate, onLogout]);
 
   return (
     <>

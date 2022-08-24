@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer>
-      <div className="  container">
+      <div className="container">
         <a href="/" className="logo-font">
           conduit
         </a>

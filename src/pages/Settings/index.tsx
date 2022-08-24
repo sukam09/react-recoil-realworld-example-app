@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import { getUser, putUser } from "@/api/user";
-import { tokenState, menuState, loginState } from "@/store/state";
 import Loading from "@/components/Loading";
+import { getUser, putUser } from "@/api/user";
+
+import { menuState } from "@/shared/atom";
 import useLogout from "@/hooks/useLogout";
 
 const Settings = () => {
@@ -20,10 +21,7 @@ const Settings = () => {
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const [token, setToken] = useRecoilState(tokenState);
   const setMenu = useSetRecoilState(menuState);
-  const setLogin = useSetRecoilState(loginState);
-
   const navigate = useNavigate();
   const onLogout = useLogout();
 
@@ -50,7 +48,7 @@ const Settings = () => {
           password: password,
         },
       });
-      setToken(data.user.token);
+      localStorage.setItem("token", data.user.token);
       navigate(`/profile/${username}`);
     } catch (error: any) {
       onLogout();
@@ -69,13 +67,11 @@ const Settings = () => {
         });
         setLoading(false);
       } catch (error: any) {
-        setLogin(false);
-        localStorage.clear();
-        navigate("/", { replace: true });
+        onLogout();
       }
     };
     initSettings();
-  }, [token, navigate, setLogin]);
+  }, [navigate, onLogout]);
 
   useEffect(() => {
     setMenu(4);
