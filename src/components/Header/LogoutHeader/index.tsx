@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
-import { menuState } from "@/store/state";
+import { menuState } from "@/shared/atom";
 
 const LogoutHeader = () => {
   const menu = useRecoilValue(menuState);
