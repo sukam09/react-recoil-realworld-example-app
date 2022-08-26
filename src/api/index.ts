@@ -28,6 +28,7 @@ const fetchWrap = async ({ method, url, body }: fetchWrapProps) => {
       localStorage.removeItem("token");
       window.location.replace("/"); // FIXME: use hash router
     }
+    throw error;
   }
 };
 
