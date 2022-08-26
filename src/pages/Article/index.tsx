@@ -15,7 +15,6 @@ import { getComments, postComments } from "@/api/comment";
 import { menuState } from "@/store/state";
 import { ArticleProps, CommentProps } from "@/shared/type";
 import { TEST_IMAGE } from "@/shared/dummy";
-import useLogout from "@/hooks/useLogout";
 
 const Article = () => {
   const [article, setArticle] = useState<ArticleProps>({
@@ -55,7 +54,6 @@ const Article = () => {
   const isLoggedIn = localStorage.getItem("token");
   const setMenu = useSetRecoilState(menuState);
   const { URLSlug } = useParams();
-  const onLogout = useLogout();
   const pageTitle = loading ? "Loading articles..." : `${title} — Conduit`;
 
   const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -66,62 +64,50 @@ const Article = () => {
   const publishComment = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setDisabled(true);
-    try {
-      const data = await postComments(`/articles/${URLSlug}/comments`, {
-        comment: { body: comment },
-      });
-      const newComment = data.comment;
-      setComments([newComment, ...comments]);
-      setComment("");
-    } catch (error: any) {
-      onLogout();
-    }
+    const data = await postComments(`/articles/${URLSlug}/comments`, {
+      comment: { body: comment },
+    });
+    const newComment = data.comment;
+    setComments([newComment, ...comments]);
+    setComment("");
     setDisabled(false);
   };
 
   useEffect(() => {
     const initArticle = async () => {
-      try {
-        const data = await getArticles(`/articles/${URLSlug}`);
-        const article = data.article;
-        // setArticle({
-        //   slug: article.slug,
-        //   title: article.title,
-        //   description: article.description,
-        //   body: article.body,
-        //   tagList: article.tagList,
-        //   createdAt: article.createdAt,
-        //   updatedAt: article.updatedAt,
-        //   favorited: article.favorited,
-        //   favoritesCount: article.favoritesCount,
-        //   author: {
-        //     username: article.author.username,
-        //     bio: article.author.bio,
-        //     image: article.author.image,
-        //     following: article.author.following,
-        //   },
-        // });
-        setArticle(article);
-        setLoading(false);
-      } catch (error: any) {
-        onLogout();
-      }
+      const data = await getArticles(`/articles/${URLSlug}`);
+      const article = data.article;
+      // setArticle({
+      //   slug: article.slug,
+      //   title: article.title,
+      //   description: article.description,
+      //   body: article.body,
+      //   tagList: article.tagList,
+      //   createdAt: article.createdAt,
+      //   updatedAt: article.updatedAt,
+      //   favorited: article.favorited,
+      //   favoritesCount: article.favoritesCount,
+      //   author: {
+      //     username: article.author.username,
+      //     bio: article.author.bio,
+      //     image: article.author.image,
+      //     following: article.author.following,
+      //   },
+      // });
+      setArticle(article);
+      setLoading(false);
     };
     initArticle();
-  }, [URLSlug, onLogout]);
+  }, [URLSlug]);
 
   useEffect(() => {
     const initComments = async () => {
-      try {
-        const data = await getComments(`/articles/${URLSlug}/comments`);
-        const comments = data.comments;
-        setComments(comments);
-      } catch (error: any) {
-        onLogout();
-      }
+      const data = await getComments(`/articles/${URLSlug}/comments`);
+      const comments = data.comments;
+      setComments(comments);
     };
     initComments();
-  }, [URLSlug, onLogout]);
+  }, [URLSlug]);
 
   useEffect(() => setMenu(-1), [setMenu]);
 

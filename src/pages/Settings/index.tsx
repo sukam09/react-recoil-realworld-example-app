@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
@@ -7,7 +7,6 @@ import Loading from "@/components/Loading";
 import { getUser, putUser } from "@/api/user";
 
 import { menuState } from "@/store/state";
-import useLogout from "@/hooks/useLogout";
 
 const Settings = () => {
   const [settings, setSettings] = useState({
@@ -23,7 +22,6 @@ const Settings = () => {
 
   const setMenu = useSetRecoilState(menuState);
   const navigate = useNavigate();
-  const onLogout = useLogout();
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -38,40 +36,37 @@ const Settings = () => {
   const updateSettings = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setDisabled(true);
-    try {
-      const data = await putUser("/user", {
-        user: {
-          image: image,
-          username: username,
-          bio: bio,
-          email: email,
-          password: password,
-        },
-      });
-      localStorage.setItem("token", data.user.token);
-      navigate(`/profile/${username}`);
-    } catch (error: any) {
-      onLogout();
-    }
+    const data = await putUser("/user", {
+      user: {
+        image: image,
+        username: username,
+        bio: bio,
+        email: email,
+        password: password,
+      },
+    });
+    localStorage.setItem("token", data.user.token);
+    navigate(`/profile/${username}`);
     setDisabled(false);
+  };
+
+  const onLogout = (event: React.MouseEvent<HTMLButtonElement>) => {
+    localStorage.removeItem("token");
+    navigate("/", { replace: true });
   };
 
   useEffect(() => {
     const initSettings = async () => {
-      try {
-        const data = await getUser("/user");
-        const user = data.user;
-        setSettings({
-          ...user,
-          password: "",
-        });
-        setLoading(false);
-      } catch (error: any) {
-        onLogout();
-      }
+      const data = await getUser("/user");
+      const user = data.user;
+      setSettings({
+        ...user,
+        password: "",
+      });
+      setLoading(false);
     };
     initSettings();
-  }, [navigate, onLogout]);
+  }, [navigate]);
 
   useEffect(() => {
     setMenu(4);

@@ -5,7 +5,6 @@ import { useRecoilValue } from "recoil";
 import { getUser } from "@/api/user";
 import { menuState } from "@/store/state";
 import Loading from "@/components/Loading";
-import useLogout from "@/hooks/useLogout";
 
 import { TEST_IMAGE } from "@/shared/dummy";
 
@@ -19,26 +18,21 @@ const UserImage = () => {
 
   const menu = useRecoilValue(menuState);
   const navigate = useNavigate();
-  const onLogout = useLogout();
 
   useEffect(() => {
     const getUsername = async () => {
-      try {
-        const data = await getUser("/user");
-        const user = data.user;
-        setUserInfo({
-          // FIXME: API error
-          // image: user.image,
-          image: TEST_IMAGE,
-          username: user.username,
-        });
-        setLoading(false);
-      } catch (error: any) {
-        onLogout();
-      }
+      const data = await getUser("/user");
+      const user = data.user;
+      setUserInfo({
+        // FIXME: API error
+        // image: user.image,
+        image: TEST_IMAGE,
+        username: user.username,
+      });
+      setLoading(false);
     };
     getUsername();
-  }, [navigate, onLogout]);
+  }, [navigate]);
 
   return (
     <>

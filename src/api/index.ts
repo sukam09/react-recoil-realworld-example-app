@@ -24,6 +24,10 @@ const fetchWrap = async ({ method, url, body }: fetchWrapProps) => {
     return data;
   } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401 || error.response.status === 404) {
+      localStorage.removeItem("token");
+      window.location.replace("/"); // FIXME: use hash router
+    }
   }
 };
 

@@ -7,7 +7,6 @@ import EditorTag from "@/components/Tag/EditorTag";
 import { postArticles } from "@/api/article";
 
 import { menuState } from "@/store/state";
-import useLogout from "@/hooks/useLogout";
 
 interface EditorProps {
   title: string;
@@ -35,7 +34,6 @@ const Editor = () => {
 
   const setMenu = useSetRecoilState(menuState);
   const navigate = useNavigate();
-  const onLogout = useLogout();
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -83,17 +81,14 @@ const Editor = () => {
       const slug = data.article.slug;
       navigate(`/article/${slug}`);
     } catch (error: any) {
-      // console.log(error);
-      const errorMessage = error.response.data.errors;
+      console.log(error);
       if (error.response.status === 422) {
+        const errorMessage = error.response.data.errors;
         setError({
           title: errorMessage.title,
           description: errorMessage.description,
           body: errorMessage.body,
         });
-      } else {
-        // 404
-        onLogout();
       }
     }
     setDisabled(false);

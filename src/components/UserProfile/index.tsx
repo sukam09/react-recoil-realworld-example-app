@@ -8,7 +8,6 @@ import { getProfile } from "@/api/profile";
 
 import { menuState } from "@/store/state";
 import { TEST_IMAGE } from "@/shared/dummy";
-import useLogout from "@/hooks/useLogout";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState({
@@ -24,39 +23,30 @@ const UserProfile = () => {
   const setMenu = useSetRecoilState(menuState);
   const { userID } = useParams();
   const navigate = useNavigate();
-  const onLogout = useLogout();
 
   useEffect(() => {
     const initProfile = async () => {
-      try {
-        const data = await getProfile(`/profiles/${userID}`);
-        const profileData = data.profile;
-        setProfile({
-          // image: profileData.image,
-          image: TEST_IMAGE,
-          username: profileData.username,
-          bio: profileData.bio,
-          following: profileData.following,
-        });
-        setLoading(false);
-      } catch (error: any) {
-        navigate("/", { replace: true });
-      }
+      const data = await getProfile(`/profiles/${userID}`);
+      const profileData = data.profile;
+      setProfile({
+        // image: profileData.image,
+        image: TEST_IMAGE,
+        username: profileData.username,
+        bio: profileData.bio,
+        following: profileData.following,
+      });
+      setLoading(false);
     };
     initProfile();
   }, [navigate, userID]);
 
   useEffect(() => {
     const checkLoginUsername = async () => {
-      try {
-        const data = await getUser("/user");
-        setLoginUsername(data.user.username);
-      } catch (error: any) {
-        onLogout();
-      }
+      const data = await getUser("/user");
+      setLoginUsername(data.user.username);
     };
     checkLoginUsername();
-  }, [loginUsername, setMenu, username, navigate, onLogout]);
+  }, [loginUsername, setMenu, username, navigate]);
 
   useEffect(() => {
     username === loginUsername ? setMenu(5) : setMenu(-1);
