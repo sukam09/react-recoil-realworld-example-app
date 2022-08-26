@@ -22,12 +22,11 @@ const UserImage = () => {
   useEffect(() => {
     const getUsername = async () => {
       const data = await getUser("/user");
-      const user = data.user;
       setUserInfo({
         // FIXME: API error
         // image: user.image,
         image: TEST_IMAGE,
-        username: user.username,
+        username: data.user.username,
       });
       setLoading(false);
     };

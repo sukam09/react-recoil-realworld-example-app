@@ -50,7 +50,7 @@ const Settings = () => {
     setDisabled(false);
   };
 
-  const onLogout = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onLogout = () => {
     localStorage.removeItem("token");
     navigate("/", { replace: true });
   };
