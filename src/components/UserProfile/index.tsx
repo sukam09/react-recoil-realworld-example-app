@@ -22,14 +22,14 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true);
 
   const setMenu = useSetRecoilState(menuState);
-  const { userId } = useParams();
+  const { userID } = useParams();
   const navigate = useNavigate();
   const onLogout = useLogout();
 
   useEffect(() => {
     const initProfile = async () => {
       try {
-        const data = await getProfile(`/profiles/${userId}`);
+        const data = await getProfile(`/profiles/${userID}`);
         const profileData = data.profile;
         setProfile({
           // image: profileData.image,
@@ -44,7 +44,7 @@ const UserProfile = () => {
       }
     };
     initProfile();
-  }, [navigate, userId]);
+  }, [navigate, userID]);
 
   useEffect(() => {
     const checkLoginUsername = async () => {

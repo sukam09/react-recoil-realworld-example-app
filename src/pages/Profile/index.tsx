@@ -4,14 +4,14 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import UserProfile from "@/components/UserProfile";
 
 const Profile = () => {
-  const { userId } = useParams();
+  const { userID } = useParams();
   const username = "sukam09"; // temporary
 
   return (
     <>
       <HelmetProvider>
         <Helmet>
-          <title>@{userId} — Conduit</title>
+          <title>@{userID} — Conduit</title>
         </Helmet>
       </HelmetProvider>
 

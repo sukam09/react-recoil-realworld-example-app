@@ -6,7 +6,7 @@ import { useSetRecoilState } from "recoil";
 import { menuState } from "@/shared/atom";
 
 const Favorites = () => {
-  const { userId } = useParams();
+  const { userID } = useParams();
   const setMenu = useSetRecoilState(menuState);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const Favorites = () => {
     <>
       <HelmetProvider>
         <Helmet>
-          <title>Articles favorited by @{userId}</title>
+          <title>Articles favorited by @{userID}</title>
         </Helmet>
       </HelmetProvider>
     </>
