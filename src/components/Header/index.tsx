@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil";
 
 import LoginHeader from "@/components/Header/LoginHeader";
 import LogoutHeader from "@/components/Header/LogoutHeader";
-import { menuState } from "@/shared/atom";
+import { menuState } from "@/store/state";
 
 const Header = () => {
   const isLoggedIn = localStorage.getItem("token");

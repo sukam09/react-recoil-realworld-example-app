@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import Loading from "@/components/Loading";
 import { getUser, putUser } from "@/api/user";
 
-import { menuState } from "@/shared/atom";
+import { menuState } from "@/store/state";
 import useLogout from "@/hooks/useLogout";
 
 const Settings = () => {

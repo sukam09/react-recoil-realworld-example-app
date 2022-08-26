@@ -6,7 +6,7 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 import EditorTag from "@/components/Tag/EditorTag";
 import { postArticles } from "@/api/article";
 
-import { menuState } from "@/shared/atom";
+import { menuState } from "@/store/state";
 import useLogout from "@/hooks/useLogout";
 
 interface EditorProps {
@@ -85,8 +85,7 @@ const Editor = () => {
     } catch (error: any) {
       // console.log(error);
       const errorMessage = error.response.data.errors;
-      const statusCode = error.response.status;
-      if (statusCode === 422) {
+      if (error.response.status === 422) {
         setError({
           title: errorMessage.title,
           description: errorMessage.description,

@@ -12,7 +12,7 @@ import Loading from "@/components/Loading";
 import { getArticles } from "@/api/article";
 import { getComments, postComments } from "@/api/comment";
 
-import { menuState } from "@/shared/atom";
+import { menuState } from "@/store/state";
 import { ArticleProps, CommentProps } from "@/shared/type";
 import { TEST_IMAGE } from "@/shared/dummy";
 import useLogout from "@/hooks/useLogout";

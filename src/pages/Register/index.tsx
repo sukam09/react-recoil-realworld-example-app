@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { postUser } from "@/api/user";
-import { menuState } from "@/shared/atom";
+import { menuState } from "@/store/state";
 
 const Register = () => {
   const [account, setAccount] = useState({

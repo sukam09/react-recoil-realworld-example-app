@@ -6,7 +6,7 @@ import Loading from "@/components/Loading";
 import { getUser } from "@/api/user";
 import { getProfile } from "@/api/profile";
 
-import { menuState } from "@/shared/atom";
+import { menuState } from "@/store/state";
 import { TEST_IMAGE } from "@/shared/dummy";
 import useLogout from "@/hooks/useLogout";
 

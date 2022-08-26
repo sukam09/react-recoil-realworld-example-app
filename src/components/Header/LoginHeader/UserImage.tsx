@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 import { getUser } from "@/api/user";
-import { menuState } from "@/shared/atom";
+import { menuState } from "@/store/state";
 import Loading from "@/components/Loading";
 import useLogout from "@/hooks/useLogout";
 

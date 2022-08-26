@@ -5,7 +5,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { MyFeed, GlobalFeed } from "@/components/Feed";
 import LinkTag from "@/components/Tag/LinkTag";
-import { menuState } from "@/shared/atom";
+import { menuState } from "@/store/state";
 
 const Home = () => {
   const setMenu = useSetRecoilState(menuState);
