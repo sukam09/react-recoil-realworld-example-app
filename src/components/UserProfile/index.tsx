@@ -27,13 +27,12 @@ const UserProfile = () => {
   useEffect(() => {
     const initProfile = async () => {
       const data = await getProfile(`/profiles/${userID}`);
-      const profileData = data.profile;
       setProfile({
-        // image: profileData.image,
+        // image: data.profile.image,
         image: TEST_IMAGE,
-        username: profileData.username,
-        bio: profileData.bio,
-        following: profileData.following,
+        username: data.profile.username,
+        bio: data.profile.bio,
+        following: data.profile.following,
       });
       setLoading(false);
     };

@@ -67,8 +67,7 @@ const Article = () => {
     const data = await postComments(`/articles/${URLSlug}/comments`, {
       comment: { body: comment },
     });
-    const newComment = data.comment;
-    setComments([newComment, ...comments]);
+    setComments([data.comment, ...comments]);
     setComment("");
     setDisabled(false);
   };
@@ -76,25 +75,7 @@ const Article = () => {
   useEffect(() => {
     const initArticle = async () => {
       const data = await getArticles(`/articles/${URLSlug}`);
-      const article = data.article;
-      // setArticle({
-      //   slug: article.slug,
-      //   title: article.title,
-      //   description: article.description,
-      //   body: article.body,
-      //   tagList: article.tagList,
-      //   createdAt: article.createdAt,
-      //   updatedAt: article.updatedAt,
-      //   favorited: article.favorited,
-      //   favoritesCount: article.favoritesCount,
-      //   author: {
-      //     username: article.author.username,
-      //     bio: article.author.bio,
-      //     image: article.author.image,
-      //     following: article.author.following,
-      //   },
-      // });
-      setArticle(article);
+      setArticle(data.article);
       setLoading(false);
     };
     initArticle();
@@ -103,8 +84,7 @@ const Article = () => {
   useEffect(() => {
     const initComments = async () => {
       const data = await getComments(`/articles/${URLSlug}/comments`);
-      const comments = data.comments;
-      setComments(comments);
+      setComments(data.comments);
     };
     initComments();
   }, [URLSlug]);
