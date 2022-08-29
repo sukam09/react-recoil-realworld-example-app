@@ -18,15 +18,16 @@ const fetchWrap = async ({ method, url, body }: fetchWrapProps) => {
     const { data } =
       (method === "get" && (await axios.get(url, config))) ||
       (method === "post" && (await axios.post(url, body, config))) ||
-      (method === "put" && (await axios.patch(url, body, config))) ||
+      (method === "put" && (await axios.put(url, body, config))) ||
       (method === "delete" && (await axios.delete(url, config))) ||
       {};
     return data;
   } catch (error: any) {
     console.log(error);
     if (error.response.status === 401 || error.response.status === 404) {
-      localStorage.removeItem("token");
-      window.location.replace("/"); // FIXME: use hash router
+      // temporarily deactivate forced logout during development
+      // localStorage.removeItem("token");
+      // window.location.replace("/#/");
     }
     throw error;
   }
