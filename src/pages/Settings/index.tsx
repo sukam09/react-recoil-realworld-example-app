@@ -38,10 +38,10 @@ const Settings = () => {
     setDisabled(true);
     const data = await putUser("/user", {
       user: {
-        image: image,
+        email: email,
         username: username,
         bio: bio,
-        email: email,
+        image: image,
         password: password,
       },
     });
@@ -58,9 +58,15 @@ const Settings = () => {
   useEffect(() => {
     const initSettings = async () => {
       const data = await getUser("/user");
-      const user = data.user;
+      Object.entries(data.user).forEach(([key, value]) => {
+        if (!value) {
+          // It does not applied. Why?
+          // data.user.key = "";
+          data.user[key] = "";
+        }
+      });
       setSettings({
-        ...user,
+        ...data.user,
         password: "",
       });
       setLoading(false);
