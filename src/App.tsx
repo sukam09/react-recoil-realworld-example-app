@@ -2,6 +2,7 @@ import { Routes, Route, HashRouter } from "react-router-dom";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { NotFound, PrivateRoute } from "@/components/Routes";
 
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
@@ -11,9 +12,6 @@ import Editor from "@/pages/Editor";
 import Profile from "@/pages/Profile";
 import Favorites from "@/pages/Profile/Favorites";
 import Article from "@/pages/Article";
-
-import PrivateRoute from "@/utils/PrivateRoute";
-import NotFound from "@/utils/NotFound";
 
 const App = () => {
   return (
