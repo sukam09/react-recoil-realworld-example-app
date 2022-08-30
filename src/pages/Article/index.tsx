@@ -1,16 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useSetRecoilState } from "recoil";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import ArticleTag from "@/components/Tag/ArticleTag";
 import Comment from "@/components/Comment";
 import Loading from "@/components/Loading";
+import ArticleTag from "@/components/Tag/ArticleTag";
+import {
+  MyArticleButton,
+  OthersArticleButton,
+} from "@/components/Article/Button";
 
 import { getArticles } from "@/api/article";
 import { getComments, postComments } from "@/api/comment";
+import { getUser } from "@/api/user";
 
 import { menuState } from "@/store/state";
 import { ArticleProps, CommentProps } from "@/shared/type";
@@ -44,18 +49,19 @@ const Article = () => {
     updatedAt,
     favorited,
     favoritesCount,
-    author: { username, image },
+    author: { username, image, following },
   } = article;
 
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<CommentProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(false);
+  const [isMyArticle, setIsMyArticle] = useState(false);
+  const [pageTitle, setPageTitle] = useState("Loading articles...");
 
   const isLoggedIn = localStorage.getItem("token");
   const setMenu = useSetRecoilState(menuState);
   const { URLSlug } = useParams();
-  const pageTitle = loading ? "Loading articles..." : `${title} — Conduit`;
 
   const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.target;
@@ -73,22 +79,31 @@ const Article = () => {
     setDisabled(false);
   };
 
-  useEffect(() => {
-    const initArticle = async () => {
-      const data = await getArticles(`/articles/${URLSlug}`);
-      setArticle(data.article);
-      setLoading(false);
-    };
-    initArticle();
+  const initArticle = useCallback(async () => {
+    const data = await getArticles(`/articles/${URLSlug}`);
+    setArticle(data.article);
+  }, [URLSlug]);
+
+  const checkAuth = useCallback(async () => {
+    const data = await getUser("/user");
+    if (data.user.username === username) {
+      setIsMyArticle(true);
+    }
+  }, [username]);
+
+  const initComments = useCallback(async () => {
+    const data = await getComments(`/articles/${URLSlug}/comments`);
+    setComments(data.comments);
   }, [URLSlug]);
 
   useEffect(() => {
-    const initComments = async () => {
-      const data = await getComments(`/articles/${URLSlug}/comments`);
-      setComments(data.comments);
-    };
+    initArticle();
+    checkAuth();
     initComments();
-  }, [URLSlug]);
+    setPageTitle(title);
+    // FIXME: use another method, not setTimeout
+    setTimeout(() => setLoading(false), 3000);
+  }, [checkAuth, initArticle, initComments, title]);
 
   useEffect(() => setMenu(-1), [setMenu]);
 
@@ -120,14 +135,17 @@ const Article = () => {
                   </Link>
                   <span className="date">{convertToDate(createdAt)}</span>
                 </div>
-                <button className="btn btn-sm btn-outline-secondary">
-                  <i className="ion-plus-round"></i> Follow {username}{" "}
-                  <span className="counter">(10)</span>
-                </button>{" "}
-                <button className="btn btn-sm btn-outline-primary">
-                  <i className="ion-heart"></i> Favorite Post{" "}
-                  <span className="counter">({favoritesCount})</span>
-                </button>
+
+                {isMyArticle ? (
+                  <MyArticleButton />
+                ) : (
+                  <OthersArticleButton
+                    username={username}
+                    following={following}
+                    favorited={favorited}
+                    favoritesCount={favoritesCount}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -159,13 +177,17 @@ const Article = () => {
                   </Link>
                   <span className="date">{convertToDate(createdAt)}</span>
                 </div>
-                <button className="btn btn-sm btn-outline-secondary">
-                  <i className="ion-plus-round"></i> Follow {username}
-                </button>{" "}
-                <button className="btn btn-sm btn-outline-primary">
-                  <i className="ion-heart"></i> Favorite Post{" "}
-                  <span className="counter">({favoritesCount})</span>
-                </button>
+
+                {isMyArticle ? (
+                  <MyArticleButton />
+                ) : (
+                  <OthersArticleButton
+                    username={username}
+                    following={following}
+                    favorited={favorited}
+                    favoritesCount={favoritesCount}
+                  />
+                )}
               </div>
             </div>
 
