@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useRecoilValue } from "recoil";
 
 import Loading from "@/components/Loading";
 import { ArticlePreview } from "@/components/Article";
