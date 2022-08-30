@@ -17,7 +17,6 @@ const UserProfile = () => {
     following: false,
   });
   const { image, username, bio, following } = profile;
-  const [loginUsername, setLoginUsername] = useState("");
   const [loading, setLoading] = useState(true);
 
   const setMenu = useSetRecoilState(menuState);
@@ -40,16 +39,12 @@ const UserProfile = () => {
   }, [navigate, userID]);
 
   useEffect(() => {
-    const checkLoginUsername = async () => {
+    const checkAuth = async () => {
       const data = await getUser("/user");
-      setLoginUsername(data.user.username);
+      data.user.username === username ? setMenu(5) : setMenu(-1);
     };
-    checkLoginUsername();
-  }, [loginUsername, setMenu, username, navigate]);
-
-  useEffect(() => {
-    username === loginUsername ? setMenu(5) : setMenu(-1);
-  }, [username, loginUsername, setMenu]);
+    checkAuth();
+  }, [setMenu, username, navigate]);
 
   return (
     <>
