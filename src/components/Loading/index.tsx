@@ -1,11 +1,7 @@
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
-interface LoadingProps {
-  height?: string;
-}
-
-const Loading = ({ height = "100%" }: LoadingProps) => {
+const Loading = ({ height = "100%" }: { height?: string }) => {
   return (
     <Box
       sx={{
