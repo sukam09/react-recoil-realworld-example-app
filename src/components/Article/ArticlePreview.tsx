@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import { ArticlePreviewProps } from "@/shared/type";
 import { TEST_IMAGE } from "@/shared/dummy";
+import convertToDate from "@/utils/convertToDate";
 
 const ArticlePreview = ({
   slug,
@@ -25,7 +26,7 @@ const ArticlePreview = ({
           <Link to={`/profile/${username}`} className="author">
             {username}
           </Link>
-          <span className="date">{createdAt}</span>
+          <span className="date">{convertToDate(createdAt)}</span>
         </div>
         <button
           type="button"

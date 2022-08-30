@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState } from "recoil";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -15,6 +15,7 @@ import { getComments, postComments } from "@/api/comment";
 import { menuState } from "@/store/state";
 import { ArticleProps, CommentProps } from "@/shared/type";
 import { TEST_IMAGE } from "@/shared/dummy";
+import convertToDate from "@/utils/convertToDate";
 
 const Article = () => {
   const [article, setArticle] = useState<ArticleProps>({
@@ -117,7 +118,7 @@ const Article = () => {
                   <Link to={`/profile/${username}`} className="author">
                     {username}
                   </Link>
-                  <span className="date">{createdAt}</span>
+                  <span className="date">{convertToDate(createdAt)}</span>
                 </div>
                 <button className="btn btn-sm btn-outline-secondary">
                   <i className="ion-plus-round"></i> Follow {username}{" "}
@@ -156,7 +157,7 @@ const Article = () => {
                   <Link to={`/profile/${username}`} className="author">
                     {username}
                   </Link>
-                  <span className="date">{updatedAt}</span>
+                  <span className="date">{convertToDate(createdAt)}</span>
                 </div>
                 <button className="btn btn-sm btn-outline-secondary">
                   <i className="ion-plus-round"></i> Follow {username}

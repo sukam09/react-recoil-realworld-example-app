@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { CommentProps } from "@/shared/type";
 import { TEST_IMAGE } from "@/shared/dummy";
+import convertToDate from "@/utils/convertToDate";
 
 const Comment = ({
   id,
@@ -22,7 +23,7 @@ const Comment = ({
         <Link to={`/profile/${username}`} className="comment-author">
           {username}
         </Link>
-        <span className="date-posted">{createdAt}</span>
+        <span className="date-posted">{convertToDate(createdAt)}</span>
       </div>
     </div>
   );
