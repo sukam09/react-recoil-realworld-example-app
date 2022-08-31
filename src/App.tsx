@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { Routes, Route, HashRouter } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,8 +11,7 @@ import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Settings from "@/pages/Settings";
 import Editor from "@/pages/Editor";
-import Profile from "@/pages/Profile";
-import Favorites from "@/pages/Profile/Favorites";
+import { Profile, Favorites } from "@/pages/Profile";
 import Article from "@/pages/Article";
 
 const App = () => {
