@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import Loading from "@/components/Loading";
-import { getUser } from "@/api/user";
 import { getProfile } from "@/api/profile";
-
-import { menuState } from "@/store/state";
+import { menuState, userState } from "@/store/state";
 import { TEST_IMAGE } from "@/shared/dummy";
 
 const UserProfile = () => {
@@ -20,13 +18,19 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true);
 
   const setMenu = useSetRecoilState(menuState);
+  const user = useRecoilValue(userState);
   const { userID } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    user.username === userID ? setMenu(5) : setMenu(-1);
+  }, [setMenu, user.username, userID]);
 
   useEffect(() => {
     const initProfile = async () => {
       const data = await getProfile(`/profiles/${userID}`);
       setProfile({
+        // FIXME: API error
         // image: data.profile.image,
         image: TEST_IMAGE,
         username: data.profile.username,
@@ -37,14 +41,6 @@ const UserProfile = () => {
     };
     initProfile();
   }, [navigate, userID]);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const data = await getUser("/user");
-      data.user.username === username ? setMenu(5) : setMenu(-1);
-    };
-    checkAuth();
-  }, [setMenu, username, navigate]);
 
   return (
     <>

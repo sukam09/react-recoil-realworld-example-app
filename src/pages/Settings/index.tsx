@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import Loading from "@/components/Loading";
-import { getUser, putUser } from "@/api/user";
-
-import { menuState } from "@/store/state";
+import { putUser } from "@/api/user";
+import { menuState, isLoggedInState, userState } from "@/store/state";
 
 const Settings = () => {
   const [settings, setSettings] = useState({
@@ -18,9 +16,10 @@ const Settings = () => {
   });
   const { image, username, bio, email, password } = settings;
   const [disabled, setDisabled] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   const setMenu = useSetRecoilState(menuState);
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
 
   const onChange = (
@@ -46,33 +45,32 @@ const Settings = () => {
       },
     });
     localStorage.setItem("token", data.user.token);
+    setUser({
+      email: data.user.email,
+      username: data.user.username,
+      bio: data.user.bio,
+      image: data.user.image,
+    });
     navigate(`/profile/${username}`);
     setDisabled(false);
   };
 
   const onLogout = () => {
     localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    setUser({ email: "", username: "", bio: "", image: "" });
     navigate("/", { replace: true });
   };
 
   useEffect(() => {
-    const initSettings = async () => {
-      const data = await getUser("/user");
-      Object.entries(data.user).forEach(([key, value]) => {
-        if (!value) {
-          // It does not applied. Why?
-          // data.user.key = "";
-          data.user[key] = "";
-        }
-      });
+    const initSettings = () => {
       setSettings({
-        ...data.user,
+        ...user,
         password: "",
       });
-      setLoading(false);
     };
     initSettings();
-  }, [navigate]);
+  }, [user]);
 
   useEffect(() => {
     setMenu(4);
@@ -91,82 +89,78 @@ const Settings = () => {
           <div className="row">
             <div className="col-md-6 offset-md-3 col-xs-12">
               <h1 className="text-xs-center">Your Settings</h1>
-              {loading ? (
-                <Loading height="50vh" />
-              ) : (
-                <form onSubmit={(event) => updateSettings(event)}>
-                  <fieldset>
-                    <fieldset className="form-group">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="URL of profile picture"
-                        name="image"
-                        value={image}
-                        onChange={onChange}
-                        disabled={disabled}
-                      />
-                    </fieldset>
-                    <fieldset className="form-group">
-                      <input
-                        className="form-control form-control-lg"
-                        type="text"
-                        placeholder="Your Name"
-                        name="username"
-                        value={username}
-                        onChange={onChange}
-                        disabled={disabled}
-                        autoComplete="off"
-                      />
-                    </fieldset>
-                    <fieldset className="form-group">
-                      <textarea
-                        className="form-control form-control-lg"
-                        rows={8}
-                        placeholder="Short bio about you"
-                        name="bio"
-                        value={bio}
-                        onChange={onChange}
-                        disabled={disabled}
-                      ></textarea>
-                    </fieldset>
-                    <fieldset className="form-group">
-                      <input
-                        className="form-control form-control-lg"
-                        type="email"
-                        placeholder="Email"
-                        name="email"
-                        value={email}
-                        onChange={onChange}
-                        disabled={disabled}
-                        autoComplete="off"
-                      />
-                    </fieldset>
-                    <fieldset className="form-group">
-                      <input
-                        className="form-control form-control-lg"
-                        type="password"
-                        placeholder="New Password"
-                        name="password"
-                        value={password}
-                        onChange={onChange}
-                        disabled={disabled}
-                      />
-                    </fieldset>
-                    <button className="btn btn-lg btn-primary pull-xs-right">
-                      Update Settings
-                    </button>
+              <form onSubmit={(event) => updateSettings(event)}>
+                <fieldset>
+                  <fieldset className="form-group">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="URL of profile picture"
+                      name="image"
+                      value={image}
+                      onChange={onChange}
+                      disabled={disabled}
+                    />
                   </fieldset>
-                  <hr />
-                  <button
-                    type="button"
-                    className="btn btn-outline-danger"
-                    onClick={onLogout}
-                  >
-                    Or click here to logout.
+                  <fieldset className="form-group">
+                    <input
+                      className="form-control form-control-lg"
+                      type="text"
+                      placeholder="Your Name"
+                      name="username"
+                      value={username}
+                      onChange={onChange}
+                      disabled={disabled}
+                      autoComplete="off"
+                    />
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <textarea
+                      className="form-control form-control-lg"
+                      rows={8}
+                      placeholder="Short bio about you"
+                      name="bio"
+                      value={bio}
+                      onChange={onChange}
+                      disabled={disabled}
+                    ></textarea>
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <input
+                      className="form-control form-control-lg"
+                      type="email"
+                      placeholder="Email"
+                      name="email"
+                      value={email}
+                      onChange={onChange}
+                      disabled={disabled}
+                      autoComplete="off"
+                    />
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <input
+                      className="form-control form-control-lg"
+                      type="password"
+                      placeholder="New Password"
+                      name="password"
+                      value={password}
+                      onChange={onChange}
+                      disabled={disabled}
+                    />
+                  </fieldset>
+                  <button className="btn btn-lg btn-primary pull-xs-right">
+                    Update Settings
                   </button>
-                </form>
-              )}
+                </fieldset>
+                <hr />
+                <button
+                  type="button"
+                  className="btn btn-outline-danger"
+                  onClick={onLogout}
+                >
+                  Or click here to logout.
+                </button>
+              </form>
             </div>
           </div>
         </div>

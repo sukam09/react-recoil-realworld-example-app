@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { postUser } from "@/api/user";
-import { menuState } from "@/store/state";
+import { menuState, userState, isLoggedInState } from "@/store/state";
 
 const Login = () => {
   const [account, setAccount] = useState({
@@ -19,6 +19,8 @@ const Login = () => {
   });
   const [disabled, setDisabled] = useState(false);
   const setMenu = useSetRecoilState(menuState);
+  const setUser = useSetRecoilState(userState);
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const navigate = useNavigate();
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +42,8 @@ const Login = () => {
         },
       });
       localStorage.setItem("token", data.user.token);
+      setIsLoggedIn(true);
+      setUser(data.user);
       navigate("/", { replace: true });
     } catch (error: any) {
       const errorMessage = error.response.data.errors;

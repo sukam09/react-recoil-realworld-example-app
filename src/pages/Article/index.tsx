@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -15,9 +15,8 @@ import {
 
 import { getArticles } from "@/api/article";
 import { getComments, postComments } from "@/api/comment";
-import { getUser } from "@/api/user";
 
-import { menuState } from "@/store/state";
+import { menuState, userState } from "@/store/state";
 import { ArticleProps, CommentProps } from "@/shared/type";
 import { TEST_IMAGE } from "@/shared/dummy";
 import convertToDate from "@/utils/convertToDate";
@@ -61,6 +60,7 @@ const Article = () => {
 
   const isLoggedIn = localStorage.getItem("token");
   const setMenu = useSetRecoilState(menuState);
+  const user = useRecoilValue(userState);
   const { URLSlug } = useParams();
 
   const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -79,31 +79,17 @@ const Article = () => {
     setDisabled(false);
   };
 
-  const initArticle = useCallback(async () => {
-    const data = await getArticles(`/articles/${URLSlug}`);
-    setArticle(data.article);
-  }, [URLSlug]);
-
-  const checkAuth = useCallback(async () => {
-    const data = await getUser("/user");
-    if (data.user.username === username) {
-      setIsMyArticle(true);
-    }
-  }, [username]);
-
-  const initComments = useCallback(async () => {
-    const data = await getComments(`/articles/${URLSlug}/comments`);
-    setComments(data.comments);
-  }, [URLSlug]);
-
+  // TODO: add React.SetStateAction about isMyArticle and pageTitle
   useEffect(() => {
-    initArticle();
-    checkAuth();
-    initComments();
-    setPageTitle(title);
-    // FIXME: use another method, not setTimeout
-    setTimeout(() => setLoading(false), 3000);
-  }, [checkAuth, initArticle, initComments, title]);
+    const initArticlePage = async () => {
+      const articleData = await getArticles(`/articles/${URLSlug}`);
+      const commentsData = await getComments(`/articles/${URLSlug}/comments`);
+      setLoading(false);
+      setArticle(articleData.article);
+      setComments(commentsData.comments);
+    };
+    initArticlePage();
+  }, [URLSlug]);
 
   useEffect(() => setMenu(-1), [setMenu]);
 
