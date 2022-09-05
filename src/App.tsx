@@ -14,7 +14,34 @@ import Editor from "@/pages/Editor";
 import { Profile, Favorites } from "@/pages/Profile";
 import Article from "@/pages/Article";
 
+import { getUser } from "@/api/user";
+import { isLoggedInState, userState } from "@/store/state";
+import { TEST_IMAGE } from "@/shared/dummy";
+
 const App = () => {
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const setUser = useSetRecoilState(userState);
+
+  useEffect(() => {
+    const initUser = async () => {
+      const data = await getUser("/user");
+      setUser({
+        email: data.user.email,
+        username: data.user.username,
+        bio: data.user.bio,
+        // FIXME: API error
+        // image: data.user.image,
+        image: TEST_IMAGE,
+      });
+    };
+
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+      initUser();
+    }
+  }, [setUser, setIsLoggedIn]);
+
   return (
     <>
       <HashRouter>
