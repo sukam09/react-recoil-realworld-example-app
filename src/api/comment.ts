@@ -1,4 +1,4 @@
-import { GET, POST } from "@/api";
+import { GET, POST } from "@api/config";
 
 export const postComments = (
   url: string,

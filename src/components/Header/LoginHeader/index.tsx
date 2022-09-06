@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
-import UserImage from "@/components/Header/LoginHeader/UserImage";
-import { menuState } from "@/store/state";
+import UserImage from "@components/Header/LoginHeader/UserImage";
+import { menuState } from "@store/state";
 
 const LoginHeader = () => {
   const menu = useRecoilValue(menuState);

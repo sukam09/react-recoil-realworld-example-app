@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
-import Loading from "@/components/Loading";
-import { ArticlePreview } from "@/components/Article";
-import { getArticles } from "@/api/article";
-import { ArticleProps } from "@/shared/type";
+import Loading from "@components/Loading";
+import { ArticlePreview } from "@components/Article";
+import { getArticles } from "@api/article";
+import { ArticleProps } from "@shared/type";
 
 const GlobalFeed = () => {
   const [articles, setArticles] = useState<ArticleProps[]>([]);

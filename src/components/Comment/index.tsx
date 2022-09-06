@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { CommentProps } from "@/shared/type";
-import { TEST_IMAGE } from "@/shared/dummy";
-import convertToDate from "@/utils/convertToDate";
+import { CommentProps } from "@shared/type";
+import { TEST_IMAGE } from "@shared/dummy";
+import convertToDate from "@utils/convertToDate";
 
 const Comment = ({
   id,

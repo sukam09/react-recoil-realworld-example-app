@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import Loading from "@/components/Loading";
-import { getProfile } from "@/api/profile";
-import { menuState, userState } from "@/store/state";
-import { TEST_IMAGE } from "@/shared/dummy";
+import Loading from "@components/Loading";
+import { getProfile } from "@api/profile";
+import { menuState, userState } from "@store/state";
+import { TEST_IMAGE } from "@shared/dummy";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState({

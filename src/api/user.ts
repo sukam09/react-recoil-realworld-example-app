@@ -1,5 +1,5 @@
-import { GET, POST, PUT } from "@/api";
-import { AuthProps, UserProps } from "@/shared/type";
+import { GET, POST, PUT } from "@api/config";
+import { AuthProps, UserProps } from "@shared/type";
 
 export const postUser = (url: string, body: { user: AuthProps }) =>
   POST(url, body);

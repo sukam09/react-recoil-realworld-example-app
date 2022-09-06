@@ -5,18 +5,17 @@ export const menuState = atom({
   default: 0,
 });
 
+export const isLoggedInState = atom({
+  key: "isLoggedInState",
+  default: false,
+});
+
 export const userState = atom({
   key: "userState",
   default: {
     email: "",
-    token: "",
     username: "",
     bio: "",
     image: "",
   },
-});
-
-export const isLoggedInState = atom({
-  key: "isLoggedInState",
-  default: false,
 });

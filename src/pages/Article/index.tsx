@@ -5,21 +5,21 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import Comment from "@/components/Comment";
-import Loading from "@/components/Loading";
-import ArticleTag from "@/components/Tag/ArticleTag";
+import Comment from "@components/Comment";
+import Loading from "@components/Loading";
+import ArticleTag from "@components/Tag/ArticleTag";
 import {
   MyArticleButton,
   OthersArticleButton,
-} from "@/components/Article/Button";
+} from "@components/Article/Button";
 
-import { getArticles } from "@/api/article";
-import { getComments, postComments } from "@/api/comment";
+import { getArticles } from "@api/article";
+import { getComments, postComments } from "@api/comment";
 
-import { menuState, userState } from "@/store/state";
-import { ArticleProps, CommentProps } from "@/shared/type";
-import { TEST_IMAGE } from "@/shared/dummy";
-import convertToDate from "@/utils/convertToDate";
+import { menuState, userState } from "@store/state";
+import { ArticleProps, CommentProps } from "@shared/type";
+import { TEST_IMAGE } from "@shared/dummy";
+import convertToDate from "@utils/convertToDate";
 
 const Article = () => {
   const [article, setArticle] = useState<ArticleProps>({

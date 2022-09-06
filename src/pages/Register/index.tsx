@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import { postUser } from "@/api/user";
-import { menuState, userState } from "@/store/state";
+import { postUser } from "@api/user";
+import { menuState, userState } from "@store/state";
 
 const Register = () => {
   const [account, setAccount] = useState({

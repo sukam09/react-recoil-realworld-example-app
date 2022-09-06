@@ -2,21 +2,21 @@ import { useEffect } from "react";
 import { Routes, Route, HashRouter } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { NotFound, PrivateRoute } from "@/components/Routes";
+import Header from "@components/Header";
+import Footer from "@components/Footer";
+import { NotFound, PrivateRoute } from "@components/Routes";
 
-import Home from "@/pages/Home";
-import Login from "@/pages/Login";
-import Register from "@/pages/Register";
-import Settings from "@/pages/Settings";
-import Editor from "@/pages/Editor";
-import { Profile, Favorites } from "@/pages/Profile";
-import Article from "@/pages/Article";
+import Home from "@pages/Home";
+import Login from "@pages/Login";
+import Register from "@pages/Register";
+import Settings from "@pages/Settings";
+import Editor from "@pages/Editor";
+import { Profile, Favorites } from "@pages/Profile";
+import Article from "@pages/Article";
 
-import { getUser } from "@/api/user";
-import { isLoggedInState, userState } from "@/store/state";
-import { TEST_IMAGE } from "@/shared/dummy";
+import { getUser } from "@api/user";
+import { isLoggedInState, userState } from "@store/state";
+import { TEST_IMAGE } from "@shared/dummy";
 
 const App = () => {
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
