@@ -1,2 +1,2 @@
-export { default as MyArticleButton } from "@components/Article/Button/MyArticleButton";
-export { default as OthersArticleButton } from "@components/Article/Button/OthersArticleButton";
+export { default as EditAndDeleteButton } from "@components/Article/Button/EditAndDeleteButton";
+export { default as FollowAndFavoriteButton } from "@components/Article/Button/FollowAndFavoriteButton";

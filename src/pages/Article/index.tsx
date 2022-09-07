@@ -9,8 +9,8 @@ import Comment from "@components/Comment";
 import Loading from "@components/Loading";
 import ArticleTag from "@components/Tag/ArticleTag";
 import {
-  MyArticleButton,
-  OthersArticleButton,
+  EditAndDeleteButton,
+  FollowAndFavoriteButton,
 } from "@components/Article/Button";
 
 import { getArticles } from "@api/article";
@@ -84,9 +84,9 @@ const Article = () => {
     const initArticlePage = async () => {
       const articleData = await getArticles(`/articles/${URLSlug}`);
       const commentsData = await getComments(`/articles/${URLSlug}/comments`);
-      setLoading(false);
       setArticle(articleData.article);
       setComments(commentsData.comments);
+      setLoading(false);
     };
     initArticlePage();
   }, [URLSlug]);
@@ -123,9 +123,9 @@ const Article = () => {
                 </div>
 
                 {isMyArticle ? (
-                  <MyArticleButton />
+                  <EditAndDeleteButton />
                 ) : (
-                  <OthersArticleButton
+                  <FollowAndFavoriteButton
                     username={username}
                     following={following}
                     favorited={favorited}
@@ -165,9 +165,9 @@ const Article = () => {
                 </div>
 
                 {isMyArticle ? (
-                  <MyArticleButton />
+                  <EditAndDeleteButton />
                 ) : (
-                  <OthersArticleButton
+                  <FollowAndFavoriteButton
                     username={username}
                     following={following}
                     favorited={favorited}

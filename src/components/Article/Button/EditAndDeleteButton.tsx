@@ -1,4 +1,4 @@
-const MyArticleButton = () => {
+const EditAndDeleteButton = () => {
   return (
     <>
       <button className="btn btn-sm btn-outline-secondary">
@@ -11,4 +11,4 @@ const MyArticleButton = () => {
   );
 };
 
-export default MyArticleButton;
+export default EditAndDeleteButton;

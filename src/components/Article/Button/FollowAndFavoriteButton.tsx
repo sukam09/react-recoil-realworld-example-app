@@ -1,16 +1,16 @@
-interface OthersArticleButtonProps {
+interface FollowAndFavoriteButtonProps {
   username: string;
   following: boolean;
   favorited: boolean;
   favoritesCount: number;
 }
 
-const OthersArticleButton = ({
+const FollowAndFavoriteButton = ({
   username,
   following,
   favorited,
   favoritesCount,
-}: OthersArticleButtonProps) => {
+}: FollowAndFavoriteButtonProps) => {
   return (
     <>
       <button className="btn btn-sm btn-outline-secondary">
@@ -24,4 +24,4 @@ const OthersArticleButton = ({
   );
 };
 
-export default OthersArticleButton;
+export default FollowAndFavoriteButton;
