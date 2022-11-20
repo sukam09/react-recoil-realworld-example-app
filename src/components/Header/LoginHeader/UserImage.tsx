@@ -6,8 +6,6 @@ import { getUser } from "@api/user";
 import { menuState } from "@store/state";
 import Loading from "@components/Loading";
 
-import { TEST_IMAGE } from "@shared/dummy";
-
 const UserImage = () => {
   const [userInfo, setUserInfo] = useState({
     image: "",
@@ -22,11 +20,10 @@ const UserImage = () => {
   useEffect(() => {
     const getUsername = async () => {
       const data = await getUser("/user");
+      const { image, username } = data.user;
       setUserInfo({
-        // FIXME: API error
-        // image: user.image,
-        image: TEST_IMAGE,
-        username: data.user.username,
+        image: image,
+        username: username,
       });
       setLoading(false);
     };

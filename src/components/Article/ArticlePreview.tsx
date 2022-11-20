@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 import { ArticlePreviewProps } from "@shared/type";
-import { TEST_IMAGE } from "@shared/dummy";
 import convertToDate from "@utils/convertToDate";
 
 const ArticlePreview = ({
@@ -18,9 +17,7 @@ const ArticlePreview = ({
     <div className="article-preview">
       <div className="article-meta">
         <Link to={`/profile/${username}`}>
-          {/* FIXME: API error
-          <img src={image} /> */}
-          <img src={TEST_IMAGE} />
+          <img src={image} />
         </Link>
         <div className="info">
           <Link to={`/profile/${username}`} className="author">

@@ -16,7 +16,6 @@ import Article from "@pages/Article";
 
 import { getUser } from "@api/user";
 import { isLoggedInState, userState } from "@store/state";
-import { TEST_IMAGE } from "@shared/dummy";
 
 const App = () => {
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
@@ -25,13 +24,12 @@ const App = () => {
   useEffect(() => {
     const initUser = async () => {
       const data = await getUser("/user");
+      const { email, username, bio, image } = data.user;
       setUser({
-        email: data.user.email,
-        username: data.user.username,
-        bio: data.user.bio,
-        // FIXME: API error
-        // image: data.user.image,
-        image: TEST_IMAGE,
+        email: email,
+        username: username,
+        bio: bio,
+        image: image,
       });
     };
 

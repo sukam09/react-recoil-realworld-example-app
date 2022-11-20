@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { CommentProps } from "@shared/type";
-import { TEST_IMAGE } from "@shared/dummy";
 import convertToDate from "@utils/convertToDate";
 
 const Comment = ({
@@ -16,9 +15,7 @@ const Comment = ({
       </div>
       <div className="card-footer">
         <Link to={`/profile/${username}`} className="comment-author">
-          {/* FIXME: API error */}
-          {/* <img src={image} className="comment-author-img" /> */}
-          <img src={TEST_IMAGE} className="comment-author-img" />
+          <img src={image} className="comment-author-img" />
         </Link>{" "}
         <Link to={`/profile/${username}`} className="comment-author">
           {username}

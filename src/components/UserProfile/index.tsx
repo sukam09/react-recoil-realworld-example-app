@@ -5,7 +5,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import Loading from "@components/Loading";
 import { getProfile } from "@api/profile";
 import { menuState, userState } from "@store/state";
-import { TEST_IMAGE } from "@shared/dummy";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState({
@@ -29,13 +28,12 @@ const UserProfile = () => {
   useEffect(() => {
     const initProfile = async () => {
       const data = await getProfile(`/profiles/${userID}`);
+      const { image, username, bio, following } = data.profile;
       setProfile({
-        // FIXME: API error
-        // image: data.profile.image,
-        image: TEST_IMAGE,
-        username: data.profile.username,
-        bio: data.profile.bio,
-        following: data.profile.following,
+        image: image,
+        username: username,
+        bio: bio,
+        following: following,
       });
       setLoading(false);
     };
