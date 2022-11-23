@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 
-import { EditorTag } from "../../components/Tag";
-import { postArticles } from "../../api/article";
-
-import { menuState } from "../../state";
+import EditorTag from "../components/tag/EditorTag";
+import { postArticles } from "../api/article";
+import { menuState } from "../state";
 
 interface EditorProps {
   title: string;

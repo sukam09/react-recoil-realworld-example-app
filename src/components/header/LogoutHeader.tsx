@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
-import { menuState } from "../../../state";
+import { menuState } from "../../state";
 
 const LogoutHeader = () => {
   const menu = useRecoilValue(menuState);

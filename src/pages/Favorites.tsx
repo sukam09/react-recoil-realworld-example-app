@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useSetRecoilState } from "recoil";
 
-import { menuState } from "../../state";
+import { menuState } from "../state";
 
 const Favorites = () => {
   const { userId } = useParams();

@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import { putUser } from "../../api/user";
-import { menuState, isLoggedInState, userState } from "../../state";
+import { putUser } from "../api/user";
+import { menuState, isLoggedInState, userState } from "../state";
 
 const Settings = () => {
   const [settings, setSettings] = useState({

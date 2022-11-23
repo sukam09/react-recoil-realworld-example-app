@@ -5,18 +5,16 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import Comment from "../../components/Comment";
-import Loading from "../../components/Loading";
-import ArticleTag from "../../components/Tag/ArticleTag";
-import { EditButton, DeleteButton } from "../../components/Article/Buttons";
-import { FollowAndFavoriteButton } from "../../components/Article/Buttons";
+import Comment from "../components/Comment";
+import Loading from "../components/Loading";
+import ArticleTag from "../components/tag/ArticleTag";
 
-import { getArticles } from "../../api/article";
-import { getComments, postComments } from "../../api/comment";
+import { getArticles } from "../api/article";
+import { getComments, postComments } from "../api/comment";
 
-import { menuState, userState } from "../../state";
-import { ArticleProps, CommentProps } from "../../types";
-import convertToDate from "../../utils";
+import { menuState, userState } from "../state";
+import { ArticleProps, CommentProps } from "../types";
+import convertToDate from "../utils";
 
 const Article = () => {
   const [article, setArticle] = useState<ArticleProps>({
@@ -116,18 +114,6 @@ const Article = () => {
                   </Link>
                   <span className="date">{convertToDate(createdAt)}</span>
                 </div>
-
-                {isMyArticle ? (
-                  <>
-                    <EditButton />
-                    <DeleteButton />
-                  </>
-                ) : (
-                  <FollowAndFavoriteButton
-                    article={article}
-                    setArticle={setArticle}
-                  />
-                )}
               </div>
             </div>
           </div>
@@ -157,18 +143,6 @@ const Article = () => {
                   </Link>
                   <span className="date">{convertToDate(createdAt)}</span>
                 </div>
-
-                {isMyArticle ? (
-                  <>
-                    <EditButton />
-                    <DeleteButton />
-                  </>
-                ) : (
-                  <FollowAndFavoriteButton
-                    article={article}
-                    setArticle={setArticle}
-                  />
-                )}
               </div>
             </div>
 

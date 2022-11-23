@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import Loading from "../Loading";
-import { ArticlePreview } from "../Article";
+import ArticlePreview from "../ArticlePreview";
 import { getArticles } from "../../api/article";
 import { ArticleProps } from "../../types";
 

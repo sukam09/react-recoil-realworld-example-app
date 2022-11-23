@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 import UserImage from "./UserImage";
-import { menuState } from "../../../state";
+import { menuState } from "../../state";
 
 const LoginHeader = () => {
   const menu = useRecoilValue(menuState);

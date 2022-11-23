@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import UserProfile from "../../components/UserProfile";
+import UserProfile from "../components/UserProfile";
 
 const Profile = () => {
   const { userId } = useParams();
