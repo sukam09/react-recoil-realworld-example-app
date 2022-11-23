@@ -26,10 +26,10 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "BROWSER=none react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject"
+    "start": "BROWSER=none react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -61,7 +61,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "prettier": "^2.7.1",
-    "react-app-rewired": "^2.2.1"
+    "prettier": "^2.7.1"
   }
 }
