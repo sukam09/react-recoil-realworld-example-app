@@ -2,20 +2,20 @@ import { useEffect } from "react";
 import { Routes, Route, HashRouter } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
-import Header from "@components/Header";
-import Footer from "@components/Footer";
-import { NotFound, PrivateRoute } from "@components/Routes";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import { NotFound, PrivateRoute } from "./components/Routes";
 
-import Home from "@pages/Home";
-import Login from "@pages/Login";
-import Register from "@pages/Register";
-import Settings from "@pages/Settings";
-import Editor from "@pages/Editor";
-import { Profile, Favorites } from "@pages/Profile";
-import Article from "@pages/Article";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Settings from "./pages/Settings";
+import Editor from "./pages/Editor";
+import { Profile, Favorites } from "./pages/Profile";
+import Article from "./pages/Article";
 
-import { getUser } from "@api/user";
-import { isLoggedInState, userState } from "@store/state";
+import { getUser } from "./api/user";
+import { isLoggedInState, userState } from "./state";
 
 const App = () => {
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
@@ -48,8 +48,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/profile/:userID" element={<Profile />} />
-          <Route path="/profile/:userID/favorites" element={<Favorites />} />
+          <Route path="/profile/:userId" element={<Profile />} />
+          <Route path="/profile/:userId/favorites" element={<Favorites />} />
           <Route path="/article/:URLSlug" element={<Article />} />
           <Route element={<PrivateRoute />}>
             <Route path="/settings" element={<Settings />} />

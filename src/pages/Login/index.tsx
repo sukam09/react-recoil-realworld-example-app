@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import { postUser } from "@api/user";
-import { menuState, userState, isLoggedInState } from "@store/state";
+import { postUser } from "../../api/user";
+import { menuState, userState, isLoggedInState } from "../../state";
 
 const Login = () => {
   const [account, setAccount] = useState({

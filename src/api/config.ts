@@ -26,6 +26,7 @@ const fetchWrap = async ({ method, url, body }: fetchWrapProps) => {
     console.log(error);
     if (error.response.status === 401 || error.response.status === 404) {
       // temporarily deactivate forced logout
+      // TODO: change to use custom function acting like react
       // localStorage.removeItem("token");
       // window.location.replace("/#/");
     }

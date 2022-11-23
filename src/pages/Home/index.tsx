@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import { MyFeed, GlobalFeed } from "@components/Feed";
-import LinkTag from "@components/Tag/LinkTag";
-import { menuState } from "@store/state";
+import { MyFeed, GlobalFeed } from "../../components/Feed";
+import LinkTag from "../../components/Tag/LinkTag";
+import { menuState } from "../../state";
 
 const Home = () => {
   const setMenu = useSetRecoilState(menuState);

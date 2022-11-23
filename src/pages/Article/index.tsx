@@ -5,21 +5,18 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import Comment from "@components/Comment";
-import Loading from "@components/Loading";
-import ArticleTag from "@components/Tag/ArticleTag";
-import {
-  EditAndDeleteButton,
-  FollowAndFavoriteButton,
-} from "@components/Article/Button";
+import Comment from "../../components/Comment";
+import Loading from "../../components/Loading";
+import ArticleTag from "../../components/Tag/ArticleTag";
+import { EditButton, DeleteButton } from "../../components/Article/Buttons";
+import { FollowAndFavoriteButton } from "../../components/Article/Buttons";
 
-import { getArticles } from "@api/article";
-import { getComments, postComments } from "@api/comment";
+import { getArticles } from "../../api/article";
+import { getComments, postComments } from "../../api/comment";
 
-import { menuState, userState } from "@store/state";
-import { ArticleProps, CommentProps } from "@shared/type";
-import { TEST_IMAGE } from "@shared/dummy";
-import convertToDate from "@utils/convertToDate";
+import { menuState, userState } from "../../state";
+import { ArticleProps, CommentProps } from "../../types";
+import convertToDate from "../../utils";
 
 const Article = () => {
   const [article, setArticle] = useState<ArticleProps>({
@@ -111,9 +108,7 @@ const Article = () => {
 
               <div className="article-meta">
                 <Link to={`/profile/${username}`}>
-                  {/* FIXME: API error */}
-                  {/* <img src={image} /> */}
-                  <img src={TEST_IMAGE} />
+                  <img src={image} />
                 </Link>
                 <div className="info">
                   <Link to={`/profile/${username}`} className="author">
@@ -123,13 +118,14 @@ const Article = () => {
                 </div>
 
                 {isMyArticle ? (
-                  <EditAndDeleteButton />
+                  <>
+                    <EditButton />
+                    <DeleteButton />
+                  </>
                 ) : (
                   <FollowAndFavoriteButton
-                    username={username}
-                    following={following}
-                    favorited={favorited}
-                    favoritesCount={favoritesCount}
+                    article={article}
+                    setArticle={setArticle}
                   />
                 )}
               </div>
@@ -153,9 +149,7 @@ const Article = () => {
             <div className="article-actions">
               <div className="article-meta">
                 <Link to={`/profile/${username}`}>
-                  {/* FIXME: API error*/}
-                  {/* <img src={image} /> */}
-                  <img src={TEST_IMAGE} />
+                  <img src={image} />
                 </Link>
                 <div className="info">
                   <Link to={`/profile/${username}`} className="author">
@@ -165,13 +159,14 @@ const Article = () => {
                 </div>
 
                 {isMyArticle ? (
-                  <EditAndDeleteButton />
+                  <>
+                    <EditButton />
+                    <DeleteButton />
+                  </>
                 ) : (
                   <FollowAndFavoriteButton
-                    username={username}
-                    following={following}
-                    favorited={favorited}
-                    favoritesCount={favoritesCount}
+                    article={article}
+                    setArticle={setArticle}
                   />
                 )}
               </div>
@@ -192,11 +187,7 @@ const Article = () => {
                       ></textarea>
                     </div>
                     <div className="card-footer">
-                      <img
-                        // src={image} // FIXME: API error
-                        src={TEST_IMAGE}
-                        className="comment-author-img"
-                      />
+                      <img src={image} className="comment-author-img" />
                       <button
                         className="btn btn-sm btn-primary"
                         disabled={disabled}

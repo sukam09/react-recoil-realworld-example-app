@@ -1,4 +1,4 @@
-import { GET, POST } from "@api/config";
+import { GET, POST } from "./config";
 
 export const postArticles = (
   url: string,

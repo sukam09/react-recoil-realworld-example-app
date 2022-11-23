@@ -1,16 +1,16 @@
 import { Link, useParams } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import UserProfile from "@components/UserProfile";
+import UserProfile from "../../components/UserProfile";
 
 const Profile = () => {
-  const { userID } = useParams();
+  const { userId } = useParams();
 
   return (
     <>
       <HelmetProvider>
         <Helmet>
-          <title>@{userID} — Conduit</title>
+          <title>@{userId} — Conduit</title>
         </Helmet>
       </HelmetProvider>
 
@@ -23,14 +23,14 @@ const Profile = () => {
               <div className="articles-toggle">
                 <ul className="nav nav-pills outline-active">
                   <li className="nav-item">
-                    <Link className="nav-link active" to={`/profile/${userID}`}>
+                    <Link className="nav-link active" to={`/profile/${userId}`}>
                       My Articles
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to={`/profile/${userID}/favorites`}
+                      to={`/profile/${userId}/favorites`}
                     >
                       Favorited Articles
                     </Link>

@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import Loading from "@components/Loading";
-import { getProfile } from "@api/profile";
-import { menuState, userState } from "@store/state";
+import Loading from "../Loading";
+import { getProfile } from "../../api/profile";
+import { menuState, userState } from "../../state";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState({
@@ -18,16 +18,16 @@ const UserProfile = () => {
 
   const setMenu = useSetRecoilState(menuState);
   const user = useRecoilValue(userState);
-  const { userID } = useParams();
+  const { userId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    user.username === userID ? setMenu(5) : setMenu(-1);
-  }, [setMenu, user.username, userID]);
+    user.username === userId ? setMenu(5) : setMenu(-1);
+  }, [setMenu, user.username, userId]);
 
   useEffect(() => {
     const initProfile = async () => {
-      const data = await getProfile(`/profiles/${userID}`);
+      const data = await getProfile(`/profiles/${userId}`);
       const { image, username, bio, following } = data.profile;
       setProfile({
         image: image,
@@ -38,7 +38,7 @@ const UserProfile = () => {
       setLoading(false);
     };
     initProfile();
-  }, [navigate, userID]);
+  }, [navigate, userId]);
 
   return (
     <>

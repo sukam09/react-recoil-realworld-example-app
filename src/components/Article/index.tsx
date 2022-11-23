@@ -1,1 +1,1 @@
-export { default as ArticlePreview } from "@components/Article/ArticlePreview";
+export { default as ArticlePreview } from "./ArticlePreview";

@@ -1,2 +1,2 @@
-export { default as Profile } from "@pages/Profile/Profile";
-export { default as Favorites } from "@pages/Profile/Favorites";
+export { default as Profile } from "./Profile";
+export { default as Favorites } from "./Favorites";

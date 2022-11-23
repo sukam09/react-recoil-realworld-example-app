@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useSetRecoilState } from "recoil";
 
-import { menuState } from "@store/state";
+import { menuState } from "../../state";
 
 const Favorites = () => {
-  const { userID } = useParams();
+  const { userId } = useParams();
   const setMenu = useSetRecoilState(menuState);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const Favorites = () => {
     <>
       <HelmetProvider>
         <Helmet>
-          <title>Articles favorited by @{userID}</title>
+          <title>Articles favorited by @{userId}</title>
         </Helmet>
       </HelmetProvider>
     </>

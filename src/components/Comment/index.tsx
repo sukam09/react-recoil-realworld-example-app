@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { CommentProps } from "@shared/type";
-import convertToDate from "@utils/convertToDate";
+import { CommentProps } from "../../types";
+import convertToDate from "../../utils";
 
 const Comment = ({
   id,

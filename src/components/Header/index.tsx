@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
-import LoginHeader from "@components/Header/LoginHeader";
-import LogoutHeader from "@components/Header/LogoutHeader";
-import { menuState } from "@store/state";
+import LoginHeader from "./LoginHeader";
+import LogoutHeader from "./LogoutHeader";
+import { menuState } from "../../state";
 
 const Header = () => {
   const isLoggedIn = localStorage.getItem("token");

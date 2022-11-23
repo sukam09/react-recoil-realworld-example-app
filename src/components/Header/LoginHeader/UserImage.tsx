@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
-import { getUser } from "@api/user";
-import { menuState } from "@store/state";
-import Loading from "@components/Loading";
+import { getUser } from "../../../api/user";
+import { menuState } from "../../../state";
+import Loading from "../../Loading";
 
 const UserImage = () => {
   const [userInfo, setUserInfo] = useState({

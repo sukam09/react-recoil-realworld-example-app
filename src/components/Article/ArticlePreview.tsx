@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-import { ArticlePreviewProps } from "@shared/type";
-import convertToDate from "@utils/convertToDate";
+import { ArticlePreviewProps } from "../../types";
+import convertToDate from "../../utils";
 
 const ArticlePreview = ({
   slug,
