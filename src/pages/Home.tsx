@@ -8,22 +8,26 @@ import GlobalFeed from "../components/feed/GlobalFeed";
 import LinkTag from "../components/tag/LinkTag";
 import { menuState } from "../state";
 
+import { getTags } from "../api/tags";
+
 const Home = () => {
   const setMenu = useSetRecoilState(menuState);
   const isLoggedIn = localStorage.getItem("token");
   const [toggle, setToggle] = useState(isLoggedIn ? 0 : 1);
-  // test
-  const [tagList, setTagList] = useState([
-    "implementations",
-    "welcome",
-    "introduction",
-    "codebaseShow",
-  ]);
+  const [tagList, setTagList] = useState<string[]>([]);
 
   const onClick = (tag: string) => {
     // test
     console.log(tag);
   };
+
+  useEffect(() => {
+    const initTags = async () => {
+      const data = await getTags("/tags");
+      setTagList(data.tags);
+    };
+    initTags();
+  });
 
   useEffect(() => {
     setMenu(0);
