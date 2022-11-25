@@ -102,12 +102,10 @@ const Article = () => {
           <title>{pageTitle}</title>
         </Helmet>
       </HelmetProvider>
-
       <div className="article-page">
         <div className="banner">
           <div className="container">
             <h1>{title}</h1>
-
             <div className="article-meta">
               <Link to={`/profile/${username}`}>
                 <img src={image} />
@@ -129,7 +127,6 @@ const Article = () => {
                       <i className="ion-edit"></i> Edit Article
                     </button>{" "}
                   </Link>
-
                   <button
                     className="btn btn-sm btn-outline-danger"
                     type="button"
@@ -152,7 +149,6 @@ const Article = () => {
             </div>
           </div>
         </div>
-
         <div className="container page">
           <div className="row article-content">
             <div className="col-md-12">
@@ -164,9 +160,7 @@ const Article = () => {
               <ArticleTag key={tag} name={tag} />
             ))}
           </div>
-
           <hr />
-
           <div className="article-actions">
             <div className="article-meta">
               <Link to={`/profile/${username}`}>
@@ -180,7 +174,6 @@ const Article = () => {
               </div>
             </div>
           </div>
-
           <div className="row">
             <div className="col-xs-12 col-md-8 offset-md-2">
               {isLoggedIn ? (
@@ -212,7 +205,6 @@ const Article = () => {
                   article.
                 </p>
               )}
-
               <div>
                 {comments.map((comment) => (
                   <Comment

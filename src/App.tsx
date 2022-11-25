@@ -12,7 +12,7 @@ import Article from "./pages/Article";
 import Profile from "./pages/Profile";
 import Favorites from "./pages/Favorites";
 import EditArticle from "./pages/EditArticle";
-import CreateArticle from "./pages/CreateArticle";
+import NewArticle from "./pages/NewArticle";
 
 import { getUser } from "./api/user";
 import { isLoggedInState, userState } from "./state";
@@ -54,12 +54,12 @@ const App = () => {
           <Route path="/profile/:userId/favorites" element={<Favorites />} />
           <Route path="/article/:URLSlug" element={<Article />} />
           {/* TODO: authentication should be checked */}
-          <Route path="/editor/:URLSlug" element={<EditArticle />} />
+          <Route path="/editor" element={<NewArticle />} />
           <Route element={<PrivateRoute />}>
             <Route path="/settings" element={<Settings />} />
-            <Route path="/editor" element={<CreateArticle />} />
+            <Route path="/editor/:URLSlug" element={<EditArticle />} />
           </Route>
-          <Route path="/*" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
       </HashRouter>
