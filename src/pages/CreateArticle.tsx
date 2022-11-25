@@ -15,7 +15,7 @@ interface EditorProps {
   tagList: string[];
 }
 
-const Editor = () => {
+const CreateArticle = () => {
   const [editor, setEditor] = useState<EditorProps>({
     title: "",
     description: "",
@@ -187,4 +187,4 @@ const Editor = () => {
   );
 };
 
-export default Editor;
+export default CreateArticle;
