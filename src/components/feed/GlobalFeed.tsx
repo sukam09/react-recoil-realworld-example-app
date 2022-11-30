@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import Loading from "../Loading";
-import ArticlePreview from "../ArticlePreview";
+import ArticlePreview from "../article/ArticlePreview";
 import { getArticles } from "../../api/article";
 import { ArticleProps } from "../../types";
 
@@ -32,17 +32,7 @@ const GlobalFeed = () => {
       ) : (
         <div>
           {articles.map((article) => (
-            <ArticlePreview
-              key={article.slug}
-              slug={article.slug}
-              title={article.title}
-              description={article.description}
-              tagList={article.tagList}
-              createdAt={article.createdAt}
-              favorited={article.favorited}
-              favoritesCount={article.favoritesCount}
-              author={article.author}
-            />
+            <ArticlePreview key={article.slug} article={article} />
           ))}
         </div>
       )}
