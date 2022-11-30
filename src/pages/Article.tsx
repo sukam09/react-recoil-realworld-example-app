@@ -5,46 +5,35 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import Comment from "../components/Comment";
+import Comment from "../components/article/Comment";
 import ArticleTag from "../components/tag/ArticleTag";
+import FollowButton from "../components/article/FollowButton";
 
 import { getArticles, deleteArticles } from "../api/article";
 import { getComments, postComments } from "../api/comment";
+import { postFollow, deleteFollow } from "../api/profile";
 
 import { menuState, userState } from "../state";
 import { ArticleProps, CommentProps } from "../types";
-import convertToDate from "../utils";
+import { convertToDate } from "../utils";
 
 const Article = () => {
   const [article, setArticle] = useState<ArticleProps>({
     slug: "",
     title: "",
     description: "",
-    body: "",
     tagList: [],
+    body: "",
     createdAt: "",
-    updatedAt: "",
     favorited: false,
     favoritesCount: 0,
     author: {
       username: "",
-      image: "",
       bio: "",
+      image: "",
       following: false,
     },
   });
-  const {
-    slug,
-    title,
-    description,
-    body,
-    tagList,
-    createdAt,
-    updatedAt,
-    favorited,
-    favoritesCount,
-    author: { username, image, following },
-  } = article;
 
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<CommentProps[]>([]);
@@ -79,6 +68,20 @@ const Article = () => {
     navigate("/", { replace: true });
   };
 
+  const follow = async () => {
+    await postFollow(`/profiles/${article.author.username}/follow`);
+    const newArticle = { ...article };
+    newArticle.author.following = true;
+    setArticle(newArticle);
+  };
+
+  const unfollow = async () => {
+    await deleteFollow(`/profiles/${article.author.username}/follow`);
+    const newArticle = { ...article };
+    newArticle.author.following = false;
+    setArticle(newArticle);
+  };
+
   // TODO: change to lazy routing so initArticlePage should be moved to App.tsx
   // FIXME: page title should be applied
   useEffect(() => {
@@ -86,12 +89,19 @@ const Article = () => {
       const articleData = await getArticles(`/articles/${URLSlug}`);
       const commentsData = await getComments(`/articles/${URLSlug}/comments`);
       setArticle(articleData.article);
+      setPageTitle(article.title);
       setComments(commentsData.comments);
       const loggedInUser = user.username;
-      setIsMyArticle(username === loggedInUser ? true : false);
+      setIsMyArticle(article.author.username === loggedInUser ? true : false);
     };
     initArticlePage();
-  }, [URLSlug, username, user.username, isMyArticle]);
+  }, [
+    URLSlug,
+    user.username,
+    isMyArticle,
+    article.author.username,
+    article.title,
+  ]);
 
   useEffect(() => setMenu(-1), [setMenu]);
 
@@ -105,21 +115,24 @@ const Article = () => {
       <div className="article-page">
         <div className="banner">
           <div className="container">
-            <h1>{title}</h1>
+            <h1>{article.title}</h1>
             <div className="article-meta">
-              <Link to={`/profile/${username}`}>
-                <img src={image} />
+              <Link to={`/profile/${article.author.username}`}>
+                <img src={article.author.image} />
               </Link>
               <div className="info">
                 {/* FIXME: right margin of profile image is different */}
-                <Link to={`/profile/${username}`} className="author">
-                  {username}
+                <Link
+                  to={`/profile/${article.author.username}`}
+                  className="author"
+                >
+                  {article.author.username}
                 </Link>
-                <span className="date">{convertToDate(createdAt)}</span>
+                <span className="date">{convertToDate(article.createdAt)}</span>
               </div>
               {isMyArticle ? (
                 <>
-                  <Link to={`/editor/${slug}`}>
+                  <Link to={`/editor/${article.slug}`}>
                     <button
                       className="btn btn-sm btn-outline-secondary"
                       type="button"
@@ -136,15 +149,12 @@ const Article = () => {
                   </button>
                 </>
               ) : (
-                <>
-                  <button className="btn btn-sm btn-outline-secondary">
-                    <i className="ion-plus-round"></i> Follow {username}{" "}
-                  </button>{" "}
-                  <button className="btn btn-sm btn-outline-primary">
-                    <i className="ion-heart"></i> Favorite Post{" "}
-                    <span className="counter">({0})</span>
-                  </button>
-                </>
+                <FollowButton
+                  following={article.author.following}
+                  username={article.author.username}
+                  follow={follow}
+                  unfollow={unfollow}
+                />
               )}
             </div>
           </div>
@@ -152,25 +162,31 @@ const Article = () => {
         <div className="container page">
           <div className="row article-content">
             <div className="col-md-12">
-              <ReactMarkdown children={body} remarkPlugins={[remarkGfm]} />
+              <ReactMarkdown
+                children={article.body!}
+                remarkPlugins={[remarkGfm]}
+              />
             </div>
           </div>
           <div>
-            {tagList.map((tag) => (
+            {article.tagList.map((tag) => (
               <ArticleTag key={tag} name={tag} />
             ))}
           </div>
           <hr />
           <div className="article-actions">
             <div className="article-meta">
-              <Link to={`/profile/${username}`}>
-                <img src={image} />
+              <Link to={`/profile/${article.author.username}`}>
+                <img src={article.author.image} />
               </Link>
               <div className="info">
-                <Link to={`/profile/${username}`} className="author">
-                  {username}
+                <Link
+                  to={`/profile/${article.author.username}`}
+                  className="author"
+                >
+                  {article.author.username}
                 </Link>
-                <span className="date">{convertToDate(createdAt)}</span>
+                <span className="date">{convertToDate(article.createdAt)}</span>
               </div>
             </div>
           </div>
@@ -189,7 +205,10 @@ const Article = () => {
                     ></textarea>
                   </div>
                   <div className="card-footer">
-                    <img src={image} className="comment-author-img" />
+                    <img
+                      src={article.author.image}
+                      className="comment-author-img"
+                    />
                     <button
                       className="btn btn-sm btn-primary"
                       disabled={disabled}
@@ -207,13 +226,7 @@ const Article = () => {
               )}
               <div>
                 {comments.map((comment) => (
-                  <Comment
-                    key={comment.id}
-                    id={comment.id}
-                    createdAt={comment.createdAt}
-                    body={comment.body}
-                    author={comment.author}
-                  />
+                  <Comment key={comment.id} comment={comment} />
                 ))}
               </div>
             </div>
