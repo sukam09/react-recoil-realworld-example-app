@@ -19,7 +19,7 @@ export interface ProfileProps {
   following: boolean;
 }
 
-export interface ArticlePreviewProps {
+export interface ArticleProps {
   slug: string;
   title: string;
   description: string;
@@ -28,11 +28,7 @@ export interface ArticlePreviewProps {
   favorited: boolean;
   favoritesCount: number;
   author: ProfileProps;
-}
-
-export interface ArticleProps extends ArticlePreviewProps {
-  body: string;
-  updatedAt?: string;
+  body?: string;
 }
 
 export interface CommentProps {
