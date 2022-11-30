@@ -7,11 +7,12 @@ import remarkGfm from "remark-gfm";
 
 import Comment from "../components/article/Comment";
 import ArticleTag from "../components/tag/ArticleTag";
-import FollowButton from "../components/article/FollowButton";
+import FollowButton from "../components/common/FollowButton";
 
 import { getArticles, deleteArticles } from "../api/article";
 import { getComments, postComments } from "../api/comment";
 import { postFollow, deleteFollow } from "../api/profile";
+import { postFavorites, deleteFavorites } from "../api/favorites";
 
 import { menuState, userState } from "../state";
 import { ArticleProps, CommentProps } from "../types";
@@ -38,8 +39,8 @@ const Article = () => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<CommentProps[]>([]);
   const [disabled, setDisabled] = useState(false);
-  const [isMyArticle, setIsMyArticle] = useState(false);
-  const [pageTitle, setPageTitle] = useState("Loading articles...");
+  const [isUser, setisUser] = useState(false);
+  const [pageTitle, setPageTitle] = useState("Home — Conduit");
 
   const isLoggedIn = localStorage.getItem("token");
   const setMenu = useSetRecoilState(menuState);
@@ -70,16 +71,34 @@ const Article = () => {
 
   const follow = async () => {
     await postFollow(`/profiles/${article.author.username}/follow`);
-    const newArticle = { ...article };
-    newArticle.author.following = true;
-    setArticle(newArticle);
+    const followedArticle = { ...article };
+    followedArticle.author.following = true;
+    setArticle(followedArticle);
   };
 
   const unfollow = async () => {
     await deleteFollow(`/profiles/${article.author.username}/follow`);
-    const newArticle = { ...article };
-    newArticle.author.following = false;
-    setArticle(newArticle);
+    const unfollowedArticle = { ...article };
+    unfollowedArticle.author.following = false;
+    setArticle(unfollowedArticle);
+  };
+
+  const favorite = async () => {
+    await postFavorites(`/articles/${article.slug}/favorite`);
+    setArticle({
+      ...article,
+      favorited: true,
+      favoritesCount: article.favoritesCount + 1,
+    });
+  };
+
+  const unfavorite = async () => {
+    await deleteFavorites(`/articles/${article.slug}/favorite`);
+    setArticle({
+      ...article,
+      favorited: false,
+      favoritesCount: article.favoritesCount - 1,
+    });
   };
 
   // TODO: change to lazy routing so initArticlePage should be moved to App.tsx
@@ -92,16 +111,10 @@ const Article = () => {
       setPageTitle(article.title);
       setComments(commentsData.comments);
       const loggedInUser = user.username;
-      setIsMyArticle(article.author.username === loggedInUser ? true : false);
+      setisUser(article.author.username === loggedInUser ? true : false);
     };
     initArticlePage();
-  }, [
-    URLSlug,
-    user.username,
-    isMyArticle,
-    article.author.username,
-    article.title,
-  ]);
+  }, [URLSlug, user.username, isUser, article.author.username, article.title]);
 
   useEffect(() => setMenu(-1), [setMenu]);
 
@@ -112,10 +125,12 @@ const Article = () => {
           <title>{pageTitle}</title>
         </Helmet>
       </HelmetProvider>
+
       <div className="article-page">
         <div className="banner">
           <div className="container">
             <h1>{article.title}</h1>
+
             <div className="article-meta">
               <Link to={`/profile/${article.author.username}`}>
                 <img src={article.author.image} />
@@ -130,7 +145,8 @@ const Article = () => {
                 </Link>
                 <span className="date">{convertToDate(article.createdAt)}</span>
               </div>
-              {isMyArticle ? (
+
+              {isUser ? (
                 <>
                   <Link to={`/editor/${article.slug}`}>
                     <button
@@ -149,12 +165,31 @@ const Article = () => {
                   </button>
                 </>
               ) : (
-                <FollowButton
-                  following={article.author.following}
-                  username={article.author.username}
-                  follow={follow}
-                  unfollow={unfollow}
-                />
+                <>
+                  <FollowButton
+                    following={article.author.following}
+                    username={article.author.username}
+                    follow={follow}
+                    unfollow={unfollow}
+                  />
+                  &nbsp;&nbsp;
+                  <button
+                    className={`btn btn-sm ${
+                      article.favorited ? "btn-primary" : "btn-outline-primary"
+                    }`}
+                    type="button"
+                    onClick={() =>
+                      article.favorited ? unfavorite() : favorite()
+                    }
+                  >
+                    <i className="ion-heart"></i>
+                    &nbsp; {article.favorited
+                      ? "Unfavorite "
+                      : "Favorite "}{" "}
+                    Post{" "}
+                    <span className="counter">({article.favoritesCount})</span>
+                  </button>
+                </>
               )}
             </div>
           </div>
