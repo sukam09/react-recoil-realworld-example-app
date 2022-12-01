@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 
 import ArticlePreview from "../article/ArticlePreview";
 import Loading from "../Loading";
@@ -19,17 +19,17 @@ const FavoritedArticle = () => {
     []
   );
   const [loading, setLoading] = useState(true);
-  const username = useRecoilValue(userState).username;
+  const { userId } = useParams();
 
   useEffect(() => {
     const initFavoritedArticle = async () => {
       const { articles } = await getGlobalArticles(
-        `/articles?favorited=${username}`
+        `/articles?favorited=${userId}`
       );
       setFavoritedArticles(articles);
     };
     initFavoritedArticle().then(() => setLoading(false));
-  }, [username]);
+  }, [userId]);
 
   useEffect(() => {
     handleToggle(1);

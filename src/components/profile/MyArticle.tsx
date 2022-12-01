@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 
 import ArticlePreview from "../article/ArticlePreview";
 import Loading from "../Loading";
 
 import { getGlobalArticles } from "../../api/article";
-import { useRecoilValue } from "recoil";
 import { userState } from "../../state";
 import { ArticleProps } from "../../types";
 
@@ -17,17 +16,17 @@ const MyArticle = () => {
   const { handleToggle } = useOutletContext<MyArticleProps>();
   const [myArticles, setMyArticles] = useState<ArticleProps[]>([]);
   const [loading, setLoading] = useState(true);
-  const username = useRecoilValue(userState).username;
+  const { userId } = useParams();
 
   useEffect(() => {
     const initMyArticle = async () => {
       const { articles } = await getGlobalArticles(
-        `/articles?author=${username}`
+        `/articles?author=${userId}`
       );
       setMyArticles(articles);
     };
     initMyArticle().then(() => setLoading(false));
-  }, [username]);
+  }, [userId]);
 
   useEffect(() => {
     handleToggle(0);
