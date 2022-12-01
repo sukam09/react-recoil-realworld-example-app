@@ -24,7 +24,6 @@ const EditArticle = () => {
     tagList: [],
   });
   const { title, description, body, tag, tagList } = editor;
-  const [author, setAuthor] = useState("");
   const [error, setError] = useState({
     title: "",
     description: "",
@@ -95,9 +94,13 @@ const EditArticle = () => {
     setDisabled(false);
   };
 
+  // TODO: add loading
   useEffect(() => {
     const initArticle = async () => {
       const { article } = await getArticles(`articles/${URLSlug}`);
+      if (!isLoggedIn || article.author.username !== user.username) {
+        navigate("/", { replace: true });
+      }
       setEditor({
         title: article.title,
         description: article.description,
@@ -105,18 +108,13 @@ const EditArticle = () => {
         tag: "",
         tagList: article.tagList,
       });
-      setAuthor(article.author.username);
     };
     initArticle();
-  }, [URLSlug]);
+  }, [URLSlug, isLoggedIn, navigate, user.username]);
 
   useEffect(() => {
     setMenu(3);
   }, [setMenu]);
-
-  if (!isLoggedIn || user.username !== author) {
-    return <Navigate to="/" replace={true} />;
-  }
 
   return (
     <>
