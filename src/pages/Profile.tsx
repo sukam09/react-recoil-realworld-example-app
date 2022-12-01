@@ -1,9 +1,14 @@
-import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link, useParams, Outlet } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import UserProfile from "../components/UserProfile";
 
+const ACTIVE_CLASS = "nav-link active";
+const INACTIVE_CLASS = "nav-link";
+
 const Profile = () => {
+  const [toggle, setToggle] = useState(0);
   const { userId } = useParams();
 
   return (
@@ -23,14 +28,19 @@ const Profile = () => {
               <div className="articles-toggle">
                 <ul className="nav nav-pills outline-active">
                   <li className="nav-item">
-                    <Link className="nav-link active" to={`/profile/${userId}`}>
+                    <Link
+                      className={toggle === 0 ? ACTIVE_CLASS : INACTIVE_CLASS}
+                      to={`/profile/${userId}`}
+                      onClick={() => setToggle(0)}
+                    >
                       My Articles
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link
-                      className="nav-link"
+                      className={toggle === 1 ? ACTIVE_CLASS : INACTIVE_CLASS}
                       to={`/profile/${userId}/favorites`}
+                      onClick={() => setToggle(1)}
                     >
                       Favorited Articles
                     </Link>
@@ -39,54 +49,7 @@ const Profile = () => {
               </div>
 
               <div className="article-preview">
-                <div className="article-meta">
-                  <Link to="">
-                    <img src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003" />
-                  </Link>
-                  <div className="info">
-                    <Link to="" className="author">
-                      Eric Simons
-                    </Link>
-                    <span className="date">January 20th</span>
-                  </div>
-                  <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                    <i className="ion-heart"></i> 29
-                  </button>
-                </div>
-                <Link to="" className="preview-link">
-                  <h1>How to build webapps that scale</h1>
-                  <p>This is the description for the post.</p>
-                  <span>Read more@.</span>
-                </Link>
-              </div>
-
-              <div className="article-preview">
-                <div className="article-meta">
-                  <Link to="">
-                    <img src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon4661.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1658762585003" />
-                  </Link>
-                  <div className="info">
-                    <Link to="" className="author">
-                      Albert Pai
-                    </Link>
-                    <span className="date">January 20th</span>
-                  </div>
-                  <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                    <i className="ion-heart"></i> 32
-                  </button>
-                </div>
-                <Link to="" className="preview-link">
-                  <h1>
-                    The song you won't ever stop singing. No matter how hard you
-                    try.
-                  </h1>
-                  <p>This is the description for the post.</p>
-                  <span>Read more@.</span>
-                  <ul className="tag-list">
-                    <li className="tag-default tag-pill tag-outline">Music</li>
-                    <li className="tag-default tag-pill tag-outline">Song</li>
-                  </ul>
-                </Link>
+                <Outlet />
               </div>
             </div>
           </div>
