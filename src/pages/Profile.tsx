@@ -47,10 +47,7 @@ const Profile = () => {
                   </li>
                 </ul>
               </div>
-
-              <div className="article-preview">
-                <Outlet context={{ handleToggle }} />
-              </div>
+              <Outlet context={{ handleToggle }} />
             </div>
           </div>
         </div>

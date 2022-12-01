@@ -1,5 +1,13 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
+
+import ArticlePreview from "../article/ArticlePreview";
+import Loading from "../Loading";
+
+import { getGlobalArticles } from "../../api/article";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../state";
+import { ArticleProps } from "../../types";
 
 interface FavoritedArticleProps {
   handleToggle: (num: number) => void;
@@ -7,6 +15,21 @@ interface FavoritedArticleProps {
 
 const FavoritedArticle = () => {
   const { handleToggle } = useOutletContext<FavoritedArticleProps>();
+  const [FavoritedArticles, setFavoritedArticles] = useState<ArticleProps[]>(
+    []
+  );
+  const [loading, setLoading] = useState(true);
+  const username = useRecoilValue(userState).username;
+
+  useEffect(() => {
+    const initFavoritedArticle = async () => {
+      const { articles } = await getGlobalArticles(
+        `/articles?favorited=${username}`
+      );
+      setFavoritedArticles(articles);
+    };
+    initFavoritedArticle().then(() => setLoading(false));
+  }, [username]);
 
   useEffect(() => {
     handleToggle(1);
@@ -14,7 +37,21 @@ const FavoritedArticle = () => {
 
   return (
     <>
-      <div>Favorited Article</div>
+      {loading ? (
+        <div className="article-preview">
+          <Loading />
+        </div>
+      ) : (
+        <>
+          {FavoritedArticles.length === 0 ? (
+            <div className="article-preview">No articles are here... yet.</div>
+          ) : (
+            FavoritedArticles.map((article) => (
+              <ArticlePreview key={article.slug} article={article} />
+            ))
+          )}
+        </>
+      )}
     </>
   );
 };
