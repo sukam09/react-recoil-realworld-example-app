@@ -5,6 +5,8 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import Loading from "../Loading";
 import { getProfile } from "../../api/profile";
 import { menuState, userState } from "../../state";
+import FollowButton from "../FollowButton";
+import { postFollow, deleteFollow } from "../../api/profile";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState({
@@ -35,10 +37,25 @@ const UserProfile = () => {
         bio: bio,
         following: following,
       });
-      setLoading(false);
     };
-    initProfile();
+    initProfile().then(() => setLoading(false));
   }, [navigate, userId]);
+
+  const follow = async () => {
+    setProfile({
+      ...profile,
+      following: true,
+    });
+    await postFollow(`/profiles/${userId}/follow`);
+  };
+
+  const unfollow = async () => {
+    setProfile({
+      ...profile,
+      following: false,
+    });
+    await deleteFollow(`/profiles/${userId}/follow`);
+  };
 
   return (
     <>
@@ -52,11 +69,20 @@ const UserProfile = () => {
                 <img src={image} className="user-img" alt="profile" />
                 <h4>{username}</h4>
                 <p>{bio}</p>
-                <Link to="/settings">
-                  <button className="btn btn-sm btn-outline-secondary action-btn">
-                    <i className="ion-gear-a"></i> Edit Profile Settings
-                  </button>
-                </Link>
+                {user.username === userId ? (
+                  <Link to="/settings">
+                    <button className="btn btn-sm btn-outline-secondary action-btn">
+                      <i className="ion-gear-a"></i> Edit Profile Settings
+                    </button>
+                  </Link>
+                ) : (
+                  <FollowButton
+                    following={following}
+                    username={userId!}
+                    follow={follow}
+                    unfollow={unfollow}
+                  />
+                )}
               </div>
             </div>
           </div>
