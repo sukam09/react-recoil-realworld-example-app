@@ -7,16 +7,19 @@ import remarkGfm from "remark-gfm";
 
 import Comment from "../components/article/Comment";
 import ArticleTag from "../components/tag/ArticleTag";
-import FollowButton from "../components/common/FollowButton";
+import FollowButton from "../components/FollowButton";
 
 import { getArticles, deleteArticles } from "../api/article";
 import { getComments, postComments } from "../api/comment";
-import { postFollow, deleteFollow } from "../api/profile";
 import { postFavorites, deleteFavorites } from "../api/favorites";
 
 import { menuState, userState } from "../state";
 import { ArticleProps, CommentProps } from "../types";
 import { convertToDate } from "../utils";
+import { postFollow, deleteFollow } from "../api/profile";
+
+const FAVORITED_CLASS = "btn btn-sm btn-primary";
+const UNFAVORITED_CLASS = "btn btn-sm btn-outline-primary";
 
 const Article = () => {
   const [article, setArticle] = useState<ArticleProps>({
@@ -39,7 +42,7 @@ const Article = () => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<CommentProps[]>([]);
   const [disabled, setDisabled] = useState(false);
-  const [isUser, setisUser] = useState(false);
+  const [isUser, setIsUser] = useState(false);
   const [pageTitle, setPageTitle] = useState("Home — Conduit");
 
   const isLoggedIn = localStorage.getItem("token");
@@ -70,51 +73,56 @@ const Article = () => {
   };
 
   const follow = async () => {
+    setArticle({
+      ...article,
+      author: {
+        ...article.author,
+        following: true,
+      },
+    });
     await postFollow(`/profiles/${article.author.username}/follow`);
-    const followedArticle = { ...article };
-    followedArticle.author.following = true;
-    setArticle(followedArticle);
   };
 
   const unfollow = async () => {
+    setArticle({
+      ...article,
+      author: {
+        ...article.author,
+        following: false,
+      },
+    });
     await deleteFollow(`/profiles/${article.author.username}/follow`);
-    const unfollowedArticle = { ...article };
-    unfollowedArticle.author.following = false;
-    setArticle(unfollowedArticle);
   };
 
   const favorite = async () => {
-    await postFavorites(`/articles/${article.slug}/favorite`);
     setArticle({
       ...article,
       favorited: true,
       favoritesCount: article.favoritesCount + 1,
     });
+    await postFavorites(`/articles/${article.slug}/favorite`);
   };
 
   const unfavorite = async () => {
-    await deleteFavorites(`/articles/${article.slug}/favorite`);
     setArticle({
       ...article,
       favorited: false,
       favoritesCount: article.favoritesCount - 1,
     });
+    await deleteFavorites(`/articles/${article.slug}/favorite`);
   };
 
-  // TODO: change to lazy routing so initArticlePage should be moved to App.tsx
-  // FIXME: page title should be applied
   useEffect(() => {
     const initArticlePage = async () => {
       const articleData = await getArticles(`/articles/${URLSlug}`);
       const commentsData = await getComments(`/articles/${URLSlug}/comments`);
       setArticle(articleData.article);
-      setPageTitle(article.title);
+      setPageTitle(articleData.article.title);
       setComments(commentsData.comments);
-      const loggedInUser = user.username;
-      setisUser(article.author.username === loggedInUser ? true : false);
+      setIsUser(articleData.article.author.username === user.username);
     };
     initArticlePage();
-  }, [URLSlug, user.username, isUser, article.author.username, article.title]);
+  }, [URLSlug, user.username]);
 
   useEffect(() => setMenu(-1), [setMenu]);
 
@@ -145,7 +153,6 @@ const Article = () => {
                 </Link>
                 <span className="date">{convertToDate(article.createdAt)}</span>
               </div>
-
               {isUser ? (
                 <>
                   <Link to={`/editor/${article.slug}`}>
@@ -174,19 +181,16 @@ const Article = () => {
                   />
                   &nbsp;&nbsp;
                   <button
-                    className={`btn btn-sm ${
-                      article.favorited ? "btn-primary" : "btn-outline-primary"
-                    }`}
+                    className={
+                      article.favorited ? FAVORITED_CLASS : UNFAVORITED_CLASS
+                    }
                     type="button"
                     onClick={() =>
                       article.favorited ? unfavorite() : favorite()
                     }
                   >
                     <i className="ion-heart"></i>
-                    &nbsp; {article.favorited
-                      ? "Unfavorite "
-                      : "Favorite "}{" "}
-                    Post{" "}
+                    &nbsp; {article.favorited ? "Unfavorite" : "Favorite"} Post
                     <span className="counter">({article.favoritesCount})</span>
                   </button>
                 </>
