@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 
 import EditorTag from "../components/tag/EditorTag";
 import { postArticles } from "../api/article";
-import { menuState } from "../state";
+import { isLoggedInState, menuState } from "../state";
 
 interface EditorProps {
   title: string;
@@ -33,6 +33,7 @@ const NewArticle = () => {
 
   const setMenu = useSetRecoilState(menuState);
   const navigate = useNavigate();
+  const isLoggedIn = useRecoilValue(isLoggedInState);
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -96,6 +97,10 @@ const NewArticle = () => {
   useEffect(() => {
     setMenu(3);
   }, [setMenu]);
+
+  if (!isLoggedIn) {
+    return <Navigate to="/" replace={true} />;
+  }
 
   return (
     <>

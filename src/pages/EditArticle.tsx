@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Navigate } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 
 import EditorTag from "../components/tag/EditorTag";
 import { putArticles, getArticles } from "../api/article";
-import { menuState } from "../state";
+import { isLoggedInState, menuState, userState } from "../state";
 
 interface EditorProps {
   title: string;
@@ -24,6 +24,7 @@ const EditArticle = () => {
     tagList: [],
   });
   const { title, description, body, tag, tagList } = editor;
+  const [author, setAuthor] = useState("");
   const [error, setError] = useState({
     title: "",
     description: "",
@@ -34,6 +35,8 @@ const EditArticle = () => {
   const setMenu = useSetRecoilState(menuState);
   const navigate = useNavigate();
   const { URLSlug } = useParams();
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const user = useRecoilValue(userState);
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -94,14 +97,15 @@ const EditArticle = () => {
 
   useEffect(() => {
     const initArticle = async () => {
-      const data = await getArticles(`articles/${URLSlug}`);
+      const { article } = await getArticles(`articles/${URLSlug}`);
       setEditor({
-        title: data.article.title,
-        description: data.article.description,
-        body: data.article.body,
+        title: article.title,
+        description: article.description,
+        body: article.body,
         tag: "",
-        tagList: data.article.tagList,
+        tagList: article.tagList,
       });
+      setAuthor(article.author.username);
     };
     initArticle();
   }, [URLSlug]);
@@ -109,6 +113,10 @@ const EditArticle = () => {
   useEffect(() => {
     setMenu(3);
   }, [setMenu]);
+
+  if (!isLoggedIn || user.username !== author) {
+    return <Navigate to="/" replace={true} />;
+  }
 
   return (
     <>

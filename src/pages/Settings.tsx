@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
@@ -18,7 +18,7 @@ const Settings = () => {
   const [disabled, setDisabled] = useState(false);
 
   const setMenu = useSetRecoilState(menuState);
-  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
 
@@ -75,6 +75,10 @@ const Settings = () => {
   useEffect(() => {
     setMenu(4);
   }, [setMenu]);
+
+  if (!isLoggedIn) {
+    return <Navigate to="/" replace={true} />;
+  }
 
   return (
     <>
