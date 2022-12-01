@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 
-import { getGlobalArticles } from "../api/article";
+import { getGlobalArticles } from "../../api/article";
 import { useRecoilValue } from "recoil";
-import { userState } from "../state";
+import { userState } from "../../state";
 
 interface MyArticleProps {
   handleToggle: (num: number) => void;

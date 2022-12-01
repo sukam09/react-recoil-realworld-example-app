@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useParams, Outlet } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import UserProfile from "../components/UserProfile";
+import UserProfile from "../components/profile/UserProfile";
 
 const ACTIVE_CLASS = "nav-link active";
 const INACTIVE_CLASS = "nav-link";

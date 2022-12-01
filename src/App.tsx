@@ -2,9 +2,6 @@ import { useEffect } from "react";
 import { Routes, Route, HashRouter, Navigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
-import Header from "./components/header";
-import Footer from "./components/Footer";
-
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -13,8 +10,11 @@ import Article from "./pages/Article";
 import Profile from "./pages/Profile";
 import EditArticle from "./pages/EditArticle";
 import NewArticle from "./pages/NewArticle";
-import MyArticle from "./pages/MyArticle";
-import FavoritedArticle from "./pages/FavoritedArticle";
+
+import Header from "./components/header";
+import Footer from "./components/Footer";
+import MyArticle from "./components/profile/MyArticle";
+import FavoritedArticle from "./components/profile/FavoritedArticle";
 
 import { getUser } from "./api/user";
 import { isLoggedInState, userState } from "./state";
