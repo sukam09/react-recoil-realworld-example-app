@@ -8,8 +8,10 @@ const ACTIVE_CLASS = "nav-link active";
 const INACTIVE_CLASS = "nav-link";
 
 const Profile = () => {
-  const [toggle, setToggle] = useState(0);
   const { userId } = useParams();
+  const [toggle, setToggle] = useState(0);
+
+  const handleToggle = (num: number) => setToggle(num);
 
   return (
     <>
@@ -31,7 +33,6 @@ const Profile = () => {
                     <Link
                       className={toggle === 0 ? ACTIVE_CLASS : INACTIVE_CLASS}
                       to={`/profile/${userId}`}
-                      onClick={() => setToggle(0)}
                     >
                       My Articles
                     </Link>
@@ -40,7 +41,6 @@ const Profile = () => {
                     <Link
                       className={toggle === 1 ? ACTIVE_CLASS : INACTIVE_CLASS}
                       to={`/profile/${userId}/favorites`}
-                      onClick={() => setToggle(1)}
                     >
                       Favorited Articles
                     </Link>
@@ -49,7 +49,7 @@ const Profile = () => {
               </div>
 
               <div className="article-preview">
-                <Outlet />
+                <Outlet context={{ handleToggle }} />
               </div>
             </div>
           </div>
