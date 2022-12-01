@@ -12,29 +12,24 @@ const GlobalFeed = () => {
   useEffect(() => {
     const query = ""; // temporary
     const initArticles = async () => {
-      try {
-        const data = await getArticles(`/articles?${query}`);
-        setArticles(data.articles);
-        setLoading(false);
-      } catch (error: any) {
-        console.log(error);
-      }
+      const { articles } = await getArticles("/articles");
+      setArticles(articles);
     };
-    initArticles();
+    initArticles().then(() => setLoading(false));
   }, []);
 
   return (
     <>
       {loading ? (
         <div className="article-preview">
-          <Loading height="30vh" />
+          <Loading />
         </div>
       ) : (
-        <div>
+        <>
           {articles.map((article) => (
             <ArticlePreview key={article.slug} article={article} />
           ))}
-        </div>
+        </>
       )}
     </>
   );
