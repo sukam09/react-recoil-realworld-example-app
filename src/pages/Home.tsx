@@ -7,7 +7,6 @@ import MyFeed from "../components/feed/MyFeed";
 import GlobalFeed from "../components/feed/GlobalFeed";
 import LinkTag from "../components/tag/LinkTag";
 import { menuState } from "../state";
-
 import { getTags } from "../api/tags";
 
 const Home = () => {
@@ -16,10 +15,7 @@ const Home = () => {
   const [toggle, setToggle] = useState(isLoggedIn ? 0 : 1);
   const [tagList, setTagList] = useState<string[]>([]);
 
-  const onClick = (tag: string) => {
-    // test
-    console.log(tag);
-  };
+  const handleTag = () => {};
 
   useEffect(() => {
     const initTags = async () => {
@@ -27,7 +23,7 @@ const Home = () => {
       setTagList(data.tags);
     };
     initTags();
-  });
+  }, []);
 
   useEffect(() => {
     setMenu(0);
@@ -83,11 +79,7 @@ const Home = () => {
                 <p>Popular Tags</p>
                 <div className="tag-list">
                   {tagList.map((tag) => (
-                    <LinkTag
-                      key={tag}
-                      name={tag}
-                      onClick={() => onClick(tag)}
-                    />
+                    <LinkTag key={tag} name={tag} onClick={() => handleTag()} />
                   ))}
                 </div>
               </div>

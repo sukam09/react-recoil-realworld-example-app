@@ -44,7 +44,7 @@ const UserProfile = () => {
     <>
       <div className="user-info">
         {loading ? (
-          <Loading height="30vh" />
+          <Loading />
         ) : (
           <div className="container">
             <div className="row">

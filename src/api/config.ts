@@ -22,15 +22,15 @@ const fetchWrap = async ({ method, url, body }: fetchWrapProps) => {
       (method === "delete" && (await axios.delete(url, config))) ||
       {};
     return data;
-  } catch (error: any) {
-    console.log(error);
-    if (error.response.status === 401 || error.response.status === 404) {
-      // temporarily deactivate forced logout
-      // TODO: change to use custom function acting like react
-      // localStorage.removeItem("token");
-      // window.location.replace("/#/");
-    }
-    throw error;
+  } catch (err: any) {
+    // TODO: api common error handling may be deleted
+    // if (err.response.status === 401 || err.response.status === 404) {
+    //   // temporarily deactivate forced logout
+    //   // TODO: change to use custom function acting like react
+    //   // localStorage.removeItem("token");
+    //   // window.location.replace("/#/");
+    // }
+    throw err;
   }
 };
 
