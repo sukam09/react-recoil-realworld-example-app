@@ -4,8 +4,8 @@ const UNFOLLOWING_CLASS = "btn btn-sm action-btn btn-outline-secondary";
 interface FollowButtonProps {
   following: boolean;
   username: string;
-  follow: () => void;
-  unfollow: () => void;
+  follow: () => Promise<void>;
+  unfollow: () => Promise<void>;
 }
 
 const FollowButton = ({
