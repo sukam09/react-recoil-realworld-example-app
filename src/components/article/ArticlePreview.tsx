@@ -4,6 +4,9 @@ import { ArticleProps } from "../../types";
 import { convertToDate } from "../../utils";
 import ArticleTag from "../tag/ArticleTag";
 
+const FAVORITED_CLASS = "btn btn-sm btn-primary";
+const UNFAVORITED_CLASS = "btn btn-sm btn-outline-primary";
+
 const ArticlePreview = ({ article }: { article: ArticleProps }) => {
   return (
     <div className="article-preview">
@@ -17,12 +20,14 @@ const ArticlePreview = ({ article }: { article: ArticleProps }) => {
           </Link>
           <span className="date">{convertToDate(article.createdAt)}</span>
         </div>
-        <button
-          type="button"
-          className="btn btn-outline-primary btn-sm pull-xs-right"
-        >
-          <i className="ion-heart" /> {article.favoritesCount}
-        </button>
+        <div className="pull-xs-right">
+          <button
+            type="button"
+            className={article.favorited ? FAVORITED_CLASS : UNFAVORITED_CLASS}
+          >
+            <i className="ion-heart" /> {article.favoritesCount}
+          </button>
+        </div>
       </div>
       <Link to={`/article/${article.slug}`} className="preview-link">
         <h1>{article.title}</h1>
