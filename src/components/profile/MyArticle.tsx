@@ -4,7 +4,7 @@ import { useOutletContext, useParams } from "react-router-dom";
 import ArticlePreview from "../article/ArticlePreview";
 import Loading from "../Loading";
 
-import { getGlobalArticles } from "../../api/article";
+import { getArticles } from "../../api/article";
 import { userState } from "../../state";
 import { ArticleProps } from "../../types";
 
@@ -20,9 +20,7 @@ const MyArticle = () => {
 
   useEffect(() => {
     const initMyArticle = async () => {
-      const { articles } = await getGlobalArticles(
-        `/articles?author=${userId}`
-      );
+      const { articles } = await getArticles(`/articles?author=${userId}`);
       setMyArticles(articles);
     };
     initMyArticle().then(() => setLoading(false));

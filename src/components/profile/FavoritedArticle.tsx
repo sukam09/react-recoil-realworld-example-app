@@ -4,7 +4,7 @@ import { useOutletContext, useParams } from "react-router-dom";
 import ArticlePreview from "../article/ArticlePreview";
 import Loading from "../Loading";
 
-import { getGlobalArticles } from "../../api/article";
+import { getArticles } from "../../api/article";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state";
 import { ArticleProps } from "../../types";
@@ -23,9 +23,7 @@ const FavoritedArticle = () => {
 
   useEffect(() => {
     const initFavoritedArticle = async () => {
-      const { articles } = await getGlobalArticles(
-        `/articles?favorited=${userId}`
-      );
+      const { articles } = await getArticles(`/articles?favorited=${userId}`);
       setFavoritedArticles(articles);
     };
     initFavoritedArticle().then(() => setLoading(false));

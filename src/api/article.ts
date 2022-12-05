@@ -18,5 +18,3 @@ export const deleteArticles = (url: string) => DELETE(url);
 
 export const putArticles = (url: string, body: articleAPIBodyProps) =>
   PUT(url, body);
-
-export const getGlobalArticles = (url: string) => GET(url);
