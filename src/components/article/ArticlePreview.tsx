@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import { ArticleProps } from "../../types";
 import { convertToDate } from "../../utils";
+import ArticleTag from "../tag/ArticleTag";
 
 const ArticlePreview = ({ article }: { article: ArticleProps }) => {
   return (
@@ -27,6 +28,11 @@ const ArticlePreview = ({ article }: { article: ArticleProps }) => {
         <h1>{article.title}</h1>
         <p>{article.description}</p>
         <span>Read more...</span>
+        <ul className="tag-list">
+          {article.tagList.map((tag) => (
+            <ArticleTag key={tag} name={tag} />
+          ))}
+        </ul>
       </Link>
     </div>
   );
