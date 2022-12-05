@@ -1,21 +1,30 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import MyFeed from "../components/feed/MyFeed";
 import GlobalFeed from "../components/feed/GlobalFeed";
+import TagFeed from "../components/feed/TagFeed";
 import LinkTag from "../components/tag/LinkTag";
-import { menuState } from "../state";
+import { isLoggedInState, menuState } from "../state";
 import { getTags } from "../api/tags";
 
 const Home = () => {
   const setMenu = useSetRecoilState(menuState);
-  const isLoggedIn = localStorage.getItem("token");
+  const isLoggedIn = useRecoilValue(isLoggedInState);
   const [toggle, setToggle] = useState(isLoggedIn ? 0 : 1);
   const [tagList, setTagList] = useState<string[]>([]);
+  const [tagName, setTagName] = useState("");
+  const [tagLoading, setTagLoading] = useState(true);
 
-  const handleTag = () => {};
+  const handleClickTag = (tag: string) => {
+    handleTagLoading(true);
+    setToggle(2);
+    setTagName(tag);
+  };
+
+  const handleTagLoading = (isLoading: boolean) => setTagLoading(isLoading);
 
   useEffect(() => {
     const initTags = async () => {
@@ -69,9 +78,26 @@ const Home = () => {
                       Global Feed
                     </Link>
                   </li>
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link active"
+                      to="/"
+                      onClick={() => setToggle(2)}
+                      hidden={toggle !== 2}
+                    >
+                      <i className="ion-pound"></i> {tagName}{" "}
+                    </Link>
+                  </li>
                 </ul>
               </div>
-              {toggle === 0 ? <MyFeed /> : <GlobalFeed />}
+              <MyFeed toggle={toggle} />
+              <GlobalFeed toggle={toggle} />
+              <TagFeed
+                toggle={toggle}
+                name={tagName}
+                loading={tagLoading}
+                setLoading={handleTagLoading}
+              />
             </div>
 
             <div className="col-md-3">
@@ -79,7 +105,11 @@ const Home = () => {
                 <p>Popular Tags</p>
                 <div className="tag-list">
                   {tagList.map((tag) => (
-                    <LinkTag key={tag} name={tag} onClick={() => handleTag()} />
+                    <LinkTag
+                      key={tag}
+                      name={tag}
+                      onClick={() => handleClickTag(tag)}
+                    />
                   ))}
                 </div>
               </div>
