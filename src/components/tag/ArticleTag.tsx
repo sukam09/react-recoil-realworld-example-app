@@ -1,11 +1,5 @@
-interface ArticleTagProps {
-  name: string;
-}
-
-const ArticleTag = ({ name }: ArticleTagProps) => {
-  return (
-    <span className="tag-default tag-pill tag-outline">{` ${name} `}</span>
-  );
+const ArticleTag = ({ name }: { name: string }) => {
+  return <li className="tag-default tag-pill tag-outline">{` ${name} `}</li>;
 };
 
 export default ArticleTag;
