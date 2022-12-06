@@ -17,6 +17,7 @@ import { menuState, userState } from "../state";
 import { ArticleProps, CommentProps } from "../types";
 import { convertToDate } from "../utils";
 import { postFollow, deleteFollow } from "../api/profile";
+import Loading from "../components/Loading";
 
 const FAVORITED_CLASS = "btn btn-sm btn-primary";
 const UNFAVORITED_CLASS = "btn btn-sm btn-outline-primary";
@@ -44,6 +45,7 @@ const Article = () => {
   const [disabled, setDisabled] = useState(false);
   const [isUser, setIsUser] = useState(false);
   const [pageTitle, setPageTitle] = useState("Home — Conduit");
+  const [loading, setLoading] = useState(true);
 
   const isLoggedIn = localStorage.getItem("token");
   const setMenu = useSetRecoilState(menuState);
@@ -121,10 +123,12 @@ const Article = () => {
       setComments(commentsData.comments);
       setIsUser(articleData.article.author.username === user.username);
     };
-    initArticlePage();
+    initArticlePage().then(() => setLoading(false));
   }, [URLSlug, user.username]);
 
   useEffect(() => setMenu(-1), [setMenu]);
+
+  if (loading) return <Loading />;
 
   return (
     <>
