@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import MyFeed from "../components/feed/MyFeed";
-import GlobalFeed from "../components/feed/GlobalFeed";
+import Feed from "../components/feed/Feed";
 import TagFeed from "../components/feed/TagFeed";
 import LinkTag from "../components/tag/LinkTag";
 import { isLoggedInState, menuState } from "../state";
@@ -90,14 +89,29 @@ const Home = () => {
                   </li>
                 </ul>
               </div>
-              <MyFeed toggle={toggle} />
-              <GlobalFeed toggle={toggle} />
-              <TagFeed
-                toggle={toggle}
-                name={tagName}
-                loading={tagLoading}
-                setLoading={handleTagLoading}
-              />
+              {toggle === 0 && <Feed query="/feed" />}
+              {toggle === 1 && <Feed query="?limit=20&offset=0" />}
+              {toggle === 2 && (
+                <TagFeed
+                  name={tagName}
+                  loading={tagLoading}
+                  setLoading={handleTagLoading}
+                />
+              )}
+
+              <nav>
+                <ul className="pagination">
+                  <li className="page-item active">
+                    <a className="page-link">1</a>
+                  </li>
+                  <li className="page-item">
+                    <a className="page-link">2</a>
+                  </li>
+                  <li className="page-item">
+                    <a className="page-link">3</a>
+                  </li>
+                </ul>
+              </nav>
             </div>
 
             <div className="col-md-3">
