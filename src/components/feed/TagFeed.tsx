@@ -5,13 +5,12 @@ import { getArticles } from "../../api/article";
 import { ArticleProps } from "../../types";
 
 interface TagFeedProps {
-  toggle: number;
   name: string;
   loading: boolean;
   setLoading: (isLoading: boolean) => void;
 }
 
-const TagFeed = ({ toggle, name, loading, setLoading }: TagFeedProps) => {
+const TagFeed = ({ name, loading, setLoading }: TagFeedProps) => {
   const [articles, setArticles] = useState<ArticleProps[]>([]);
 
   useEffect(() => {
@@ -22,7 +21,6 @@ const TagFeed = ({ toggle, name, loading, setLoading }: TagFeedProps) => {
     initArticles().then(() => setLoading(false));
   }, [name, setLoading]);
 
-  if (toggle !== 2) return null;
   return (
     <>
       {loading ? (
