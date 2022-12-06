@@ -25,9 +25,8 @@ const UserImage = () => {
         image: image,
         username: username,
       });
-      setLoading(false);
     };
-    getUsername();
+    getUsername().then(() => setLoading(false));
   }, [navigate]);
 
   return (
