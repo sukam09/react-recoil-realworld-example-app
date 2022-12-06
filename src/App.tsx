@@ -11,7 +11,7 @@ import Profile from "./pages/Profile";
 import EditArticle from "./pages/EditArticle";
 import NewArticle from "./pages/NewArticle";
 
-import Header from "./components/header";
+import Header from "./components/header/Header";
 import Footer from "./components/Footer";
 import MyArticle from "./components/profile/MyArticle";
 import FavoritedArticle from "./components/profile/FavoritedArticle";
