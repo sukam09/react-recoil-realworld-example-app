@@ -41,7 +41,7 @@ const Article = () => {
   const [comments, setComments] = useState<CommentProps[]>([]);
   const [disabled, setDisabled] = useState(false);
   const [isUser, setIsUser] = useState(false);
-  const [pageTitle, setPageTitle] = useState("Home — Conduit");
+  const [pageTitle, setPageTitle] = useState("");
   const [loading, setLoading] = useState(true);
 
   const isLoggedIn = localStorage.getItem("token");
