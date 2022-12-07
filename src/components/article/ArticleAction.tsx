@@ -1,6 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArticleProps } from "../../types";
 import FollowButton from "../FollowButton";
+
+import { useRecoilValue } from "recoil";
+import { isLoggedInState } from "../../state";
 
 const FAVORITED_CLASS = "btn btn-sm btn-primary";
 const UNFAVORITED_CLASS = "btn btn-sm btn-outline-primary";
@@ -24,6 +27,9 @@ const ArticleAction = ({
   unfavorite,
   article,
 }: ArticleActionProps) => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const navigate = useNavigate();
+
   return isUser ? (
     <>
       <Link to={`/editor/${article.slug}`}>
@@ -51,7 +57,10 @@ const ArticleAction = ({
       <button
         className={article.favorited ? FAVORITED_CLASS : UNFAVORITED_CLASS}
         type="button"
-        onClick={() => (article.favorited ? unfavorite() : favorite())}
+        onClick={() => {
+          if (!isLoggedIn) navigate("/register");
+          article.favorited ? unfavorite() : favorite();
+        }}
       >
         <i className="ion-heart"></i>
         &nbsp; {article.favorited ? "Unfavorite" : "Favorite"} Post
