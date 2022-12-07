@@ -7,20 +7,17 @@ import remarkGfm from "remark-gfm";
 
 import Comment from "../components/article/Comment";
 import ArticleTag from "../components/tag/ArticleTag";
-import FollowButton from "../components/FollowButton";
+import ArticleAction from "../components/article/ArticleAction";
+import Loading from "../components/Loading";
 
 import { getArticles, deleteArticles } from "../api/article";
 import { getComments, postComments } from "../api/comment";
 import { postFavorites, deleteFavorites } from "../api/favorites";
+import { postFollow, deleteFollow } from "../api/profile";
 
 import { menuState, userState } from "../state";
 import { ArticleProps, CommentProps } from "../types";
 import { convertToDate } from "../utils";
-import { postFollow, deleteFollow } from "../api/profile";
-import Loading from "../components/Loading";
-
-const FAVORITED_CLASS = "btn btn-sm btn-primary";
-const UNFAVORITED_CLASS = "btn btn-sm btn-outline-primary";
 
 const Article = () => {
   const [article, setArticle] = useState<ArticleProps>({
@@ -157,48 +154,16 @@ const Article = () => {
                 </Link>
                 <span className="date">{convertToDate(article.createdAt)}</span>
               </div>
-              {isUser ? (
-                <>
-                  <Link to={`/editor/${article.slug}`}>
-                    <button
-                      className="btn btn-sm btn-outline-secondary"
-                      type="button"
-                    >
-                      <i className="ion-edit"></i> Edit Article
-                    </button>{" "}
-                  </Link>
-                  <button
-                    className="btn btn-sm btn-outline-danger"
-                    type="button"
-                    onClick={() => removeArticle()}
-                  >
-                    <i className="ion-trash-a"></i> Delete Article
-                  </button>
-                </>
-              ) : (
-                <>
-                  <FollowButton
-                    following={article.author.following}
-                    username={article.author.username}
-                    follow={follow}
-                    unfollow={unfollow}
-                  />
-                  &nbsp;&nbsp;
-                  <button
-                    className={
-                      article.favorited ? FAVORITED_CLASS : UNFAVORITED_CLASS
-                    }
-                    type="button"
-                    onClick={() =>
-                      article.favorited ? unfavorite() : favorite()
-                    }
-                  >
-                    <i className="ion-heart"></i>
-                    &nbsp; {article.favorited ? "Unfavorite" : "Favorite"} Post
-                    <span className="counter">({article.favoritesCount})</span>
-                  </button>
-                </>
-              )}
+
+              <ArticleAction
+                isUser={isUser}
+                removeArticle={removeArticle}
+                follow={follow}
+                unfollow={unfollow}
+                favorite={favorite}
+                unfavorite={unfavorite}
+                article={article}
+              />
             </div>
           </div>
         </div>
@@ -231,6 +196,16 @@ const Article = () => {
                 </Link>
                 <span className="date">{convertToDate(article.createdAt)}</span>
               </div>
+
+              <ArticleAction
+                isUser={isUser}
+                removeArticle={removeArticle}
+                follow={follow}
+                unfollow={unfollow}
+                favorite={favorite}
+                unfavorite={unfavorite}
+                article={article}
+              />
             </div>
           </div>
           <div className="row">
