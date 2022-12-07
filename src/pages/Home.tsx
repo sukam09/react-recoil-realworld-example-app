@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
@@ -16,6 +16,7 @@ const Home = () => {
   const [tagList, setTagList] = useState<string[]>([]);
   const [tagName, setTagName] = useState("");
   const [tagLoading, setTagLoading] = useState(true);
+  const navigate = useNavigate();
 
   const handleClickTag = (tag: string) => {
     handleTagLoading(true);
@@ -36,6 +37,8 @@ const Home = () => {
   useEffect(() => {
     setMenu(0);
   }, [setMenu]);
+
+  useEffect(() => navigate("/", { replace: true }), [navigate]);
 
   return (
     <>
