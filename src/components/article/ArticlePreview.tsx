@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { deleteFavorites, postFavorites } from "../../api/favorites";
 
 import { ArticleProps } from "../../types";
 import { convertToDate } from "../../utils";
@@ -8,6 +10,21 @@ const FAVORITED_CLASS = "btn btn-sm btn-primary";
 const UNFAVORITED_CLASS = "btn btn-sm btn-outline-primary";
 
 const ArticlePreview = ({ article }: { article: ArticleProps }) => {
+  const [favorited, setFavorited] = useState(article.favorited);
+  const [favoritesCount, setFavoritesCount] = useState(article.favoritesCount);
+
+  const favorite = async () => {
+    await postFavorites(`/articles/${article.slug}/favorite`);
+    setFavorited(true);
+    setFavoritesCount(favoritesCount + 1);
+  };
+
+  const unfavorite = async () => {
+    await deleteFavorites(`/articles/${article.slug}/favorite`);
+    setFavorited(false);
+    setFavoritesCount(favoritesCount - 1);
+  };
+
   return (
     <div className="article-preview">
       <div className="article-meta">
@@ -23,9 +40,12 @@ const ArticlePreview = ({ article }: { article: ArticleProps }) => {
         <div className="pull-xs-right">
           <button
             type="button"
-            className={article.favorited ? FAVORITED_CLASS : UNFAVORITED_CLASS}
+            className={favorited ? FAVORITED_CLASS : UNFAVORITED_CLASS}
+            onClick={() => {
+              favorited ? unfavorite() : favorite();
+            }}
           >
-            <i className="ion-heart" /> {article.favoritesCount}
+            <i className="ion-heart" /> {favoritesCount}
           </button>
         </div>
       </div>
