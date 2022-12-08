@@ -23,13 +23,8 @@ const fetchWrap = async ({ method, url, body }: fetchWrapProps) => {
       {};
     return data;
   } catch (err: any) {
-    // TODO: api common error handling may be deleted
-    // if (err.response.status === 401 || err.response.status === 404) {
-    //   // temporarily deactivate forced logout
-    //   // TODO: change to use custom function acting like react
-    //   // localStorage.removeItem("token");
-    //   // window.location.replace("/#/");
-    // }
+    // TODO: API common error handlings
+    console.log(err);
     throw err;
   }
 };
