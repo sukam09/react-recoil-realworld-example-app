@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { deleteFavorites, postFavorites } from "../../api/favorites";
+import { Link, useNavigate } from "react-router-dom";
+import { postFavorites, deleteFavorites } from "../../api/favorites";
 
 import { ArticleProps } from "../../types";
 import { convertToDate } from "../../utils";
 import ArticleTag from "../tag/ArticleTag";
+
+import { useRecoilValue } from "recoil";
+import { isLoggedInState } from "../../state";
 
 const FAVORITED_CLASS = "btn btn-sm btn-primary";
 const UNFAVORITED_CLASS = "btn btn-sm btn-outline-primary";
@@ -12,6 +15,8 @@ const UNFAVORITED_CLASS = "btn btn-sm btn-outline-primary";
 const ArticlePreview = ({ article }: { article: ArticleProps }) => {
   const [favorited, setFavorited] = useState(article.favorited);
   const [favoritesCount, setFavoritesCount] = useState(article.favoritesCount);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const navigate = useNavigate();
 
   const favorite = async () => {
     await postFavorites(`/articles/${article.slug}/favorite`);
@@ -42,6 +47,7 @@ const ArticlePreview = ({ article }: { article: ArticleProps }) => {
             type="button"
             className={favorited ? FAVORITED_CLASS : UNFAVORITED_CLASS}
             onClick={() => {
+              if (!isLoggedIn) navigate("/register");
               favorited ? unfavorite() : favorite();
             }}
           >
