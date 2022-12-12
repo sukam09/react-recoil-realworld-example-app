@@ -8,7 +8,7 @@ import remarkGfm from "remark-gfm";
 import Comment from "../components/article/Comment";
 import ArticleTag from "../components/tag/ArticleTag";
 import ArticleAction from "../components/article/ArticleAction";
-import Loading from "../components/Loading";
+import Loading from "../components/common/Loading";
 
 import { getArticles, deleteArticles } from "../api/article";
 import { getComments, postComments } from "../api/comment";
@@ -42,9 +42,9 @@ const Article = () => {
   const [disabled, setDisabled] = useState(false);
   const [isUser, setIsUser] = useState(false);
   const [pageTitle, setPageTitle] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const isLoggedIn = localStorage.getItem("token");
+  const isLoggedIn = localStorage.getItem("jwtToken");
   const setMenu = useSetRecoilState(menuState);
   const user = useRecoilValue(userState);
   const { URLSlug } = useParams();
@@ -113,19 +113,20 @@ const Article = () => {
 
   useEffect(() => {
     const initArticlePage = async () => {
-      const articleData = await getArticles(`/articles/${URLSlug}`);
-      const commentsData = await getComments(`/articles/${URLSlug}/comments`);
-      setArticle(articleData.article);
-      setPageTitle(articleData.article.title);
-      setComments(commentsData.comments);
-      setIsUser(articleData.article.author.username === user.username);
+      setLoading(true);
+      const { article } = await getArticles(`/articles/${URLSlug}`);
+      const { comments } = await getComments(`/articles/${URLSlug}/comments`);
+      setArticle(article);
+      setPageTitle(article.title);
+      setComments(comments);
+      setIsUser(article.author.username === user.username);
     };
     initArticlePage().then(() => setLoading(false));
   }, [URLSlug, user.username]);
 
   useEffect(() => setMenu(-1), [setMenu]);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading text="article" />;
 
   return (
     <>

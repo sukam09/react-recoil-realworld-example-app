@@ -4,6 +4,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 
 import EditorTag from "../components/tag/EditorTag";
+import Loading from "../components/common/Loading";
 import { putArticles, getArticles } from "../api/article";
 import { isLoggedInState, menuState, userState } from "../state";
 
@@ -30,6 +31,7 @@ const EditArticle = () => {
     body: "",
   });
   const [disabled, setDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const setMenu = useSetRecoilState(menuState);
   const navigate = useNavigate();
@@ -94,9 +96,9 @@ const EditArticle = () => {
     setDisabled(false);
   };
 
-  // TODO: add loading
   useEffect(() => {
     const initArticle = async () => {
+      setLoading(true);
       const { article } = await getArticles(`articles/${URLSlug}`);
       if (!isLoggedIn || article.author.username !== user.username) {
         navigate("/", { replace: true });
@@ -109,12 +111,14 @@ const EditArticle = () => {
         tagList: article.tagList,
       });
     };
-    initArticle();
+    initArticle().then(() => setLoading(false));
   }, [URLSlug, isLoggedIn, navigate, user.username]);
 
   useEffect(() => {
     setMenu(3);
   }, [setMenu]);
+
+  if (loading) return <Loading text="editor" />;
 
   return (
     <>

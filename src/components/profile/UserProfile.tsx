@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import Loading from "../Loading";
+import Loading from "../common/Loading";
 import { getProfile } from "../../api/profile";
 import { menuState, userState } from "../../state";
-import FollowButton from "../FollowButton";
+import FollowButton from "../common/FollowButton";
 import { postFollow, deleteFollow } from "../../api/profile";
 
 const UserProfile = () => {
@@ -61,7 +61,7 @@ const UserProfile = () => {
     <>
       <div className="user-info">
         {loading ? (
-          <Loading />
+          <Loading text="profile" />
         ) : (
           <div className="container">
             <div className="row">

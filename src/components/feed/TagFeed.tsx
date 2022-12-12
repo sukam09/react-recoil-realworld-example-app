@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Loading from "../Loading";
+import Loading from "../common/Loading";
 import ArticlePreview from "../article/ArticlePreview";
 import { getArticles } from "../../api/article";
 import { ArticleProps } from "../../types";
@@ -7,7 +7,7 @@ import { ArticleProps } from "../../types";
 interface TagFeedProps {
   name: string;
   loading: boolean;
-  setLoading: (isLoading: boolean) => void;
+  setLoading: (loading: boolean) => void;
 }
 
 const TagFeed = ({ name, loading, setLoading }: TagFeedProps) => {
@@ -25,7 +25,7 @@ const TagFeed = ({ name, loading, setLoading }: TagFeedProps) => {
     <>
       {loading ? (
         <div className="article-preview">
-          <Loading />
+          <Loading text="articles" />
         </div>
       ) : (
         <>
