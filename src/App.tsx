@@ -2,6 +2,10 @@ import { useEffect } from "react";
 import { Routes, Route, HashRouter, Navigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
+import Header from "./components/header/Header";
+import Footer from "./components/common/Footer";
+import ScrollTop from "./components/common/ScrollTop";
+
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -10,11 +14,6 @@ import Article from "./pages/Article";
 import Profile from "./pages/Profile";
 import EditArticle from "./pages/EditArticle";
 import NewArticle from "./pages/NewArticle";
-
-import Header from "./components/header/Header";
-import Footer from "./components/Footer";
-import MyArticle from "./components/profile/MyArticle";
-import FavoritedArticle from "./components/profile/FavoritedArticle";
 
 import { getUser } from "./api/user";
 import { isLoggedInState, userState } from "./state";
@@ -35,8 +34,8 @@ const App = () => {
       });
     };
 
-    const token = localStorage.getItem("token");
-    if (token) {
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (jwtToken) {
       setIsLoggedIn(true);
       initUser();
     }
@@ -45,6 +44,7 @@ const App = () => {
   return (
     <>
       <HashRouter>
+        <ScrollTop />
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -54,10 +54,7 @@ const App = () => {
           <Route path="/editor" element={<NewArticle />} />
           <Route path="/editor/:URLSlug" element={<EditArticle />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/profile/:userId" element={<Profile />}>
-            <Route path="" element={<MyArticle />} />
-            <Route path="favorites" element={<FavoritedArticle />} />
-          </Route>
+          <Route path="/profile/:userId/*" element={<Profile />} />
           <Route path="*" element={<Navigate to="/" replace={true} />} />
         </Routes>
         <Footer />
