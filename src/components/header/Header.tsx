@@ -6,7 +6,7 @@ import LogoutHeader from "./LogoutHeader";
 import { menuState } from "../../state";
 
 const Header = () => {
-  const isLoggedIn = localStorage.getItem("token");
+  const isLoggedIn = localStorage.getItem("jwtToken");
   const menu = useRecoilValue(menuState);
 
   return (

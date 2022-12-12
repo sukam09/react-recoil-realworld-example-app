@@ -42,7 +42,7 @@ const Register = () => {
           password: password,
         },
       });
-      localStorage.setItem("token", data.user.token);
+      localStorage.setItem("jwtToken", data.user.token);
       setUser(data.user);
       navigate("/", { replace: true });
     } catch (error: any) {

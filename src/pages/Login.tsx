@@ -41,7 +41,7 @@ const Login = () => {
           password: password,
         },
       });
-      localStorage.setItem("token", data.user.token);
+      localStorage.setItem("jwtToken", data.user.token);
       setIsLoggedIn(true);
       setUser(data.user);
       navigate("/", { replace: true });

@@ -7,12 +7,12 @@ interface fetchWrapProps {
 }
 
 const fetchWrap = async ({ method, url, body }: fetchWrapProps) => {
-  const token = localStorage.getItem("token");
+  const jwtToken = localStorage.getItem("jwtToken");
   try {
     const config = {
       baseURL: "https://api.realworld.io/api",
       headers: {
-        Authorization: token ? `Token ${token}` : "",
+        Authorization: jwtToken ? `Token ${jwtToken}` : "",
       },
     };
     const { data } =
