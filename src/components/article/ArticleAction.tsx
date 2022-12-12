@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { ArticleProps } from "../../types";
-import FollowButton from "../FollowButton";
+import FollowButton from "../common/FollowButton";
 
 import { useRecoilValue } from "recoil";
 import { isLoggedInState } from "../../state";
@@ -53,7 +53,7 @@ const ArticleAction = ({
         follow={follow}
         unfollow={unfollow}
       />
-      &nbsp;
+      &nbsp;&nbsp;
       <button
         className={article.favorited ? FAVORITED_CLASS : UNFAVORITED_CLASS}
         type="button"
