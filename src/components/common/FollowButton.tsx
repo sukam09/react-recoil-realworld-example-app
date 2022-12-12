@@ -1,6 +1,6 @@
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
-import { isLoggedInState } from "../state";
+import { isLoggedInState } from "../../state";
 
 const FOLLOWING_CLASS = "btn btn-sm action-btn btn-secondary";
 const UNFOLLOWING_CLASS = "btn btn-sm action-btn btn-outline-secondary";
