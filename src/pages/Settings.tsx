@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
@@ -44,7 +44,7 @@ const Settings = () => {
         password: password,
       },
     });
-    localStorage.setItem("token", data.user.token);
+    localStorage.setItem("jwtToken", data.user.token);
     setUser({
       email: data.user.email,
       username: data.user.username,
@@ -56,7 +56,7 @@ const Settings = () => {
   };
 
   const onLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("jwtToken");
     setIsLoggedIn(false);
     setUser({ email: "", username: "", bio: "", image: "" });
     navigate("/", { replace: true });
@@ -76,9 +76,7 @@ const Settings = () => {
     setMenu(4);
   }, [setMenu]);
 
-  if (!isLoggedIn) {
-    return <Navigate to="/" replace={true} />;
-  }
+  if (!isLoggedIn) navigate("/", { replace: true });
 
   return (
     <>

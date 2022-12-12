@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 
@@ -98,9 +98,7 @@ const NewArticle = () => {
     setMenu(3);
   }, [setMenu]);
 
-  if (!isLoggedIn) {
-    return <Navigate to="/" replace={true} />;
-  }
+  if (!isLoggedIn) navigate("/", { replace: true });
 
   return (
     <>
