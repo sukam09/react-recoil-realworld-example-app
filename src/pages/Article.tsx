@@ -72,6 +72,7 @@ const Article = () => {
   };
 
   const follow = async () => {
+    await postFollow(`/profiles/${article.author.username}/follow`);
     setArticle({
       ...article,
       author: {
@@ -79,10 +80,10 @@ const Article = () => {
         following: true,
       },
     });
-    await postFollow(`/profiles/${article.author.username}/follow`);
   };
 
   const unfollow = async () => {
+    await deleteFollow(`/profiles/${article.author.username}/follow`);
     setArticle({
       ...article,
       author: {
@@ -90,25 +91,24 @@ const Article = () => {
         following: false,
       },
     });
-    await deleteFollow(`/profiles/${article.author.username}/follow`);
   };
 
   const favorite = async () => {
+    await postFavorites(`/articles/${article.slug}/favorite`);
     setArticle({
       ...article,
       favorited: true,
       favoritesCount: article.favoritesCount + 1,
     });
-    await postFavorites(`/articles/${article.slug}/favorite`);
   };
 
   const unfavorite = async () => {
+    await deleteFavorites(`/articles/${article.slug}/favorite`);
     setArticle({
       ...article,
       favorited: false,
       favoritesCount: article.favoritesCount - 1,
     });
-    await deleteFavorites(`/articles/${article.slug}/favorite`);
   };
 
   useEffect(() => {
