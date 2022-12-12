@@ -6,16 +6,24 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import Feed from "../components/feed/Feed";
 import TagFeed from "../components/feed/TagFeed";
 import LinkTag from "../components/tag/LinkTag";
+import Loading from "../components/common/Loading";
+
 import { isLoggedInState, menuState } from "../state";
 import { getTags } from "../api/tags";
+
+const ACTIVE_CLASS = "nav-link active";
+const INACTIVE_CLASS = "nav-link";
 
 const Home = () => {
   const setMenu = useSetRecoilState(menuState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
+
   const [toggle, setToggle] = useState(isLoggedIn ? 0 : 1);
   const [tagList, setTagList] = useState<string[]>([]);
   const [tagName, setTagName] = useState("");
-  const [tagLoading, setTagLoading] = useState(true);
+  const [tagLoading, setTagLoading] = useState(false);
+  const [tagListLoading, setTagListLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleClickTag = (tag: string) => {
@@ -24,14 +32,15 @@ const Home = () => {
     setTagName(tag);
   };
 
-  const handleTagLoading = (isLoading: boolean) => setTagLoading(isLoading);
+  const handleTagLoading = (loading: boolean) => setTagLoading(loading);
 
   useEffect(() => {
     const initTags = async () => {
+      setTagListLoading(true);
       const data = await getTags("/tags");
       setTagList(data.tags);
     };
-    initTags();
+    initTags().then(() => setTagListLoading(false));
   }, []);
 
   useEffect(() => {
@@ -63,7 +72,7 @@ const Home = () => {
                 <ul className="nav nav-pills outline-active">
                   <li className="nav-item">
                     <Link
-                      className={`nav-link ${toggle === 0 && "active"}`}
+                      className={toggle === 0 ? ACTIVE_CLASS : INACTIVE_CLASS}
                       to="/"
                       onClick={() => setToggle(0)}
                       hidden={!isLoggedIn}
@@ -73,7 +82,7 @@ const Home = () => {
                   </li>
                   <li className="nav-item">
                     <Link
-                      className={`nav-link ${toggle === 1 && "active"}`}
+                      className={toggle === 1 ? ACTIVE_CLASS : INACTIVE_CLASS}
                       to="/"
                       onClick={() => setToggle(1)}
                     >
@@ -82,7 +91,7 @@ const Home = () => {
                   </li>
                   <li className="nav-item">
                     <Link
-                      className="nav-link active"
+                      className={ACTIVE_CLASS}
                       to="/"
                       onClick={() => setToggle(2)}
                       hidden={toggle !== 2}
@@ -92,8 +101,8 @@ const Home = () => {
                   </li>
                 </ul>
               </div>
-              {toggle === 0 && <Feed query="/feed" />}
-              {toggle === 1 && <Feed query="?limit=20&offset=0" />}
+              {toggle === 0 && <Feed query="/feed" url="/" />}
+              {toggle === 1 && <Feed query="?limit=10" url="/" />}
               {toggle === 2 && (
                 <TagFeed
                   name={tagName}
@@ -101,33 +110,23 @@ const Home = () => {
                   setLoading={handleTagLoading}
                 />
               )}
-
-              <nav>
-                <ul className="pagination">
-                  <li className="page-item active">
-                    <a className="page-link">1</a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link">2</a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link">3</a>
-                  </li>
-                </ul>
-              </nav>
             </div>
 
             <div className="col-md-3">
               <div className="sidebar">
                 <p>Popular Tags</p>
                 <div className="tag-list">
-                  {tagList.map((tag) => (
-                    <LinkTag
-                      key={tag}
-                      name={tag}
-                      onClick={() => handleClickTag(tag)}
-                    />
-                  ))}
+                  {tagListLoading ? (
+                    <Loading text="tags" />
+                  ) : (
+                    tagList.map((tag) => (
+                      <LinkTag
+                        key={tag}
+                        name={tag}
+                        onClick={() => handleClickTag(tag)}
+                      />
+                    ))
+                  )}
                 </div>
               </div>
             </div>
