@@ -11,9 +11,6 @@ import Loading from "../components/common/Loading";
 import { isLoggedInState, menuState } from "../state";
 import { getTags } from "../api/tags";
 
-const ACTIVE_CLASS = "nav-link active";
-const INACTIVE_CLASS = "nav-link";
-
 const Home = () => {
   const setMenu = useSetRecoilState(menuState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -72,7 +69,7 @@ const Home = () => {
                 <ul className="nav nav-pills outline-active">
                   <li className="nav-item">
                     <Link
-                      className={toggle === 0 ? ACTIVE_CLASS : INACTIVE_CLASS}
+                      className={`nav-link ${toggle === 0 ? "active" : ""}`}
                       to="/"
                       onClick={() => setToggle(0)}
                       hidden={!isLoggedIn}
@@ -82,7 +79,7 @@ const Home = () => {
                   </li>
                   <li className="nav-item">
                     <Link
-                      className={toggle === 1 ? ACTIVE_CLASS : INACTIVE_CLASS}
+                      className={`nav-link ${toggle === 1 ? "active" : ""}`}
                       to="/"
                       onClick={() => setToggle(1)}
                     >
@@ -91,7 +88,7 @@ const Home = () => {
                   </li>
                   <li className="nav-item">
                     <Link
-                      className={ACTIVE_CLASS}
+                      className="nav-link active"
                       to="/"
                       onClick={() => setToggle(2)}
                       hidden={toggle !== 2}

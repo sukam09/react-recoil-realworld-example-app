@@ -5,9 +5,6 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import UserProfile from "../components/profile/UserProfile";
 import Feed from "../components/feed/Feed";
 
-const ACTIVE_CLASS = "nav-link active";
-const INACTIVE_CLASS = "nav-link";
-
 const Profile = () => {
   const { userId } = useParams();
   const [toggle, setToggle] = useState(0);
@@ -31,7 +28,7 @@ const Profile = () => {
                 <ul className="nav nav-pills outline-active">
                   <li className="nav-item">
                     <Link
-                      className={toggle === 0 ? ACTIVE_CLASS : INACTIVE_CLASS}
+                      className={`nav-link ${toggle === 0 ? "active" : ""}`}
                       to={`/profile/${userId}`}
                       onClick={() => setToggle(0)}
                     >
@@ -40,7 +37,7 @@ const Profile = () => {
                   </li>
                   <li className="nav-item">
                     <Link
-                      className={toggle === 1 ? ACTIVE_CLASS : INACTIVE_CLASS}
+                      className={`nav-link ${toggle === 1 ? "active" : ""}`}
                       to={`/profile/${userId}/favorites`}
                       onClick={() => setToggle(1)}
                     >
