@@ -42,19 +42,19 @@ const UserProfile = () => {
   }, [navigate, userId]);
 
   const follow = async () => {
+    await postFollow(`/profiles/${userId}/follow`);
     setProfile({
       ...profile,
       following: true,
     });
-    await postFollow(`/profiles/${userId}/follow`);
   };
 
   const unfollow = async () => {
+    await deleteFollow(`/profiles/${userId}/follow`);
     setProfile({
       ...profile,
       following: false,
     });
-    await deleteFollow(`/profiles/${userId}/follow`);
   };
 
   return (
