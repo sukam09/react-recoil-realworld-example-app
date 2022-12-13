@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArticleProps } from "../../types";
 import FollowButton from "../common/FollowButton";
 
@@ -32,11 +32,13 @@ const ArticleAction = ({
 
   return isUser ? (
     <>
-      <Link to={`/editor/${article.slug}`}>
-        <button className="btn btn-sm btn-outline-secondary" type="button">
-          <i className="ion-edit"></i> Edit Article
-        </button>{" "}
-      </Link>
+      <button
+        className="btn btn-sm btn-outline-secondary"
+        type="button"
+        onClick={() => navigate(`/editor/${article.slug}`)}
+      >
+        <i className="ion-edit"></i> Edit Article
+      </button>{" "}
       <button
         className="btn btn-sm btn-outline-danger"
         type="button"
