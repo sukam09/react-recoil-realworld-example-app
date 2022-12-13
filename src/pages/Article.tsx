@@ -11,7 +11,7 @@ import ArticleAction from "../components/article/ArticleAction";
 import Loading from "../components/common/Loading";
 
 import { getArticles, deleteArticles } from "../api/article";
-import { getComments, postComments } from "../api/comment";
+import { deleteComment, getComments, postComments } from "../api/comment";
 import { postFavorites, deleteFavorites } from "../api/favorites";
 import { postFollow, deleteFollow } from "../api/profile";
 
@@ -39,7 +39,6 @@ const Article = () => {
 
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<CommentProps[]>([]);
-  const [disabled, setDisabled] = useState(false);
   const [isUser, setIsUser] = useState(false);
   const [pageTitle, setPageTitle] = useState("");
   const [loading, setLoading] = useState(false);
@@ -55,20 +54,23 @@ const Article = () => {
     setComment(value);
   };
 
+  const removeArticle = async () => {
+    await deleteArticles(`/articles/${URLSlug}`);
+    navigate("/", { replace: true });
+  };
+
   const publishComment = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setDisabled(true);
     const data = await postComments(`/articles/${URLSlug}/comments`, {
       comment: { body: comment },
     });
     setComments([data.comment, ...comments]);
     setComment("");
-    setDisabled(false);
   };
 
-  const removeArticle = async () => {
-    await deleteArticles(`/articles/${URLSlug}`);
-    navigate("/", { replace: true });
+  const removeComment = async (id: number) => {
+    await deleteComment(`/articles/${URLSlug}/comments/${id}`);
+    setComments(comments.filter((comment) => comment.id !== id));
   };
 
   const follow = async () => {
@@ -112,17 +114,23 @@ const Article = () => {
   };
 
   useEffect(() => {
-    const initArticlePage = async () => {
+    const initArticle = async () => {
       setLoading(true);
       const { article } = await getArticles(`/articles/${URLSlug}`);
-      const { comments } = await getComments(`/articles/${URLSlug}/comments`);
       setArticle(article);
       setPageTitle(article.title);
-      setComments(comments);
       setIsUser(article.author.username === user.username);
     };
-    initArticlePage().then(() => setLoading(false));
+    initArticle().then(() => setLoading(false));
   }, [URLSlug, user.username]);
+
+  useEffect(() => {
+    const initComments = async () => {
+      const { comments } = await getComments(`/articles/${URLSlug}/comments`);
+      setComments(comments);
+    };
+    initComments();
+  }, [URLSlug]);
 
   useEffect(() => setMenu(-1), [setMenu]);
 
@@ -220,7 +228,6 @@ const Article = () => {
                       rows={3}
                       value={comment}
                       onChange={onChange}
-                      disabled={disabled}
                     ></textarea>
                   </div>
                   <div className="card-footer">
@@ -228,10 +235,7 @@ const Article = () => {
                       src={article.author.image}
                       className="comment-author-img"
                     />
-                    <button
-                      className="btn btn-sm btn-primary"
-                      disabled={disabled}
-                    >
+                    <button className="btn btn-sm btn-primary">
                       Post Comment
                     </button>
                   </div>
@@ -245,7 +249,12 @@ const Article = () => {
               )}
               <div>
                 {comments.map((comment) => (
-                  <Comment key={comment.id} comment={comment} />
+                  <Comment
+                    key={comment.id}
+                    slug={article.slug}
+                    comment={comment}
+                    removeComment={removeComment}
+                  />
                 ))}
               </div>
             </div>

@@ -32,7 +32,7 @@ export interface ArticleProps {
 }
 
 export interface CommentProps {
-  id?: number;
+  id: number;
   createdAt: string;
   body: string;
   author: ProfileProps;

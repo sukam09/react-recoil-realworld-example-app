@@ -2,7 +2,20 @@ import { Link } from "react-router-dom";
 import { CommentProps } from "../../types";
 import { convertToDate } from "../../utils";
 
-const Comment = ({ comment }: { comment: CommentProps }) => {
+import { useRecoilValue } from "recoil";
+import { userState } from "../../state";
+
+const Comment = ({
+  slug,
+  comment,
+  removeComment,
+}: {
+  slug: string;
+  comment: CommentProps;
+  removeComment: (id: number) => Promise<void>;
+}) => {
+  const username = useRecoilValue(userState).username;
+
   return (
     <div className="card">
       <div className="card-block">
@@ -22,6 +35,14 @@ const Comment = ({ comment }: { comment: CommentProps }) => {
           {comment.author.username}
         </Link>
         <span className="date-posted">{convertToDate(comment.createdAt)}</span>
+        {comment.author.username === username ? (
+          <span className="mod-options">
+            <i
+              className="ion-trash-a"
+              onClick={() => removeComment(comment.id)}
+            ></i>
+          </span>
+        ) : null}
       </div>
     </div>
   );

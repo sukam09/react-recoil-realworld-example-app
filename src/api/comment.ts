@@ -1,4 +1,4 @@
-import { GET, POST } from "./config";
+import { GET, POST, DELETE } from "./config";
 
 export const postComments = (
   url: string,
@@ -6,3 +6,5 @@ export const postComments = (
 ) => POST(url, body);
 
 export const getComments = (url: string) => GET(url);
+
+export const deleteComment = (url: string) => DELETE(url);
