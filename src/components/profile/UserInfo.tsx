@@ -8,14 +8,14 @@ import { menuState, userState } from "../../state";
 import FollowButton from "../common/FollowButton";
 import { postFollow, deleteFollow } from "../../api/profile";
 
-const UserProfile = () => {
-  const [profile, setProfile] = useState({
+const UserInfo = () => {
+  const [userInfo, setUserInfo] = useState({
     image: "",
     username: "",
     bio: "",
     following: false,
   });
-  const { image, username, bio, following } = profile;
+  const { image, username, bio, following } = userInfo;
   const [loading, setLoading] = useState(true);
 
   const setMenu = useSetRecoilState(menuState);
@@ -28,31 +28,31 @@ const UserProfile = () => {
   }, [setMenu, user.username, userId]);
 
   useEffect(() => {
-    const initProfile = async () => {
+    const initUserInfo = async () => {
       const data = await getProfile(`/profiles/${userId}`);
       const { image, username, bio, following } = data.profile;
-      setProfile({
+      setUserInfo({
         image: image,
         username: username,
         bio: bio,
         following: following,
       });
     };
-    initProfile().then(() => setLoading(false));
+    initUserInfo().then(() => setLoading(false));
   }, [navigate, userId]);
 
   const follow = async () => {
     await postFollow(`/profiles/${userId}/follow`);
-    setProfile({
-      ...profile,
+    setUserInfo({
+      ...userInfo,
       following: true,
     });
   };
 
   const unfollow = async () => {
     await deleteFollow(`/profiles/${userId}/follow`);
-    setProfile({
-      ...profile,
+    setUserInfo({
+      ...userInfo,
       following: false,
     });
   };
@@ -92,4 +92,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default UserInfo;
