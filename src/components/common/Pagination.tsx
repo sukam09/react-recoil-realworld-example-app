@@ -28,9 +28,7 @@ const Pagination = ({
               <Link
                 to={url}
                 className="page-link"
-                onClick={() => {
-                  if (page !== num + 1) movePage(num + 1);
-                }}
+                onClick={() => movePage(num + 1)}
               >
                 {num + 1}
               </Link>

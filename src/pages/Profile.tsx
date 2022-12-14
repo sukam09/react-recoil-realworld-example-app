@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Link, useParams, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, Link, useParams, Route, Routes } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import UserProfile from "../components/profile/UserProfile";
+import UserInfo from "../components/profile/UserInfo";
 import Feed from "../components/feed/Feed";
 
 const Profile = () => {
@@ -19,7 +19,7 @@ const Profile = () => {
       </HelmetProvider>
 
       <div className="profile-page">
-        <UserProfile />
+        <UserInfo />
 
         <div className="container">
           <div className="row">
@@ -27,45 +27,45 @@ const Profile = () => {
               <div className="articles-toggle">
                 <ul className="nav nav-pills outline-active">
                   <li className="nav-item">
-                    <Link
-                      className={`nav-link ${toggle === 0 ? "active" : ""}`}
-                      to={`/profile/${userId}`}
-                      onClick={() => setToggle(0)}
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? "nav-link active" : "nav-link"
+                      }
+                      end
+                      to={encodeURI(`/profile/${userId}`)}
                     >
                       My Articles
-                    </Link>
+                    </NavLink>
                   </li>
                   <li className="nav-item">
-                    <Link
-                      className={`nav-link ${toggle === 1 ? "active" : ""}`}
-                      to={`/profile/${userId}/favorites`}
-                      onClick={() => setToggle(1)}
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? "nav-link active" : "nav-link"
+                      }
+                      end
+                      to={encodeURI(`/profile/${userId}/favorites`)}
                     >
                       Favorited Articles
-                    </Link>
+                    </NavLink>
                   </li>
                 </ul>
               </div>
               <Routes>
                 <Route
-                  path=""
+                  path="/"
                   element={
                     <Feed
                       query={`?author=${userId}`}
                       url={`/profile/${userId}`}
-                      num={0}
-                      handleToggle={handleToggle}
                     />
                   }
                 />
                 <Route
-                  path="favorites"
+                  path="/favorites"
                   element={
                     <Feed
                       query={`?favorited=${userId}`}
                       url={`/profile/${userId}/favorites`}
-                      num={1}
-                      handleToggle={handleToggle}
                     />
                   }
                 />
