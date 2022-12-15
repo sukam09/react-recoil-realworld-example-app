@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { NavLink, Link, useParams, Route, Routes } from "react-router-dom";
+import { NavLink, useParams, Route, Routes } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import UserInfo from "../components/profile/UserInfo";
@@ -7,8 +6,6 @@ import Feed from "../components/feed/Feed";
 
 const Profile = () => {
   const { userId } = useParams();
-  const [toggle, setToggle] = useState(0);
-  const handleToggle = (num: number) => setToggle(num);
 
   return (
     <>
