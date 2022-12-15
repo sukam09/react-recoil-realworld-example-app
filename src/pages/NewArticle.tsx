@@ -67,10 +67,10 @@ const NewArticle = () => {
   };
 
   const publishArticle = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setDisabled(true);
     try {
-      const data = await postArticles("/articles", {
+      event.preventDefault();
+      setDisabled(true);
+      const { article } = await postArticles("/articles", {
         article: {
           title: title,
           description: description,
@@ -78,16 +78,20 @@ const NewArticle = () => {
           tagList: tagList,
         },
       });
-      const slug = data.article.slug;
-      navigate(`/article/${slug}`);
-    } catch (error: any) {
-      console.log(error);
-      if (error.response.status === 422) {
-        const errorMessage = error.response.data.errors;
+      navigate(`/article/${article.slug}`);
+    } catch (err: any) {
+      if (err.response.status === 422) {
+        const errorMessage = err.response.data.errors;
         setError({
           title: errorMessage.title,
           description: errorMessage.description,
           body: errorMessage.body,
+        });
+      } else {
+        setError({
+          title: "",
+          description: "",
+          body: "",
         });
       }
     }
