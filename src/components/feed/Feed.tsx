@@ -20,8 +20,7 @@ const Feed = ({ query, url }: { query: string; url: string }) => {
   useEffect(() => {
     const initArticles = async () => {
       setLoading(true);
-      const url =
-        query === "/feed" ? query : `${query}&offset=${10 * (page - 1)}`;
+      const url = `${query}?limit=10&offset=${10 * (page - 1)}`;
       const { articles, articlesCount } = await getArticles(`/articles${url}`);
       setArticles(articles);
       setArticlesCount(articlesCount);
