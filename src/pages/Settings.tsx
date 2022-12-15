@@ -35,23 +35,25 @@ const Settings = () => {
   const updateSettings = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setDisabled(true);
-    const data = await putUser("/user", {
-      user: {
-        email: email,
-        username: username,
-        bio: bio,
-        image: image,
-        password: password,
-      },
-    });
-    localStorage.setItem("jwtToken", data.user.token);
-    setUser({
-      email: data.user.email,
-      username: data.user.username,
-      bio: data.user.bio,
-      image: data.user.image,
-    });
-    navigate(`/profile/${username}`);
+    try {
+      const { user } = await putUser("/user", {
+        user: {
+          email: email,
+          username: username,
+          bio: bio,
+          image: image,
+          password: password,
+        },
+      });
+      localStorage.setItem("jwtToken", user.token);
+      setUser({
+        email: user.email,
+        username: user.username,
+        bio: user.bio,
+        image: user.image,
+      });
+      navigate(`/profile/${username}`);
+    } catch (err: any) {}
     setDisabled(false);
   };
 
