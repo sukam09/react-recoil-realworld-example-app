@@ -31,7 +31,7 @@ const EditArticle = () => {
     body: "",
   });
   const [disabled, setDisabled] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const setMenu = useSetRecoilState(menuState);
   const navigate = useNavigate();
@@ -98,18 +98,21 @@ const EditArticle = () => {
 
   useEffect(() => {
     const initArticle = async () => {
-      setLoading(true);
-      const { article } = await getArticles(`articles/${URLSlug}`);
-      if (!isLoggedIn || article.author.username !== user.username) {
+      try {
+        const { article } = await getArticles(`articles/${URLSlug}`);
+        if (!isLoggedIn || article.author.username !== user.username) {
+          navigate("/", { replace: true });
+        }
+        setEditor({
+          title: article.title,
+          description: article.description,
+          body: article.body,
+          tag: "",
+          tagList: article.tagList,
+        });
+      } catch (err: any) {
         navigate("/", { replace: true });
       }
-      setEditor({
-        title: article.title,
-        description: article.description,
-        body: article.body,
-        tag: "",
-        tagList: article.tagList,
-      });
     };
     initArticle().then(() => setLoading(false));
   }, [URLSlug, isLoggedIn, navigate, user.username]);
