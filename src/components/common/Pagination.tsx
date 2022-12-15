@@ -12,7 +12,7 @@ const Pagination = ({
   url: string;
 }) => {
   const pageLength = Math.floor(articlesCount / 10) + 1;
-  const pageNums = [...Array(pageLength).keys()];
+  const pageNums = [...Array(pageLength).keys()].map((x) => x + 1);
 
   if (pageLength === 1) return null;
 
@@ -23,14 +23,14 @@ const Pagination = ({
           {pageNums.map((num) => (
             <li
               key={num}
-              className={`page-item ${page === num + 1 ? "active" : ""}`}
+              className={`page-item ${page === num ? "active" : ""}`}
             >
               <Link
                 to={url}
                 className="page-link"
-                onClick={() => movePage(num + 1)}
+                onClick={() => movePage(num)}
               >
-                {num + 1}
+                {num}
               </Link>
             </li>
           ))}
