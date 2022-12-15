@@ -19,11 +19,15 @@ const Feed = ({ query, url }: { query: string; url: string }) => {
 
   useEffect(() => {
     const initArticles = async () => {
-      setLoading(true);
-      const url = `${query}?limit=10&offset=${10 * (page - 1)}`;
-      const { articles, articlesCount } = await getArticles(`/articles${url}`);
-      setArticles(articles);
-      setArticlesCount(articlesCount);
+      try {
+        setLoading(true);
+        const url = `${query}?limit=10&offset=${10 * (page - 1)}`;
+        const { articles, articlesCount } = await getArticles(
+          `/articles${url}`
+        );
+        setArticles(articles);
+        setArticlesCount(articlesCount);
+      } catch (err: any) {}
     };
     initArticles().then(() => setLoading(false));
   }, [query, page]);
