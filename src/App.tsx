@@ -23,22 +23,31 @@ const App = () => {
   const setUser = useSetRecoilState(userState);
 
   useEffect(() => {
-    const initUser = async () => {
-      const { user } = await getUser("/user");
-      const { email, username, bio, image } = user;
-      setUser({
-        email: email,
-        username: username,
-        bio: bio,
-        image: image,
-      });
+    const initApp = async () => {
+      try {
+        const jwtToken = localStorage.getItem("jwtToken");
+        if (!jwtToken) return;
+        const data = await getUser("/user");
+        const { email, username, bio, image } = data.user;
+        setIsLoggedIn(true);
+        setUser({
+          email: email,
+          username: username,
+          bio: bio,
+          image: image,
+        });
+      } catch (err: any) {
+        localStorage.removeItem("jwtToken");
+        setIsLoggedIn(false);
+        setUser({
+          email: "",
+          username: "",
+          bio: "",
+          image: "",
+        });
+      }
     };
-
-    const jwtToken = localStorage.getItem("jwtToken");
-    if (jwtToken) {
-      setIsLoggedIn(true);
-      initUser();
-    }
+    initApp();
   }, [setIsLoggedIn, setUser]);
 
   return (
