@@ -115,14 +115,18 @@ const Article = () => {
 
   useEffect(() => {
     const initArticle = async () => {
-      setLoading(true);
-      const { article } = await getArticles(`/articles/${URLSlug}`);
-      setArticle(article);
-      setPageTitle(article.title);
-      setIsUser(article.author.username === user.username);
+      try {
+        setLoading(true);
+        const { article } = await getArticles(`/articles/${URLSlug}`);
+        setArticle(article);
+        setPageTitle(article.title);
+        setIsUser(article.author.username === user.username);
+      } catch (err: any) {
+        navigate("/", { replace: true });
+      }
     };
     initArticle().then(() => setLoading(false));
-  }, [URLSlug, user.username]);
+  }, [URLSlug, user.username, navigate]);
 
   useEffect(() => {
     const initComments = async () => {

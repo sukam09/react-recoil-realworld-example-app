@@ -29,14 +29,18 @@ const UserInfo = () => {
 
   useEffect(() => {
     const initUserInfo = async () => {
-      const data = await getProfile(`/profiles/${userId}`);
-      const { image, username, bio, following } = data.profile;
-      setUserInfo({
-        image: image,
-        username: username,
-        bio: bio,
-        following: following,
-      });
+      try {
+        const data = await getProfile(`/profiles/${userId}`);
+        const { image, username, bio, following } = data.profile;
+        setUserInfo({
+          image: image,
+          username: username,
+          bio: bio,
+          following: following,
+        });
+      } catch (err: any) {
+        navigate("/", { replace: true });
+      }
     };
     initUserInfo().then(() => setLoading(false));
   }, [navigate, userId]);
