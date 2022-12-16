@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import ArticlePreview from "../article/ArticlePreview";
 import Loading from "../common/Loading";
@@ -15,36 +15,35 @@ const Feed = ({ query, url }: { query: string; url: string }) => {
 
   const movePage = (num: number) => {
     setPage(num);
+    if (num === page) initArticles().then(() => setLoading(false));
   };
 
+  const initArticles = useCallback(async () => {
+    try {
+      setLoading(true);
+      const url = `${query}?limit=10&offset=${10 * (page - 1)}`;
+      const { articles, articlesCount } = await getArticles(`/articles${url}`);
+      setArticles(articles);
+      setArticlesCount(articlesCount);
+    } catch (err: any) {}
+  }, [page, query]);
+
   useEffect(() => {
-    const initArticles = async () => {
-      try {
-        setLoading(true);
-        const url = `${query}?limit=10&offset=${10 * (page - 1)}`;
-        const { articles, articlesCount } = await getArticles(
-          `/articles${url}`
-        );
-        setArticles(articles);
-        setArticlesCount(articlesCount);
-      } catch (err: any) {}
-    };
     initArticles().then(() => setLoading(false));
-  }, [query, page]);
+  }, [initArticles]);
 
   return (
     <>
+      {articles.map((article) => (
+        <ArticlePreview key={article.slug} article={article} />
+      ))}
       {loading ? (
         <div className="article-preview">
           <Loading text="articles" />
         </div>
       ) : articlesCount === 0 ? (
         <div className="article-preview">No articles are here... yet.</div>
-      ) : (
-        articles.map((article) => (
-          <ArticlePreview key={article.slug} article={article} />
-        ))
-      )}
+      ) : null}
       <Pagination
         page={page}
         articlesCount={articlesCount}
