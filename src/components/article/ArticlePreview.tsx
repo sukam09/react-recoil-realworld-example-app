@@ -15,6 +15,8 @@ const UNFAVORITED_CLASS = "btn btn-sm btn-outline-primary";
 const ArticlePreview = ({ article }: { article: ArticleProps }) => {
   const [favorited, setFavorited] = useState(article.favorited);
   const [favoritesCount, setFavoritesCount] = useState(article.favoritesCount);
+  const [disabled, setDisabled] = useState(false);
+
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const navigate = useNavigate();
 
@@ -45,10 +47,16 @@ const ArticlePreview = ({ article }: { article: ArticleProps }) => {
         <div className="pull-xs-right">
           <button
             type="button"
-            className={favorited ? FAVORITED_CLASS : UNFAVORITED_CLASS}
-            onClick={() => {
+            className={
+              article.favorited
+                ? `${FAVORITED_CLASS} ${disabled ? "disabled" : ""}`
+                : `${UNFAVORITED_CLASS} ${disabled ? "disabled" : ""}`
+            }
+            onClick={async () => {
               if (!isLoggedIn) navigate("/register");
-              favorited ? unfavorite() : favorite();
+              setDisabled(true);
+              favorited ? await unfavorite() : await favorite();
+              setDisabled(false);
             }}
           >
             <i className="ion-heart" /> {favoritesCount}

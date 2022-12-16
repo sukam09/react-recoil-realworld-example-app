@@ -1,9 +1,10 @@
-import { useRecoilValue } from "recoil";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import { isLoggedInState } from "../../state";
 
-const FOLLOWING_CLASS = "btn btn-sm action-btn btn-secondary";
-const UNFOLLOWING_CLASS = "btn btn-sm action-btn btn-outline-secondary";
+const FOLLOWED_CLASS = "btn btn-sm action-btn btn-secondary";
+const UNFOLLOWED_CLASS = "btn btn-sm action-btn btn-outline-secondary";
 
 interface FollowButtonProps {
   following: boolean;
@@ -18,17 +19,24 @@ const FollowButton = ({
   follow,
   unfollow,
 }: FollowButtonProps) => {
+  const [disabled, setDisabled] = useState(false);
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const navigate = useNavigate();
 
   return (
     <>
       <button
-        className={following ? FOLLOWING_CLASS : UNFOLLOWING_CLASS}
+        className={
+          following
+            ? `${FOLLOWED_CLASS} ${disabled ? "disabled" : ""}`
+            : `${UNFOLLOWED_CLASS} ${disabled ? "disabled" : ""}`
+        }
         type="button"
-        onClick={() => {
+        onClick={async () => {
           if (!isLoggedIn) navigate("/register");
-          following ? unfollow() : follow();
+          setDisabled(true);
+          following ? await unfollow() : await follow();
+          setDisabled(false);
         }}
       >
         <i className="ion-plus-round"></i>

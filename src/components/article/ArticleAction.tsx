@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArticleProps } from "../../types";
 import FollowButton from "../common/FollowButton";
@@ -27,6 +28,7 @@ const ArticleAction = ({
   unfavorite,
   article,
 }: ArticleActionProps) => {
+  const [disabled, setDisabled] = useState(false);
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const navigate = useNavigate();
 
@@ -57,11 +59,17 @@ const ArticleAction = ({
       />
       &nbsp;&nbsp;
       <button
-        className={article.favorited ? FAVORITED_CLASS : UNFAVORITED_CLASS}
+        className={
+          article.favorited
+            ? `${FAVORITED_CLASS} ${disabled ? "disabled" : ""}`
+            : `${UNFAVORITED_CLASS} ${disabled ? "disabled" : ""}`
+        }
         type="button"
-        onClick={() => {
+        onClick={async () => {
           if (!isLoggedIn) navigate("/register");
-          article.favorited ? unfavorite() : favorite();
+          setDisabled(true);
+          article.favorited ? await unfavorite() : await favorite();
+          setDisabled(false);
         }}
       >
         <i className="ion-heart"></i>
