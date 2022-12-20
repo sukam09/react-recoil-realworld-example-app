@@ -5,7 +5,7 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 
 import EditorTag from "../components/tag/EditorTag";
 import { postArticles } from "../api/article";
-import { isLoggedInState, menuState } from "../state";
+import { isLoggedInState } from "../state";
 
 interface EditorProps {
   title: string;
@@ -30,8 +30,6 @@ const NewArticle = () => {
     body: "",
   });
   const [disabled, setDisabled] = useState(false);
-
-  const setMenu = useSetRecoilState(menuState);
   const navigate = useNavigate();
   const isLoggedIn = useRecoilValue(isLoggedInState);
 
@@ -97,10 +95,6 @@ const NewArticle = () => {
     }
     setDisabled(false);
   };
-
-  useEffect(() => {
-    setMenu(3);
-  }, [setMenu]);
 
   if (!isLoggedIn) navigate("/", { replace: true });
 

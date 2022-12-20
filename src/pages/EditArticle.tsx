@@ -6,7 +6,7 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 import EditorTag from "../components/tag/EditorTag";
 import Loading from "../components/common/Loading";
 import { putArticles, getArticles } from "../api/article";
-import { isLoggedInState, menuState, userState } from "../state";
+import { isLoggedInState, userState } from "../state";
 
 interface EditorProps {
   title: string;
@@ -33,7 +33,6 @@ const EditArticle = () => {
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const setMenu = useSetRecoilState(menuState);
   const navigate = useNavigate();
   const { URLSlug } = useParams();
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -116,10 +115,6 @@ const EditArticle = () => {
     };
     initArticle().then(() => setLoading(false));
   }, [URLSlug, isLoggedIn, navigate, user.username]);
-
-  useEffect(() => {
-    setMenu(3);
-  }, [setMenu]);
 
   if (loading) return <Loading text="editor" />;
 

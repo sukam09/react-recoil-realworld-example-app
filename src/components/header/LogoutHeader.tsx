@@ -1,11 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
-import { menuState } from "../../state";
+import {} from "../../state";
 
 const LogoutHeader = () => {
-  const menu = useRecoilValue(menuState);
-
   return (
     <>
       <li className="nav-item">

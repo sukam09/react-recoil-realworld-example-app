@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { postUser } from "../api/user";
-import { menuState, userState, isLoggedInState } from "../state";
+import { userState, isLoggedInState } from "../state";
 
 const Login = () => {
   const [account, setAccount] = useState({
@@ -18,7 +18,6 @@ const Login = () => {
     emailOrPassword: "",
   });
   const [disabled, setDisabled] = useState(false);
-  const setMenu = useSetRecoilState(menuState);
   const setUser = useSetRecoilState(userState);
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const navigate = useNavigate();
@@ -55,10 +54,6 @@ const Login = () => {
     }
     setDisabled(false);
   };
-
-  useEffect(() => {
-    setMenu(1);
-  }, [setMenu]);
 
   return (
     <>

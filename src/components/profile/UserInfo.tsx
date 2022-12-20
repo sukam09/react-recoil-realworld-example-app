@@ -4,7 +4,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import Loading from "../common/Loading";
 import { getProfile } from "../../api/profile";
-import { menuState, userState } from "../../state";
+import { userState } from "../../state";
 import FollowButton from "../common/FollowButton";
 import { postFollow, deleteFollow } from "../../api/profile";
 
@@ -18,14 +18,9 @@ const UserInfo = () => {
   const { image, username, bio, following } = userInfo;
   const [loading, setLoading] = useState(true);
 
-  const setMenu = useSetRecoilState(menuState);
   const user = useRecoilValue(userState);
   const { userId } = useParams();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    user.username === userId ? setMenu(5) : setMenu(-1);
-  }, [setMenu, user.username, userId]);
 
   useEffect(() => {
     const initUserInfo = async () => {

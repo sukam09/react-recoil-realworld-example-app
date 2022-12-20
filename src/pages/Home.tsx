@@ -8,11 +8,10 @@ import TagFeed from "../components/feed/TagFeed";
 import LinkTag from "../components/tag/LinkTag";
 import Loading from "../components/common/Loading";
 
-import { isLoggedInState, menuState } from "../state";
+import { isLoggedInState } from "../state";
 import { getTags } from "../api/tags";
 
 const Home = () => {
-  const setMenu = useSetRecoilState(menuState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
 
   const [toggle, setToggle] = useState(isLoggedIn ? 0 : 1);
@@ -39,10 +38,6 @@ const Home = () => {
     };
     initTags().then(() => setTagListLoading(false));
   }, []);
-
-  useEffect(() => {
-    setMenu(0);
-  }, [setMenu]);
 
   useEffect(() => navigate("/", { replace: true }), [navigate]);
 

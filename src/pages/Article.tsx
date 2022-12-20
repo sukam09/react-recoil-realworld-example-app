@@ -15,7 +15,7 @@ import { deleteComment, getComments, postComments } from "../api/comment";
 import { postFavorites, deleteFavorites } from "../api/favorites";
 import { postFollow, deleteFollow } from "../api/profile";
 
-import { menuState, userState } from "../state";
+import { userState } from "../state";
 import { ArticleProps, CommentProps } from "../types";
 import { convertToDate } from "../utils";
 
@@ -44,7 +44,6 @@ const Article = () => {
   const [loading, setLoading] = useState(false);
 
   const isLoggedIn = localStorage.getItem("jwtToken");
-  const setMenu = useSetRecoilState(menuState);
   const user = useRecoilValue(userState);
   const { URLSlug } = useParams();
   const navigate = useNavigate();
@@ -135,8 +134,6 @@ const Article = () => {
     };
     initComments();
   }, [URLSlug]);
-
-  useEffect(() => setMenu(-1), [setMenu]);
 
   if (loading) return <Loading text="article" />;
 
