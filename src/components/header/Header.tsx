@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 import LoginHeader from "./LoginHeader";
@@ -17,9 +17,14 @@ const Header = () => {
         </Link>
         <ul className="nav navbar-nav pull-xs-right">
           <li className="nav-item">
-            <Link to="/" className={`nav-link ${menu === 0 && "active"}`}>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+            >
               Home
-            </Link>
+            </NavLink>
           </li>
           {isLoggedIn ? <LoginHeader /> : <LogoutHeader />}
         </ul>

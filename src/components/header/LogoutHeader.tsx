@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 import { menuState } from "../../state";
@@ -9,14 +9,20 @@ const LogoutHeader = () => {
   return (
     <>
       <li className="nav-item">
-        <Link to="/login" className={`nav-link ${menu === 1 && "active"}`}>
+        <NavLink
+          to="/login"
+          className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+        >
           Sign in
-        </Link>
+        </NavLink>
       </li>
       <li className="nav-item">
-        <Link to="/register" className={`nav-link ${menu === 2 && "active"}`}>
+        <NavLink
+          to="/register"
+          className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+        >
           Sign up
-        </Link>
+        </NavLink>
       </li>
     </>
   );

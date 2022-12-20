@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 import UserImage from "./UserImage";
@@ -11,14 +11,20 @@ const LoginHeader = () => {
     <>
       <>
         <li className="nav-item">
-          <Link to="/editor" className={`nav-link ${menu === 3 && "active"}`}>
+          <NavLink
+            to="/editor"
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+          >
             <i className="ion-compose"></i> New Article
-          </Link>
+          </NavLink>
         </li>
         <li className="nav-item">
-          <Link to="/settings" className={`nav-link ${menu === 4 && "active"}`}>
+          <NavLink
+            to="/settings"
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+          >
             <i className="ion-gear-a"></i> Settings
-          </Link>
+          </NavLink>
         </li>
         <UserImage />
       </>

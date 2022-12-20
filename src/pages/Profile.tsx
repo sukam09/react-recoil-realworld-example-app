@@ -26,7 +26,7 @@ const Profile = () => {
                   <li className="nav-item">
                     <NavLink
                       className={({ isActive }) =>
-                        isActive ? "nav-link active" : "nav-link"
+                        `nav-link ${isActive ? "active" : ""}`
                       }
                       end
                       to={encodeURI(`/profile/${userId}`)}
@@ -37,7 +37,7 @@ const Profile = () => {
                   <li className="nav-item">
                     <NavLink
                       className={({ isActive }) =>
-                        isActive ? "nav-link active" : "nav-link"
+                        `nav-link ${isActive ? "active" : ""}`
                       }
                       end
                       to={encodeURI(`/profile/${userId}/favorites`)}

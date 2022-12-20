@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 import { userState, menuState } from "../../state";
@@ -10,13 +10,13 @@ const UserImage = () => {
   return (
     <>
       <li className="nav-item">
-        <Link
-          to={`/profile/${user.username}`}
-          className={`nav-link ${menu === 5 && "active"}`}
+        <NavLink
+          to={encodeURI(`/profile/${user.username}`)}
+          className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
         >
           <img className="user-pic" src={user.image} />
           {user.username}
-        </Link>
+        </NavLink>
       </li>
     </>
   );
