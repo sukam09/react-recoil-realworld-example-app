@@ -12,7 +12,7 @@ const Pagination = ({
   url: string;
 }) => {
   const pageLength = Math.floor(articlesCount / 10) + 1;
-  const pageNums = [...Array(pageLength).keys()].map((x) => x + 1);
+  const pageNums = [...Array(pageLength).keys()].map((p) => p + 1);
 
   if (pageLength === 1) return null;
 
