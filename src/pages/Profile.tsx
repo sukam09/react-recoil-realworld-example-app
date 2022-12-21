@@ -52,7 +52,7 @@ const Profile = () => {
                   path="/"
                   element={
                     <Feed
-                      query={`?author=${userId}`}
+                      query={`?author=${userId}&`}
                       url={`/profile/${userId}`}
                     />
                   }
@@ -61,7 +61,7 @@ const Profile = () => {
                   path="/favorites"
                   element={
                     <Feed
-                      query={`?favorited=${userId}`}
+                      query={`?favorited=${userId}&`}
                       url={`/profile/${userId}/favorites`}
                     />
                   }
