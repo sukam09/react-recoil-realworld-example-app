@@ -1,10 +1,9 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, HashRouter, Navigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
 import Header from "./components/header/Header";
 import Footer from "./components/common/Footer";
-import ScrollTop from "./components/common/ScrollTop";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -19,13 +18,14 @@ import { getUser } from "./api/user";
 import { isLoggedInState, userState } from "./state";
 
 const App = () => {
+  const [loading, setLoading] = useState(true);
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const setUser = useSetRecoilState(userState);
 
   useEffect(() => {
     const initApp = async () => {
       try {
-        const jwtToken = localStorage.getItem("jwtToken");
+        const jwtToken = !!localStorage.getItem("jwtToken");
         if (!jwtToken) return;
         const data = await getUser("/user");
         const { email, username, bio, image } = data.user;
@@ -47,13 +47,14 @@ const App = () => {
         });
       }
     };
-    initApp();
+    initApp().then(() => setLoading(false));
   }, [setIsLoggedIn, setUser]);
+
+  if (loading) return null;
 
   return (
     <>
       <HashRouter>
-        <ScrollTop />
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
