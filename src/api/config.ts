@@ -12,7 +12,7 @@ const fetchWrap = async ({ method, url, body }: fetchWrapProps) => {
     const config = {
       baseURL: "https://api.realworld.io/api",
       headers: {
-        Authorization: jwtToken ? `Token ${jwtToken}` : "",
+        Authorization: !!jwtToken ? `Token ${jwtToken}` : "",
       },
     };
     const { data } =
@@ -23,7 +23,6 @@ const fetchWrap = async ({ method, url, body }: fetchWrapProps) => {
       {};
     return data;
   } catch (err: any) {
-    // TODO: API common error handlings
     console.log(err);
     throw err;
   }
