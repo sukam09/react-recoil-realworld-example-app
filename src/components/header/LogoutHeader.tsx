@@ -1,7 +1,4 @@
 import { NavLink } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-
-import {} from "../../state";
 
 const LogoutHeader = () => {
   return (

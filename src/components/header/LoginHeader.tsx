@@ -1,8 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-
 import UserImage from "./UserImage";
-import {} from "../../state";
 
 const LoginHeader = () => {
   return (
