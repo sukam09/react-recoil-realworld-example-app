@@ -15,7 +15,7 @@ import { deleteComment, getComments, postComments } from "../api/comment";
 import { postFavorites, deleteFavorites } from "../api/favorites";
 import { postFollow, deleteFollow } from "../api/profile";
 
-import { userState } from "../state";
+import { isLoggedInState, userState } from "../state";
 import { ArticleProps, CommentProps } from "../types";
 import { convertToDate } from "../utils";
 
@@ -36,14 +36,13 @@ const Article = () => {
       following: false,
     },
   });
-
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<CommentProps[]>([]);
   const [isUser, setIsUser] = useState(false);
   const [pageTitle, setPageTitle] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const isLoggedIn = localStorage.getItem("jwtToken");
+  const isLoggedIn = useRecoilValue(isLoggedInState);
   const user = useRecoilValue(userState);
   const { URLSlug } = useParams();
   const navigate = useNavigate();

@@ -3,10 +3,10 @@ import { useRecoilValue } from "recoil";
 
 import LoginHeader from "./LoginHeader";
 import LogoutHeader from "./LogoutHeader";
-import {} from "../../state";
+import { isLoggedInState } from "../../state";
 
 const Header = () => {
-  const isLoggedIn = localStorage.getItem("jwtToken");
+  const isLoggedIn = useRecoilValue(isLoggedInState);
 
   return (
     <nav className="navbar navbar-light">
