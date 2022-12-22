@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSetRecoilState, useRecoilValue } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useRecoilValue } from "recoil";
 
 import Feed from "../components/feed/Feed";
-import TagFeed from "../components/feed/TagFeed";
 import LinkTag from "../components/tag/LinkTag";
 import Loading from "../components/common/Loading";
 
@@ -13,28 +12,25 @@ import { getTags } from "../api/tags";
 
 const Home = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
+  const navigate = useNavigate();
 
   const [toggle, setToggle] = useState(isLoggedIn ? 0 : 1);
   const [tagList, setTagList] = useState<string[]>([]);
+  const [tagListLoading, setTagListLoading] = useState(false);
   const [tagName, setTagName] = useState("");
   const [tagLoading, setTagLoading] = useState(false);
-  const [tagListLoading, setTagListLoading] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleClickTag = (tag: string) => {
-    handleTagLoading(true);
     setToggle(2);
     setTagName(tag);
+    if (tag === tagName) setTagLoading(true);
   };
-
-  const handleTagLoading = (loading: boolean) => setTagLoading(loading);
 
   useEffect(() => {
     const initTags = async () => {
       setTagListLoading(true);
-      const data = await getTags("/tags");
-      setTagList(data.tags);
+      const { tags } = await getTags("/tags");
+      setTagList(tags);
     };
     initTags().then(() => setTagListLoading(false));
   }, []);
@@ -93,13 +89,14 @@ const Home = () => {
                   </li>
                 </ul>
               </div>
-              {toggle === 0 && <Feed query="/feed" url="/" />}
-              {toggle === 1 && <Feed query="?limit=10" url="/" />}
+              {toggle === 0 && <Feed query="/feed?" url="/" />}
+              {toggle === 1 && <Feed query="?" url="/" />}
               {toggle === 2 && (
-                <TagFeed
-                  name={tagName}
-                  loading={tagLoading}
-                  setLoading={handleTagLoading}
+                <Feed
+                  query={`?tag=${tagName}&`}
+                  url="/"
+                  tagLoading={tagLoading}
+                  setTagLoading={setTagLoading}
                 />
               )}
             </div>

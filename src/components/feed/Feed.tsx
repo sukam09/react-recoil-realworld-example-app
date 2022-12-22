@@ -1,4 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 import ArticlePreview from "../article/ArticlePreview";
 import Loading from "../common/Loading";
@@ -7,7 +13,14 @@ import Pagination from "../common/Pagination";
 import { getArticles } from "../../api/article";
 import { ArticleProps } from "../../types";
 
-const Feed = ({ query, url }: { query: string; url: string }) => {
+interface FeedProps {
+  query: string;
+  url: string;
+  tagLoading?: boolean;
+  setTagLoading?: Dispatch<SetStateAction<boolean>>;
+}
+
+const Feed = ({ query, url, tagLoading, setTagLoading }: FeedProps) => {
   const [articles, setArticles] = useState<ArticleProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -19,31 +32,38 @@ const Feed = ({ query, url }: { query: string; url: string }) => {
   };
 
   const initArticles = useCallback(async () => {
+    setLoading(true);
+    setArticlesCount(0);
+    const queryString = `${query}limit=10&offset=${10 * (page - 1)}`;
     try {
-      setLoading(true);
-      const url = `${query}?limit=10&offset=${10 * (page - 1)}`;
-      const { articles, articlesCount } = await getArticles(`/articles${url}`);
+      const { articles, articlesCount } = await getArticles(
+        `/articles${queryString}`
+      );
       setArticles(articles);
       setArticlesCount(articlesCount);
-    } catch (err: any) {}
+    } catch {}
   }, [page, query]);
 
   useEffect(() => {
-    initArticles().then(() => setLoading(false));
-  }, [initArticles]);
+    initArticles().then(() => {
+      setLoading(false);
+      if (tagLoading) setTagLoading!(false);
+    });
+  }, [initArticles, tagLoading, setTagLoading]);
 
   return (
     <>
-      {articles.map((article) => (
-        <ArticlePreview key={article.slug} article={article} />
-      ))}
       {loading ? (
         <div className="article-preview">
           <Loading text="articles" />
         </div>
       ) : articlesCount === 0 ? (
         <div className="article-preview">No articles are here... yet.</div>
-      ) : null}
+      ) : (
+        articles.map((article) => (
+          <ArticlePreview key={article.slug} article={article} />
+        ))
+      )}
       <Pagination
         page={page}
         articlesCount={articlesCount}
