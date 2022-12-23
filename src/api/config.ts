@@ -23,7 +23,6 @@ const fetchWrap = async ({ method, url, body }: fetchWrapProps) => {
       {};
     return data;
   } catch (err: any) {
-    console.log(err);
     throw err;
   }
 };
