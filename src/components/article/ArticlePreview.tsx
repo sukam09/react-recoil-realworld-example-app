@@ -48,7 +48,7 @@ const ArticlePreview = ({ article }: { article: ArticleProps }) => {
           <button
             type="button"
             className={
-              article.favorited
+              favorited
                 ? `${FAVORITED_CLASS} ${disabled ? "disabled" : ""}`
                 : `${UNFAVORITED_CLASS} ${disabled ? "disabled" : ""}`
             }
