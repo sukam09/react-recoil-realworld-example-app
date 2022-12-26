@@ -24,6 +24,7 @@ const UserInfo = () => {
 
   useEffect(() => {
     const initUserInfo = async () => {
+      if (userId !== userInfo.username) setLoading(true);
       try {
         const data = await getProfile(userId!);
         const { image, username, bio, following } = data.profile;
@@ -33,12 +34,12 @@ const UserInfo = () => {
           bio: bio,
           following: following,
         });
-      } catch (err: any) {
+      } catch {
         navigate("/", { replace: true });
       }
     };
     initUserInfo().then(() => setLoading(false));
-  }, [navigate, userId]);
+  }, [navigate, userId, userInfo.username]);
 
   const follow = async () => {
     await postFollow(userId!);
