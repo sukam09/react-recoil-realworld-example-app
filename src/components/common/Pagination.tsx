@@ -11,7 +11,7 @@ const Pagination = ({
   movePage: (num: number) => void;
   url: string;
 }) => {
-  const pageLength = Math.floor(articlesCount / 10) + 1;
+  const pageLength = Math.ceil(articlesCount / 10);
   const pageNums = [...Array(pageLength).keys()].map((p) => p + 1);
 
   if (pageLength === 1) return null;
