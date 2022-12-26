@@ -5,7 +5,7 @@
 
 import React, { useState } from "react";
 
-import { postUser } from "../api/user";
+import { loginUser } from "../api/user";
 
 const LoginForm = () => {
   const [account, setAccount] = useState({
@@ -32,14 +32,14 @@ const LoginForm = () => {
     setDisabled(true);
     e.preventDefault();
     try {
-      const { user } = await postUser("/users/login", {
+      const { user } = await loginUser({
         user: {
           email: email,
           password: password,
         },
       });
-    } catch (e: any) {
-      const errorMessage = e.response.data.errors;
+    } catch (err: any) {
+      const errorMessage = err.response.data.errors;
       setError({
         email: errorMessage.email,
         password: errorMessage.password,

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import { postUser } from "../api/user";
+import { registerUser } from "../api/user";
 import { userState } from "../state";
 
 const Register = () => {
@@ -34,7 +34,7 @@ const Register = () => {
     event.preventDefault();
     setDisabled(true);
     try {
-      const data = await postUser("/users", {
+      const data = await registerUser({
         user: {
           username: username,
           email: email,

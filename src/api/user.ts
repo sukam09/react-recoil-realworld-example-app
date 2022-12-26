@@ -1,10 +1,11 @@
 import { GET, POST, PUT } from "./config";
 import { AuthProps, UserProps } from "../types";
 
-export const postUser = (url: string, body: { user: AuthProps }) =>
-  POST(url, body);
+export const registerUser = (body: { user: AuthProps }) => POST("/users", body);
 
-export const putUser = (url: string, body: { user: UserProps }) =>
-  PUT(url, body);
+export const loginUser = (body: { user: AuthProps }) =>
+  POST("/users/login", body);
 
-export const getUser = (url: string) => GET(url);
+export const putUser = (body: { user: UserProps }) => PUT("/user", body);
+
+export const getUser = () => GET("/user");
