@@ -230,10 +230,7 @@ const Article = () => {
                     ></textarea>
                   </div>
                   <div className="card-footer">
-                    <img
-                      src={article.author.image}
-                      className="comment-author-img"
-                    />
+                    <img src={user.image} className="comment-author-img" />
                     <button className="btn btn-sm btn-primary">
                       Post Comment
                     </button>
