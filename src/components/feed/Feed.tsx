@@ -33,6 +33,7 @@ const Feed = ({ query, url, tagLoading, setTagLoading }: FeedProps) => {
 
   const initArticles = useCallback(async () => {
     setLoading(true);
+    setArticles([]);
     setArticlesCount(0);
     const queryString = `${query}limit=10&offset=${10 * (page - 1)}`;
     try {
