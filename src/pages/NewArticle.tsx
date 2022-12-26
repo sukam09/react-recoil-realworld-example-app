@@ -4,7 +4,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 
 import EditorTag from "../components/tag/EditorTag";
-import { postArticles } from "../api/article";
+import { postArticle } from "../api/article";
 import { isLoggedInState } from "../state";
 
 interface EditorProps {
@@ -68,7 +68,7 @@ const NewArticle = () => {
     try {
       event.preventDefault();
       setDisabled(true);
-      const { article } = await postArticles("/articles", {
+      const { article } = await postArticle({
         article: {
           title: title,
           description: description,

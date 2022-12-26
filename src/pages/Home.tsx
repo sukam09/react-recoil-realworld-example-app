@@ -29,7 +29,7 @@ const Home = () => {
   useEffect(() => {
     const initTags = async () => {
       setTagListLoading(true);
-      const { tags } = await getTags("/tags");
+      const { tags } = await getTags();
       setTagList(tags);
     };
     initTags().then(() => setTagListLoading(false));

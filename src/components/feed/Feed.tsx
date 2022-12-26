@@ -36,9 +36,7 @@ const Feed = ({ query, url, tagLoading, setTagLoading }: FeedProps) => {
     setArticlesCount(0);
     const queryString = `${query}limit=10&offset=${10 * (page - 1)}`;
     try {
-      const { articles, articlesCount } = await getArticles(
-        `/articles${queryString}`
-      );
+      const { articles, articlesCount } = await getArticles(queryString);
       setArticles(articles);
       setArticlesCount(articlesCount);
     } catch {}

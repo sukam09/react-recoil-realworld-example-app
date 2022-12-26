@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 import Loading from "../common/Loading";
 import { getProfile } from "../../api/profile";
@@ -25,7 +25,7 @@ const UserInfo = () => {
   useEffect(() => {
     const initUserInfo = async () => {
       try {
-        const data = await getProfile(`/profiles/${userId}`);
+        const data = await getProfile(userId!);
         const { image, username, bio, following } = data.profile;
         setUserInfo({
           image: image,
@@ -41,7 +41,7 @@ const UserInfo = () => {
   }, [navigate, userId]);
 
   const follow = async () => {
-    await postFollow(`/profiles/${userId}/follow`);
+    await postFollow(userId!);
     setUserInfo({
       ...userInfo,
       following: true,
@@ -49,7 +49,7 @@ const UserInfo = () => {
   };
 
   const unfollow = async () => {
-    await deleteFollow(`/profiles/${userId}/follow`);
+    await deleteFollow(userId!);
     setUserInfo({
       ...userInfo,
       following: false,

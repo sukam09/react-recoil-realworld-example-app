@@ -9,12 +9,14 @@ interface articleAPIBodyProps {
   };
 }
 
-export const postArticles = (url: string, body: articleAPIBodyProps) =>
-  POST(url, body);
+export const getArticles = (query: string) => GET(`/articles${query}`);
 
-export const getArticles = (url: string) => GET(url);
+export const postArticle = (body: articleAPIBodyProps) =>
+  POST("/articles", body);
 
-export const deleteArticles = (url: string) => DELETE(url);
+export const getArticle = (slug: string) => GET(`/articles/${slug}`);
 
-export const putArticles = (url: string, body: articleAPIBodyProps) =>
-  PUT(url, body);
+export const putArticle = (slug: string, body: articleAPIBodyProps) =>
+  PUT(`/articles/${slug}`, body);
+
+export const deleteArticle = (slug: string) => DELETE(`/articles/${slug}`);

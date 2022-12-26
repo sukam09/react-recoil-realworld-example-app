@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { putUser } from "../api/user";
@@ -35,7 +35,7 @@ const Settings = () => {
     event.preventDefault();
     setDisabled(true);
     try {
-      const { user } = await putUser("/user", {
+      const { user } = await putUser({
         user: {
           email: email,
           username: username,

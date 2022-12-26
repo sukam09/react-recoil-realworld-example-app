@@ -27,7 +27,7 @@ const App = () => {
       try {
         const jwtToken = !!localStorage.getItem("jwtToken");
         if (!jwtToken) return;
-        const data = await getUser("/user");
+        const data = await getUser();
         const { email, username, bio, image } = data.user;
         setIsLoggedIn(true);
         setUser({

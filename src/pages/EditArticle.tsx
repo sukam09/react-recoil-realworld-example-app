@@ -5,7 +5,7 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 
 import EditorTag from "../components/tag/EditorTag";
 import Loading from "../components/common/Loading";
-import { putArticles, getArticles } from "../api/article";
+import { putArticle, getArticle } from "../api/article";
 import { isLoggedInState, userState } from "../state";
 
 interface EditorProps {
@@ -73,7 +73,7 @@ const EditArticle = () => {
     event.preventDefault();
     setDisabled(true);
     try {
-      const data = await putArticles(`/articles/${URLSlug}`, {
+      const data = await putArticle(URLSlug!, {
         article: {
           title: title,
           description: description,
@@ -82,9 +82,9 @@ const EditArticle = () => {
         },
       });
       navigate(`/article/${data.article.slug}`);
-    } catch (error: any) {
-      if (error.response.status === 422) {
-        const errorMessage = error.response.data.errors;
+    } catch (err: any) {
+      if (err.response.status === 422) {
+        const errorMessage = err.response.data.errors;
         setError({
           title: errorMessage.title,
           description: errorMessage.description,
@@ -98,7 +98,7 @@ const EditArticle = () => {
   useEffect(() => {
     const initArticle = async () => {
       try {
-        const { article } = await getArticles(`articles/${URLSlug}`);
+        const { article } = await getArticle(URLSlug!);
         if (!isLoggedIn || article.author.username !== user.username) {
           navigate("/", { replace: true });
         }

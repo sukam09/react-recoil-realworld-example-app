@@ -10,7 +10,7 @@ import ArticleTag from "../components/tag/ArticleTag";
 import ArticleAction from "../components/article/ArticleAction";
 import Loading from "../components/common/Loading";
 
-import { getArticles, deleteArticles } from "../api/article";
+import { getArticle, deleteArticle } from "../api/article";
 import { deleteComment, getComments, postComments } from "../api/comment";
 import { postFavorites, deleteFavorites } from "../api/favorites";
 import { postFollow, deleteFollow } from "../api/profile";
@@ -53,13 +53,13 @@ const Article = () => {
   };
 
   const removeArticle = async () => {
-    await deleteArticles(`/articles/${URLSlug}`);
+    await deleteArticle(URLSlug!);
     navigate("/", { replace: true });
   };
 
   const publishComment = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = await postComments(`/articles/${URLSlug}/comments`, {
+    const data = await postComments(URLSlug!, {
       comment: { body: comment },
     });
     setComments([data.comment, ...comments]);
@@ -67,12 +67,12 @@ const Article = () => {
   };
 
   const removeComment = async (id: number) => {
-    await deleteComment(`/articles/${URLSlug}/comments/${id}`);
+    await deleteComment(URLSlug!, id);
     setComments(comments.filter((comment) => comment.id !== id));
   };
 
   const follow = async () => {
-    await postFollow(`/profiles/${article.author.username}/follow`);
+    await postFollow(article.author.username);
     setArticle({
       ...article,
       author: {
@@ -83,7 +83,7 @@ const Article = () => {
   };
 
   const unfollow = async () => {
-    await deleteFollow(`/profiles/${article.author.username}/follow`);
+    await deleteFollow(article.author.username);
     setArticle({
       ...article,
       author: {
@@ -94,7 +94,7 @@ const Article = () => {
   };
 
   const favorite = async () => {
-    await postFavorites(`/articles/${article.slug}/favorite`);
+    await postFavorites(article.slug);
     setArticle({
       ...article,
       favorited: true,
@@ -103,7 +103,7 @@ const Article = () => {
   };
 
   const unfavorite = async () => {
-    await deleteFavorites(`/articles/${article.slug}/favorite`);
+    await deleteFavorites(article.slug);
     setArticle({
       ...article,
       favorited: false,
@@ -115,7 +115,7 @@ const Article = () => {
     const initArticle = async () => {
       try {
         setLoading(true);
-        const { article } = await getArticles(`/articles/${URLSlug}`);
+        const { article } = await getArticle(URLSlug!);
         setArticle(article);
         setPageTitle(article.title);
         setIsUser(article.author.username === user.username);
@@ -128,7 +128,7 @@ const Article = () => {
 
   useEffect(() => {
     const initComments = async () => {
-      const { comments } = await getComments(`/articles/${URLSlug}/comments`);
+      const { comments } = await getComments(URLSlug!);
       setComments(comments);
     };
     initComments();
@@ -154,7 +154,6 @@ const Article = () => {
                 <img src={article.author.image} />
               </Link>
               <div className="info">
-                {/* FIXME: right margin of profile image is different */}
                 <Link
                   to={`/profile/${article.author.username}`}
                   className="author"
@@ -251,7 +250,6 @@ const Article = () => {
                 {comments.map((comment) => (
                   <Comment
                     key={comment.id}
-                    slug={article.slug}
                     comment={comment}
                     removeComment={removeComment}
                   />

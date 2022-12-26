@@ -1,3 +1,3 @@
 import { GET } from "./config";
 
-export const getTags = (url: string) => GET(url);
+export const getTags = () => GET("/tags");

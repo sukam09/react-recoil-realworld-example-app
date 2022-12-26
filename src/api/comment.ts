@@ -1,10 +1,11 @@
 import { GET, POST, DELETE } from "./config";
 
 export const postComments = (
-  url: string,
+  slug: string,
   body: { comment: { body: string } }
-) => POST(url, body);
+) => POST(`/articles/${slug}/comments`, body);
 
-export const getComments = (url: string) => GET(url);
+export const getComments = (slug: string) => GET(`/articles/${slug}/comments`);
 
-export const deleteComment = (url: string) => DELETE(url);
+export const deleteComment = (slug: string, id: number) =>
+  DELETE(`/articles/${slug}/comments/${id}`);

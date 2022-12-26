@@ -1,5 +1,7 @@
 import { DELETE, GET, POST } from "./config";
 
-export const getProfile = (url: string) => GET(url);
-export const postFollow = (url: string) => POST(url);
-export const deleteFollow = (url: string) => DELETE(url);
+export const getProfile = (username: string) => GET(`/profiles/${username}`);
+export const postFollow = (username: string) =>
+  POST(`/profiles/${username}/follow`);
+export const deleteFollow = (username: string) =>
+  DELETE(`/profiles/${username}/follow`);

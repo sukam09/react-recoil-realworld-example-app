@@ -6,11 +6,9 @@ import { useRecoilValue } from "recoil";
 import { userState } from "../../state";
 
 const Comment = ({
-  slug,
   comment,
   removeComment,
 }: {
-  slug: string;
   comment: CommentProps;
   removeComment: (id: number) => Promise<void>;
 }) => {
