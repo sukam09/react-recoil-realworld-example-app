@@ -1,6 +1,6 @@
 import { GET, POST, DELETE } from "./config";
 
-export const postComments = (
+export const postComment = (
   slug: string,
   body: { comment: { body: string } }
 ) => POST(`/articles/${slug}/comments`, body);

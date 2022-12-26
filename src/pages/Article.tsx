@@ -11,7 +11,7 @@ import ArticleAction from "../components/article/ArticleAction";
 import Loading from "../components/common/Loading";
 
 import { getArticle, deleteArticle } from "../api/article";
-import { deleteComment, getComments, postComments } from "../api/comment";
+import { deleteComment, getComments, postComment } from "../api/comment";
 import { postFavorites, deleteFavorites } from "../api/favorites";
 import { postFollow, deleteFollow } from "../api/profile";
 
@@ -59,7 +59,7 @@ const Article = () => {
 
   const publishComment = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = await postComments(URLSlug!, {
+    const data = await postComment(URLSlug!, {
       comment: { body: comment },
     });
     setComments([data.comment, ...comments]);
