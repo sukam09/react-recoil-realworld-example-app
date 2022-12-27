@@ -18,7 +18,6 @@ const Home = () => {
   const [tagList, setTagList] = useState<string[]>([]);
   const [tagListLoading, setTagListLoading] = useState(false);
   const [tagName, setTagName] = useState("");
-  const [tagLoading, setTagLoading] = useState(false);
 
   const handleClickTag = (tag: string) => {
     setToggle(2);
