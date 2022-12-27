@@ -88,9 +88,11 @@ const Home = () => {
                   </li>
                 </ul>
               </div>
-              {toggle === 0 && <Feed query="/feed?" url="/" />}
-              {toggle === 1 && <Feed query="?" url="/" />}
-              {toggle === 2 && <Feed query={`?tag=${tagName}&`} url="/" />}
+              {toggle === 0 && <Feed query="/feed?" url="/" limit={10} />}
+              {toggle === 1 && <Feed query="?" url="/" limit={10} />}
+              {toggle === 2 && (
+                <Feed query={`?tag=${tagName}&`} url="/" limit={10} />
+              )}
             </div>
 
             <div className="col-md-3">

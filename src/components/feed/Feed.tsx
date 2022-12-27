@@ -10,9 +10,10 @@ import { ArticleProps } from "../../types";
 interface FeedProps {
   query: string;
   url: string;
+  limit: number;
 }
 
-const Feed = ({ query, url }: FeedProps) => {
+const Feed = ({ query, url, limit }: FeedProps) => {
   const [articles, setArticles] = useState<ArticleProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -25,7 +26,7 @@ const Feed = ({ query, url }: FeedProps) => {
   useEffect(() => {
     const initArticles = async () => {
       setLoading(true);
-      const queryString = `${query}limit=10&offset=${10 * (page - 1)}`;
+      const queryString = `${query}limit=${limit}&offset=${10 * (page - 1)}`;
       try {
         const { articles, articlesCount } = await getArticles(queryString);
         setArticles(articles);
@@ -35,7 +36,7 @@ const Feed = ({ query, url }: FeedProps) => {
       }
     };
     initArticles().then(() => setLoading(false));
-  }, [page, query]);
+  }, [page, query, limit]);
 
   return (
     <>

@@ -54,6 +54,7 @@ const Profile = () => {
                     <Feed
                       query={`?author=${userId}&`}
                       url={`/profile/${userId}`}
+                      limit={5}
                     />
                   }
                 />
@@ -63,6 +64,7 @@ const Profile = () => {
                     <Feed
                       query={`?favorited=${userId}&`}
                       url={`/profile/${userId}/favorites`}
+                      limit={5}
                     />
                   }
                 />
