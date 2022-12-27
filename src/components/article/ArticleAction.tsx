@@ -66,7 +66,7 @@ const ArticleAction = ({
         }
         type="button"
         onClick={async () => {
-          if (!isLoggedIn) navigate("/register");
+          if (!isLoggedIn) navigate("/login");
           setDisabled(true);
           article.favorited ? await unfavorite() : await favorite();
           setDisabled(false);

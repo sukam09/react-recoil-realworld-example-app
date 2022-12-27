@@ -53,7 +53,7 @@ const ArticlePreview = ({ article }: { article: ArticleProps }) => {
                 : `${UNFAVORITED_CLASS} ${disabled ? "disabled" : ""}`
             }
             onClick={async () => {
-              if (!isLoggedIn) navigate("/register");
+              if (!isLoggedIn) navigate("/login");
               setDisabled(true);
               favorited ? await unfavorite() : await favorite();
               setDisabled(false);

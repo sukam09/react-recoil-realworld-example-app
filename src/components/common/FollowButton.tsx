@@ -33,7 +33,7 @@ const FollowButton = ({
         }
         type="button"
         onClick={async () => {
-          if (!isLoggedIn) navigate("/register");
+          if (!isLoggedIn) navigate("/login");
           setDisabled(true);
           following ? await unfollow() : await follow();
           setDisabled(false);
