@@ -37,15 +37,17 @@ const Feed = ({ query, url, limit }: FeedProps) => {
     initArticles().then(() => setLoading(false));
   }, [page, query, limit]);
 
-  if (loading)
+  if (loading) {
     return (
       <div className="article-preview">
         <Loading text="articles" />
       </div>
     );
+  }
 
-  if (articlesCount === 0)
+  if (articlesCount === 0) {
     return <div className="article-preview">No articles are here... yet.</div>;
+  }
 
   return (
     <>
