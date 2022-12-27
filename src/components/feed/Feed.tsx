@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import ArticlePreview from "../article/ArticlePreview";
 import Loading from "../common/Loading";
@@ -24,33 +24,40 @@ const Feed = ({ query, url, limit }: FeedProps) => {
   };
 
   useEffect(() => {
+    setLoading(true);
+    setPage(1);
+  }, [query]);
+
+  useEffect(() => {
     const initArticles = async () => {
-      setLoading(true);
       const queryString = `${query}limit=${limit}&offset=${10 * (page - 1)}`;
       try {
         const { articles, articlesCount } = await getArticles(queryString);
         setArticles(articles);
         setArticlesCount(articlesCount);
       } catch (e: any) {
-        console.log(e);
+        console.error(e);
       }
     };
     initArticles().then(() => setLoading(false));
+    console.log(page);
   }, [page, query, limit]);
+
+  if (loading)
+    return (
+      <div className="article-preview">
+        <Loading text="articles" />
+      </div>
+    );
+
+  if (articlesCount === 0)
+    return <div className="article-preview">No articles are here... yet.</div>;
 
   return (
     <>
-      {loading ? (
-        <div className="article-preview">
-          <Loading text="articles" />
-        </div>
-      ) : articlesCount === 0 ? (
-        <div className="article-preview">No articles are here... yet.</div>
-      ) : (
-        articles.map((article) => (
-          <ArticlePreview key={article.slug} article={article} />
-        ))
-      )}
+      {articles.map((article) => (
+        <ArticlePreview key={article.slug} article={article} />
+      ))}
       <Pagination
         page={page}
         articlesCount={articlesCount}
