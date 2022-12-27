@@ -1,14 +1,15 @@
+import { Dispatch, SetStateAction } from "react";
 import { Link } from "react-router-dom";
 
 const Pagination = ({
   page,
   articlesCount,
-  movePage,
+  setPage,
   url,
 }: {
   page: number;
   articlesCount: number;
-  movePage: (num: number) => void;
+  setPage: Dispatch<SetStateAction<number>>;
   url: string;
 }) => {
   const pageLength = Math.ceil(articlesCount / 10);
@@ -25,11 +26,7 @@ const Pagination = ({
               key={num}
               className={`page-item ${page === num ? "active" : ""}`}
             >
-              <Link
-                to={url}
-                className="page-link"
-                onClick={() => movePage(num)}
-              >
+              <Link to={url} className="page-link" onClick={() => setPage(num)}>
                 {num}
               </Link>
             </li>

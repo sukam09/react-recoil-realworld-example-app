@@ -1,9 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 import ArticlePreview from "../article/ArticlePreview";
 import Loading from "../common/Loading";
 import Pagination from "../common/Pagination";
-
 import { getArticles } from "../../api/article";
 import { ArticleProps } from "../../types";
 
@@ -19,10 +18,6 @@ const Feed = ({ query, url, limit }: FeedProps) => {
   const [page, setPage] = useState(1);
   const [articlesCount, setArticlesCount] = useState(0);
 
-  const movePage = (num: number) => {
-    setPage(num);
-  };
-
   useEffect(() => {
     setLoading(true);
     setPage(1);
@@ -36,11 +31,10 @@ const Feed = ({ query, url, limit }: FeedProps) => {
         setArticles(articles);
         setArticlesCount(articlesCount);
       } catch (e: any) {
-        console.error(e);
+        console.log(e);
       }
     };
     initArticles().then(() => setLoading(false));
-    console.log(page);
   }, [page, query, limit]);
 
   if (loading)
@@ -61,7 +55,7 @@ const Feed = ({ query, url, limit }: FeedProps) => {
       <Pagination
         page={page}
         articlesCount={articlesCount}
-        movePage={movePage}
+        setPage={setPage}
         url={url}
       />
     </>
