@@ -23,7 +23,6 @@ const Home = () => {
   const handleClickTag = (tag: string) => {
     setToggle(2);
     setTagName(tag);
-    if (tag === tagName) setTagLoading(true);
   };
 
   useEffect(() => {
@@ -91,14 +90,7 @@ const Home = () => {
               </div>
               {toggle === 0 && <Feed query="/feed?" url="/" />}
               {toggle === 1 && <Feed query="?" url="/" />}
-              {toggle === 2 && (
-                <Feed
-                  query={`?tag=${tagName}&`}
-                  url="/"
-                  tagLoading={tagLoading}
-                  setTagLoading={setTagLoading}
-                />
-              )}
+              {toggle === 2 && <Feed query={`?tag=${tagName}&`} url="/" />}
             </div>
 
             <div className="col-md-3">

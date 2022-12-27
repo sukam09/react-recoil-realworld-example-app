@@ -1,10 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useCallback,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { useState, useEffect } from "react";
 
 import ArticlePreview from "../article/ArticlePreview";
 import Loading from "../common/Loading";
@@ -16,11 +10,9 @@ import { ArticleProps } from "../../types";
 interface FeedProps {
   query: string;
   url: string;
-  tagLoading?: boolean;
-  setTagLoading?: Dispatch<SetStateAction<boolean>>;
 }
 
-const Feed = ({ query, url, tagLoading, setTagLoading }: FeedProps) => {
+const Feed = ({ query, url }: FeedProps) => {
   const [articles, setArticles] = useState<ArticleProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -28,27 +20,22 @@ const Feed = ({ query, url, tagLoading, setTagLoading }: FeedProps) => {
 
   const movePage = (num: number) => {
     setPage(num);
-    if (num === page) initArticles().then(() => setLoading(false));
   };
 
-  const initArticles = useCallback(async () => {
-    setLoading(true);
-    setArticles([]);
-    setArticlesCount(0);
-    const queryString = `${query}limit=10&offset=${10 * (page - 1)}`;
-    try {
-      const { articles, articlesCount } = await getArticles(queryString);
-      setArticles(articles);
-      setArticlesCount(articlesCount);
-    } catch {}
-  }, [page, query]);
-
   useEffect(() => {
-    initArticles().then(() => {
-      setLoading(false);
-      if (tagLoading) setTagLoading!(false);
-    });
-  }, [initArticles, tagLoading, setTagLoading]);
+    const initArticles = async () => {
+      setLoading(true);
+      const queryString = `${query}limit=10&offset=${10 * (page - 1)}`;
+      try {
+        const { articles, articlesCount } = await getArticles(queryString);
+        setArticles(articles);
+        setArticlesCount(articlesCount);
+      } catch (e: any) {
+        console.log(e);
+      }
+    };
+    initArticles().then(() => setLoading(false));
+  }, [page, query]);
 
   return (
     <>
