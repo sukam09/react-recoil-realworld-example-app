@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import ArticlePreview from "../article/ArticlePreview";
 import Loading from "../common/Loading";
@@ -17,25 +17,29 @@ const Feed = ({ query, url, limit }: FeedProps) => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [articlesCount, setArticlesCount] = useState(0);
+  const prevQuery = usePrevious(query);
 
-  useEffect(() => {
-    setLoading(true);
-    setPage(1);
-  }, [query]);
-
+  // TODO: use lodash debounce
   useEffect(() => {
     const initArticles = async () => {
-      const queryString = `${query}limit=${limit}&offset=${10 * (page - 1)}`;
+      setLoading(true);
+      let offset;
+      if (prevQuery === query) {
+        offset = 10 * (page - 1);
+      } else {
+        offset = 0;
+        setPage(1);
+      }
+      const queryString = `${query}limit=${limit}&offset=${offset}`;
       try {
         const { articles, articlesCount } = await getArticles(queryString);
         setArticles(articles);
         setArticlesCount(articlesCount);
-      } catch (e: any) {
-        console.log(e);
-      }
+      } catch {}
+      setLoading(false);
     };
-    initArticles().then(() => setLoading(false));
-  }, [page, query, limit]);
+    initArticles();
+  }, [limit, page, query, prevQuery]);
 
   if (loading) {
     return (
@@ -62,6 +66,16 @@ const Feed = ({ query, url, limit }: FeedProps) => {
       />
     </>
   );
+};
+
+const usePrevious = (value: string) => {
+  const ref = useRef<string>();
+
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+
+  return ref.current;
 };
 
 export default Feed;
