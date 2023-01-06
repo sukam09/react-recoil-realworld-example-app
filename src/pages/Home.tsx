@@ -19,7 +19,7 @@ const Home = () => {
   const [tagListLoading, setTagListLoading] = useState(false);
   const [tagName, setTagName] = useState("");
 
-  const handleClickTag = (tag: string) => {
+  const onClickTag = (tag: string) => {
     setToggle(2);
     setTagName(tag);
   };
@@ -105,7 +105,7 @@ const Home = () => {
                       <LinkTag
                         key={tag}
                         name={tag}
-                        onClick={() => handleClickTag(tag)}
+                        onClick={() => onClickTag(tag)}
                       />
                     ))
                   )}
