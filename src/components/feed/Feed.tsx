@@ -20,7 +20,7 @@ const Feed = ({ query, url, limit }: FeedProps) => {
   const prevQuery = usePrevious(query);
 
   useEffect(() => {
-    let didCancel = false;
+    let canceled = false;
     const initArticles = async () => {
       let offset = 10 * (page - 1);
       if (prevQuery !== query) {
@@ -30,7 +30,7 @@ const Feed = ({ query, url, limit }: FeedProps) => {
       const queryString = `${query}limit=${limit}&offset=${offset}`;
       try {
         const { articles, articlesCount } = await getArticles(queryString);
-        if (!didCancel) {
+        if (!canceled) {
           setArticles(articles);
           setArticlesCount(articlesCount);
         }
@@ -41,7 +41,7 @@ const Feed = ({ query, url, limit }: FeedProps) => {
     initArticles();
 
     return () => {
-      didCancel = true;
+      canceled = true;
     };
   }, [limit, page, query, prevQuery]);
 
