@@ -6,7 +6,7 @@ import { useSetRecoilState, useRecoilValue } from 'recoil';
 import EditorTag from '../components/tag/EditorTag';
 import Loading from '../components/common/Loading';
 import { putArticle, getArticle } from '../api/article';
-import { isLoggedInState, userState } from '../state';
+import { isLoggedInAtom, userAtom } from '../atom';
 
 interface EditorProps {
   title: string;
@@ -35,8 +35,8 @@ const EditArticle = () => {
 
   const navigate = useNavigate();
   const { URLSlug } = useParams();
-  const isLoggedIn = useRecoilValue(isLoggedInState);
-  const user = useRecoilValue(userState);
+  const isLoggedIn = useRecoilValue(isLoggedInAtom);
+  const user = useRecoilValue(userAtom);
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

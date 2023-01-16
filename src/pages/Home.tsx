@@ -7,11 +7,11 @@ import Feed from '../components/feed/Feed';
 import LinkTag from '../components/tag/LinkTag';
 import Loading from '../components/common/Loading';
 
-import { isLoggedInState } from '../state';
+import { isLoggedInAtom } from '../atom';
 import { getTags } from '../api/tags';
 
 const Home = () => {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const isLoggedIn = useRecoilValue(isLoggedInAtom);
   const navigate = useNavigate();
 
   const [toggle, setToggle] = useState(isLoggedIn ? 0 : 1);

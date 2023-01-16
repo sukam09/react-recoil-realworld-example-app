@@ -15,12 +15,12 @@ import EditArticle from './pages/EditArticle';
 import NewArticle from './pages/NewArticle';
 
 import { getUser } from './api/user';
-import { isLoggedInState, userState } from './state';
+import { isLoggedInAtom, userAtom } from './atom';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
-  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-  const setUser = useSetRecoilState(userState);
+  const setIsLoggedIn = useSetRecoilState(isLoggedInAtom);
+  const setUser = useSetRecoilState(userAtom);
 
   useEffect(() => {
     const initApp = async () => {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { isLoggedInState } from '../../state';
+import { isLoggedInAtom } from '../../atom';
 
 const FOLLOWED_CLASS = 'btn btn-sm action-btn btn-secondary';
 const UNFOLLOWED_CLASS = 'btn btn-sm action-btn btn-outline-secondary';
@@ -20,7 +20,7 @@ const FollowButton = ({
   unfollow,
 }: FollowButtonProps) => {
   const [disabled, setDisabled] = useState(false);
-  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const isLoggedIn = useRecoilValue(isLoggedInAtom);
   const navigate = useNavigate();
 
   return (

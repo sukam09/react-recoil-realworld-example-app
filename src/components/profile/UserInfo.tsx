@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 
 import Loading from '../common/Loading';
 import { getProfile } from '../../api/profile';
-import { userState } from '../../state';
+import { userAtom } from '../../atom';
 import FollowButton from '../common/FollowButton';
 import { postFollow, deleteFollow } from '../../api/profile';
 
@@ -18,7 +18,7 @@ const UserInfo = () => {
   const { image, username, bio, following } = userInfo;
   const [loading, setLoading] = useState(true);
 
-  const user = useRecoilValue(userState);
+  const user = useRecoilValue(userAtom);
   const { userId } = useParams();
   const navigate = useNavigate();
 

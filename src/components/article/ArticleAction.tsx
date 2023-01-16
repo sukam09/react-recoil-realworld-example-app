@@ -4,7 +4,7 @@ import { ArticleProps } from '../../types';
 import FollowButton from '../common/FollowButton';
 
 import { useRecoilValue } from 'recoil';
-import { isLoggedInState } from '../../state';
+import { isLoggedInAtom } from '../../atom';
 
 const FAVORITED_CLASS = 'btn btn-sm btn-primary';
 const UNFAVORITED_CLASS = 'btn btn-sm btn-outline-primary';
@@ -29,7 +29,7 @@ const ArticleAction = ({
   article,
 }: ArticleActionProps) => {
   const [disabled, setDisabled] = useState(false);
-  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const isLoggedIn = useRecoilValue(isLoggedInAtom);
   const navigate = useNavigate();
 
   return isUser ? (

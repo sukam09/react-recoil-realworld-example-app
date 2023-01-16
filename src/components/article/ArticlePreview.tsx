@@ -7,7 +7,7 @@ import { convertToDate } from '../../utils';
 import ArticleTag from '../tag/ArticleTag';
 
 import { useRecoilValue } from 'recoil';
-import { isLoggedInState } from '../../state';
+import { isLoggedInAtom } from '../../atom';
 
 const FAVORITED_CLASS = 'btn btn-sm btn-primary';
 const UNFAVORITED_CLASS = 'btn btn-sm btn-outline-primary';
@@ -17,7 +17,7 @@ const ArticlePreview = ({ article }: { article: ArticleProps }) => {
   const [favoritesCount, setFavoritesCount] = useState(article.favoritesCount);
   const [disabled, setDisabled] = useState(false);
 
-  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const isLoggedIn = useRecoilValue(isLoggedInAtom);
   const navigate = useNavigate();
 
   const favorite = async () => {

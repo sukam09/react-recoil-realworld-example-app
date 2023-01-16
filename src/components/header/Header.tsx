@@ -3,10 +3,10 @@ import { useRecoilValue } from 'recoil';
 
 import LoginHeader from './LoginHeader';
 import LogoutHeader from './LogoutHeader';
-import { isLoggedInState } from '../../state';
+import { isLoggedInAtom } from '../../atom';
 
 const Header = () => {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const isLoggedIn = useRecoilValue(isLoggedInAtom);
 
   return (
     <nav className="navbar navbar-light">

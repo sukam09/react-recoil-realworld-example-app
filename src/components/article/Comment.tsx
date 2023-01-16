@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 
 import { CommentProps } from '../../types';
 import { convertToDate } from '../../utils';
-import { userState } from '../../state';
+import { userAtom } from '../../atom';
 
 const Comment = ({
   comment,
@@ -12,7 +12,7 @@ const Comment = ({
   comment: CommentProps;
   removeComment: (id: number) => Promise<void>;
 }) => {
-  const username = useRecoilValue(userState).username;
+  const username = useRecoilValue(userAtom).username;
 
   return (
     <div className="card">

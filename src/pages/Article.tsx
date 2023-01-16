@@ -15,7 +15,7 @@ import { deleteComment, getComments, postComment } from '../api/comment';
 import { postFavorites, deleteFavorites } from '../api/favorites';
 import { postFollow, deleteFollow } from '../api/profile';
 
-import { isLoggedInState, userState } from '../state';
+import { isLoggedInAtom, userAtom } from '../atom';
 import { ArticleProps, CommentProps } from '../types';
 import { convertToDate } from '../utils';
 
@@ -42,8 +42,8 @@ const Article = () => {
   const [pageTitle, setPageTitle] = useState('');
   const [loading, setLoading] = useState(true);
 
-  const isLoggedIn = useRecoilValue(isLoggedInState);
-  const user = useRecoilValue(userState);
+  const isLoggedIn = useRecoilValue(isLoggedInAtom);
+  const user = useRecoilValue(userAtom);
   const { URLSlug } = useParams();
   const navigate = useNavigate();
 

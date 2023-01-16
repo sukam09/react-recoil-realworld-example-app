@@ -4,7 +4,7 @@ import { useSetRecoilState } from 'recoil';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 import { loginUser } from '../api/user';
-import { userState, isLoggedInState } from '../state';
+import { userAtom, isLoggedInAtom } from '../atom';
 
 const Login = () => {
   const [account, setAccount] = useState({
@@ -18,8 +18,8 @@ const Login = () => {
     emailOrPassword: '',
   });
   const [disabled, setDisabled] = useState(false);
-  const setUser = useSetRecoilState(userState);
-  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const setUser = useSetRecoilState(userAtom);
+  const setIsLoggedIn = useSetRecoilState(isLoggedInAtom);
   const navigate = useNavigate();
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {

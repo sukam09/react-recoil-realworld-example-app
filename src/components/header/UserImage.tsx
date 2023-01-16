@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import { userState } from '../../state';
+import { userAtom } from '../../atom';
 
 const UserImage = () => {
-  const user = useRecoilValue(userState);
+  const user = useRecoilValue(userAtom);
 
   return (
     <>

@@ -4,7 +4,7 @@ import { useSetRecoilState } from 'recoil';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 import { registerUser } from '../api/user';
-import { userState } from '../state';
+import { userAtom } from '../atom';
 
 const Register = () => {
   const [account, setAccount] = useState({
@@ -19,7 +19,7 @@ const Register = () => {
     password: '',
   });
   const [disabled, setDisabled] = useState(false);
-  const setUser = useSetRecoilState(userState);
+  const setUser = useSetRecoilState(userAtom);
   const navigate = useNavigate();
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
