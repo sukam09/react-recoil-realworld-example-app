@@ -1,21 +1,21 @@
-import { useState, useEffect } from "react";
-import { Routes, Route, HashRouter, Navigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useState, useEffect } from 'react';
+import { Routes, Route, HashRouter, Navigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 
-import Header from "./components/header/Header";
-import Footer from "./components/common/Footer";
+import Header from './components/header/Header';
+import Footer from './components/common/Footer';
 
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Settings from "./pages/Settings";
-import Article from "./pages/Article";
-import Profile from "./pages/Profile";
-import EditArticle from "./pages/EditArticle";
-import NewArticle from "./pages/NewArticle";
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Settings from './pages/Settings';
+import Article from './pages/Article';
+import Profile from './pages/Profile';
+import EditArticle from './pages/EditArticle';
+import NewArticle from './pages/NewArticle';
 
-import { getUser } from "./api/user";
-import { isLoggedInState, userState } from "./state";
+import { getUser } from './api/user';
+import { isLoggedInState, userState } from './state';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ const App = () => {
   useEffect(() => {
     const initApp = async () => {
       try {
-        const jwtToken = !!localStorage.getItem("jwtToken");
+        const jwtToken = !!localStorage.getItem('jwtToken');
         if (!jwtToken) return;
         const data = await getUser();
         const { email, username, bio, image } = data.user;
@@ -37,13 +37,13 @@ const App = () => {
           image: image,
         });
       } catch (err: any) {
-        localStorage.removeItem("jwtToken");
+        localStorage.removeItem('jwtToken');
         setIsLoggedIn(false);
         setUser({
-          email: "",
-          username: "",
-          bio: "",
-          image: "",
+          email: '',
+          username: '',
+          bio: '',
+          image: '',
         });
       }
     };

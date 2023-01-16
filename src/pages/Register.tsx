@@ -1,22 +1,22 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
-import { registerUser } from "../api/user";
-import { userState } from "../state";
+import { registerUser } from '../api/user';
+import { userState } from '../state';
 
 const Register = () => {
   const [account, setAccount] = useState({
-    username: "",
-    email: "",
-    password: "",
+    username: '',
+    email: '',
+    password: '',
   });
   const { username, email, password } = account;
   const [error, setError] = useState({
-    email: "",
-    username: "",
-    password: "",
+    email: '',
+    username: '',
+    password: '',
   });
   const [disabled, setDisabled] = useState(false);
   const setUser = useSetRecoilState(userState);
@@ -41,9 +41,9 @@ const Register = () => {
           password: password,
         },
       });
-      localStorage.setItem("jwtToken", data.user.token);
+      localStorage.setItem('jwtToken', data.user.token);
       setUser(data.user);
-      navigate("/", { replace: true });
+      navigate('/', { replace: true });
     } catch (error: any) {
       const errorMessage = error.response.data.errors;
       setError({
@@ -80,7 +80,7 @@ const Register = () => {
                 {error.password && <li>password {error.password}</li>}
               </ul>
 
-              <form onSubmit={(event) => onRegister(event)}>
+              <form onSubmit={event => onRegister(event)}>
                 <fieldset className="form-group">
                   <input
                     className="form-control form-control-lg"

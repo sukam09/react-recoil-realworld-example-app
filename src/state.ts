@@ -1,16 +1,16 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
 export const isLoggedInState = atom({
-  key: "isLoggedInState",
+  key: 'isLoggedInState',
   default: false,
 });
 
 export const userState = atom({
-  key: "userState",
+  key: 'userState',
   default: {
-    email: "",
-    username: "",
-    bio: "",
-    image: "",
+    email: '',
+    username: '',
+    bio: '',
+    image: '',
   },
 });

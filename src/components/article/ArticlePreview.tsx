@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { postFavorites, deleteFavorites } from "../../api/favorites";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { postFavorites, deleteFavorites } from '../../api/favorites';
 
-import { ArticleProps } from "../../types";
-import { convertToDate } from "../../utils";
-import ArticleTag from "../tag/ArticleTag";
+import { ArticleProps } from '../../types';
+import { convertToDate } from '../../utils';
+import ArticleTag from '../tag/ArticleTag';
 
-import { useRecoilValue } from "recoil";
-import { isLoggedInState } from "../../state";
+import { useRecoilValue } from 'recoil';
+import { isLoggedInState } from '../../state';
 
-const FAVORITED_CLASS = "btn btn-sm btn-primary";
-const UNFAVORITED_CLASS = "btn btn-sm btn-outline-primary";
+const FAVORITED_CLASS = 'btn btn-sm btn-primary';
+const UNFAVORITED_CLASS = 'btn btn-sm btn-outline-primary';
 
 const ArticlePreview = ({ article }: { article: ArticleProps }) => {
   const [favorited, setFavorited] = useState(article.favorited);
@@ -49,11 +49,11 @@ const ArticlePreview = ({ article }: { article: ArticleProps }) => {
             type="button"
             className={
               favorited
-                ? `${FAVORITED_CLASS} ${disabled ? "disabled" : ""}`
-                : `${UNFAVORITED_CLASS} ${disabled ? "disabled" : ""}`
+                ? `${FAVORITED_CLASS} ${disabled ? 'disabled' : ''}`
+                : `${UNFAVORITED_CLASS} ${disabled ? 'disabled' : ''}`
             }
             onClick={async () => {
-              if (!isLoggedIn) navigate("/login");
+              if (!isLoggedIn) navigate('/login');
               setDisabled(true);
               favorited ? await unfavorite() : await favorite();
               setDisabled(false);
@@ -68,7 +68,7 @@ const ArticlePreview = ({ article }: { article: ArticleProps }) => {
         <p>{article.description}</p>
         <span>Read more...</span>
         <ul className="tag-list">
-          {article.tagList.map((tag) => (
+          {article.tagList.map(tag => (
             <ArticleTag key={tag} name={tag} />
           ))}
         </ul>

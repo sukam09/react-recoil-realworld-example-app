@@ -1,4 +1,4 @@
-import { GET, POST, DELETE } from "./config";
+import { GET, POST, DELETE } from './config';
 
 export const postComment = (
   slug: string,

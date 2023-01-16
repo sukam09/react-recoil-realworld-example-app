@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useState, useEffect } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
-import Loading from "../common/Loading";
-import { getProfile } from "../../api/profile";
-import { userState } from "../../state";
-import FollowButton from "../common/FollowButton";
-import { postFollow, deleteFollow } from "../../api/profile";
+import Loading from '../common/Loading';
+import { getProfile } from '../../api/profile';
+import { userState } from '../../state';
+import FollowButton from '../common/FollowButton';
+import { postFollow, deleteFollow } from '../../api/profile';
 
 const UserInfo = () => {
   const [userInfo, setUserInfo] = useState({
-    image: "",
-    username: "",
-    bio: "",
+    image: '',
+    username: '',
+    bio: '',
     following: false,
   });
   const { image, username, bio, following } = userInfo;
@@ -35,7 +35,7 @@ const UserInfo = () => {
           following: following,
         });
       } catch {
-        navigate("/", { replace: true });
+        navigate('/', { replace: true });
       }
     };
     initUserInfo().then(() => setLoading(false));

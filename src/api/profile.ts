@@ -1,4 +1,4 @@
-import { DELETE, GET, POST } from "./config";
+import { DELETE, GET, POST } from './config';
 
 export const getProfile = (username: string) => GET(`/profiles/${username}`);
 

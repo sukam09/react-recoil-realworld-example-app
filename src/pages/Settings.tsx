@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
-import { putUser } from "../api/user";
-import { isLoggedInState, userState } from "../state";
+import { putUser } from '../api/user';
+import { isLoggedInState, userState } from '../state';
 
 const Settings = () => {
   const [settings, setSettings] = useState({
-    image: "",
-    username: "",
-    bio: "",
-    email: "",
-    password: "",
+    image: '',
+    username: '',
+    bio: '',
+    email: '',
+    password: '',
   });
   const { image, username, bio, email, password } = settings;
   const [disabled, setDisabled] = useState(false);
@@ -44,7 +44,7 @@ const Settings = () => {
           password: password,
         },
       });
-      localStorage.setItem("jwtToken", user.token);
+      localStorage.setItem('jwtToken', user.token);
       setUser({
         email: user.email,
         username: user.username,
@@ -57,23 +57,23 @@ const Settings = () => {
   };
 
   const onLogout = () => {
-    localStorage.removeItem("jwtToken");
+    localStorage.removeItem('jwtToken');
     setIsLoggedIn(false);
-    setUser({ email: "", username: "", bio: "", image: "" });
-    navigate("/", { replace: true });
+    setUser({ email: '', username: '', bio: '', image: '' });
+    navigate('/', { replace: true });
   };
 
   useEffect(() => {
     const initSettings = () => {
       setSettings({
         ...user,
-        password: "",
+        password: '',
       });
     };
     initSettings();
   }, [user]);
 
-  if (!isLoggedIn) navigate("/", { replace: true });
+  if (!isLoggedIn) navigate('/', { replace: true });
 
   return (
     <>
@@ -88,7 +88,7 @@ const Settings = () => {
           <div className="row">
             <div className="col-md-6 offset-md-3 col-xs-12">
               <h1 className="text-xs-center">Your Settings</h1>
-              <form onSubmit={(event) => updateSettings(event)}>
+              <form onSubmit={event => updateSettings(event)}>
                 <fieldset>
                   <fieldset className="form-group">
                     <input

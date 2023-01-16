@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useRecoilValue } from "recoil";
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { useRecoilValue } from 'recoil';
 
-import Feed from "../components/feed/Feed";
-import LinkTag from "../components/tag/LinkTag";
-import Loading from "../components/common/Loading";
+import Feed from '../components/feed/Feed';
+import LinkTag from '../components/tag/LinkTag';
+import Loading from '../components/common/Loading';
 
-import { isLoggedInState } from "../state";
-import { getTags } from "../api/tags";
+import { isLoggedInState } from '../state';
+import { getTags } from '../api/tags';
 
 const Home = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -17,7 +17,7 @@ const Home = () => {
   const [toggle, setToggle] = useState(isLoggedIn ? 0 : 1);
   const [tagList, setTagList] = useState<string[]>([]);
   const [tagListLoading, setTagListLoading] = useState(false);
-  const [tagName, setTagName] = useState("");
+  const [tagName, setTagName] = useState('');
 
   const onClickTag = (tag: string) => {
     setToggle(2);
@@ -33,7 +33,7 @@ const Home = () => {
     initTags().then(() => setTagListLoading(false));
   }, []);
 
-  useEffect(() => navigate("/", { replace: true }), [navigate]);
+  useEffect(() => navigate('/', { replace: true }), [navigate]);
 
   return (
     <>
@@ -58,7 +58,7 @@ const Home = () => {
                 <ul className="nav nav-pills outline-active">
                   <li className="nav-item">
                     <Link
-                      className={`nav-link ${toggle === 0 ? "active" : ""}`}
+                      className={`nav-link ${toggle === 0 ? 'active' : ''}`}
                       to="/"
                       onClick={() => setToggle(0)}
                       hidden={!isLoggedIn}
@@ -68,7 +68,7 @@ const Home = () => {
                   </li>
                   <li className="nav-item">
                     <Link
-                      className={`nav-link ${toggle === 1 ? "active" : ""}`}
+                      className={`nav-link ${toggle === 1 ? 'active' : ''}`}
                       to="/"
                       onClick={() => setToggle(1)}
                     >
@@ -82,7 +82,7 @@ const Home = () => {
                       onClick={() => setToggle(2)}
                       hidden={toggle !== 2}
                     >
-                      <i className="ion-pound"></i> {tagName}{" "}
+                      <i className="ion-pound"></i> {tagName}{' '}
                     </Link>
                   </li>
                 </ul>
@@ -101,7 +101,7 @@ const Home = () => {
                   {tagListLoading ? (
                     <Loading text="tags" />
                   ) : (
-                    tagList.map((tag) => (
+                    tagList.map(tag => (
                       <LinkTag
                         key={tag}
                         name={tag}

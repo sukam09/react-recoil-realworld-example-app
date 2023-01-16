@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ArticleProps } from "../../types";
-import FollowButton from "../common/FollowButton";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArticleProps } from '../../types';
+import FollowButton from '../common/FollowButton';
 
-import { useRecoilValue } from "recoil";
-import { isLoggedInState } from "../../state";
+import { useRecoilValue } from 'recoil';
+import { isLoggedInState } from '../../state';
 
-const FAVORITED_CLASS = "btn btn-sm btn-primary";
-const UNFAVORITED_CLASS = "btn btn-sm btn-outline-primary";
+const FAVORITED_CLASS = 'btn btn-sm btn-primary';
+const UNFAVORITED_CLASS = 'btn btn-sm btn-outline-primary';
 
 interface ArticleActionProps {
   isUser: boolean;
@@ -40,7 +40,7 @@ const ArticleAction = ({
         onClick={() => navigate(`/editor/${article.slug}`)}
       >
         <i className="ion-edit"></i> Edit Article
-      </button>{" "}
+      </button>{' '}
       <button
         className="btn btn-sm btn-outline-danger"
         type="button"
@@ -61,19 +61,19 @@ const ArticleAction = ({
       <button
         className={
           article.favorited
-            ? `${FAVORITED_CLASS} ${disabled ? "disabled" : ""}`
-            : `${UNFAVORITED_CLASS} ${disabled ? "disabled" : ""}`
+            ? `${FAVORITED_CLASS} ${disabled ? 'disabled' : ''}`
+            : `${UNFAVORITED_CLASS} ${disabled ? 'disabled' : ''}`
         }
         type="button"
         onClick={async () => {
-          if (!isLoggedIn) navigate("/login");
+          if (!isLoggedIn) navigate('/login');
           setDisabled(true);
           article.favorited ? await unfavorite() : await favorite();
           setDisabled(false);
         }}
       >
         <i className="ion-heart"></i>
-        &nbsp; {article.favorited ? "Unfavorite" : "Favorite"} Post
+        &nbsp; {article.favorited ? 'Unfavorite' : 'Favorite'} Post
         <span className="counter">({article.favoritesCount})</span>
       </button>
     </>

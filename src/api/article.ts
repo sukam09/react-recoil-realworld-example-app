@@ -1,4 +1,4 @@
-import { GET, POST, DELETE, PUT } from "./config";
+import { GET, POST, DELETE, PUT } from './config';
 
 interface articleAPIBodyProps {
   article: {
@@ -12,7 +12,7 @@ interface articleAPIBodyProps {
 export const getArticles = (query: string) => GET(`/articles${query}`);
 
 export const postArticle = (body: articleAPIBodyProps) =>
-  POST("/articles", body);
+  POST('/articles', body);
 
 export const getArticle = (slug: string) => GET(`/articles/${slug}`);
 

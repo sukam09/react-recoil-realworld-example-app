@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { Link } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
-import { CommentProps } from "../../types";
-import { convertToDate } from "../../utils";
-import { userState } from "../../state";
+import { CommentProps } from '../../types';
+import { convertToDate } from '../../utils';
+import { userState } from '../../state';
 
 const Comment = ({
   comment,
@@ -25,7 +25,7 @@ const Comment = ({
           className="comment-author"
         >
           <img src={comment.author.image} className="comment-author-img" />
-        </Link>{" "}
+        </Link>{' '}
         <Link
           to={`/profile/${comment.author.username}`}
           className="comment-author"

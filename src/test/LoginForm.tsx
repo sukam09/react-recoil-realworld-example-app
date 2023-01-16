@@ -3,21 +3,21 @@
  * This component is only used for unit test.
  */
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { loginUser } from "../api/user";
+import { loginUser } from '../api/user';
 
 const LoginForm = () => {
   const [account, setAccount] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const { email, password } = account;
   const [disabled, setDisabled] = useState(false);
   const [error, setError] = useState({
-    email: "",
-    password: "",
-    emailOrPassword: "",
+    email: '',
+    password: '',
+    emailOrPassword: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +43,7 @@ const LoginForm = () => {
       setError({
         email: errorMessage.email,
         password: errorMessage.password,
-        emailOrPassword: errorMessage["email or password"],
+        emailOrPassword: errorMessage['email or password'],
       });
     }
     setDisabled(false);
@@ -57,7 +57,7 @@ const LoginForm = () => {
         {error.emailOrPassword && <li>email or password is invalid</li>}
       </ul>
 
-      <form onSubmit={(e) => handleLogin(e)}>
+      <form onSubmit={e => handleLogin(e)}>
         <fieldset className="form-group">
           <input
             className="form-control form-control-lg"

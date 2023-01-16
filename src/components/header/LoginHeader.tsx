@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom";
-import UserImage from "./UserImage";
+import { NavLink } from 'react-router-dom';
+import UserImage from './UserImage';
 
 const LoginHeader = () => {
   return (
@@ -8,7 +8,7 @@ const LoginHeader = () => {
         <li className="nav-item">
           <NavLink
             to="/editor"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
           >
             <i className="ion-compose"></i> New Article
           </NavLink>
@@ -16,7 +16,7 @@ const LoginHeader = () => {
         <li className="nav-item">
           <NavLink
             to="/settings"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
           >
             <i className="ion-gear-a"></i> Settings
           </NavLink>

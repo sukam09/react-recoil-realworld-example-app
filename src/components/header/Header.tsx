@@ -1,9 +1,9 @@
-import { Link, NavLink } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { Link, NavLink } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
-import LoginHeader from "./LoginHeader";
-import LogoutHeader from "./LogoutHeader";
-import { isLoggedInState } from "../../state";
+import LoginHeader from './LoginHeader';
+import LogoutHeader from './LogoutHeader';
+import { isLoggedInState } from '../../state';
 
 const Header = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -19,7 +19,7 @@ const Header = () => {
             <NavLink
               to="/"
               className={({ isActive }) =>
-                `nav-link ${isActive ? "active" : ""}`
+                `nav-link ${isActive ? 'active' : ''}`
               }
             >
               Home

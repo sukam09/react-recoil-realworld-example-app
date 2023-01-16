@@ -6,7 +6,6 @@
   },
   "extends": ["react-app", "plugin:prettier/recommended", "prettier"],
   "rules": {
-    "prettier/prettier": "error",
     "react/jsx-filename-extension": [
       2,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }

@@ -1,21 +1,21 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
-import { loginUser } from "../api/user";
-import { userState, isLoggedInState } from "../state";
+import { loginUser } from '../api/user';
+import { userState, isLoggedInState } from '../state';
 
 const Login = () => {
   const [account, setAccount] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const { email, password } = account;
   const [error, setError] = useState({
-    email: "",
-    password: "",
-    emailOrPassword: "",
+    email: '',
+    password: '',
+    emailOrPassword: '',
   });
   const [disabled, setDisabled] = useState(false);
   const setUser = useSetRecoilState(userState);
@@ -40,16 +40,16 @@ const Login = () => {
           password: password,
         },
       });
-      localStorage.setItem("jwtToken", data.user.token);
+      localStorage.setItem('jwtToken', data.user.token);
       setIsLoggedIn(true);
       setUser(data.user);
-      navigate("/", { replace: true });
+      navigate('/', { replace: true });
     } catch (error: any) {
       const errorMessage = error.response.data.errors;
       setError({
         email: errorMessage.email,
         password: errorMessage.password,
-        emailOrPassword: errorMessage["email or password"],
+        emailOrPassword: errorMessage['email or password'],
       });
     }
     setDisabled(false);
@@ -80,7 +80,7 @@ const Login = () => {
                 {error.emailOrPassword && <li>email or password is invalid</li>}
               </ul>
 
-              <form onSubmit={(event) => onLogin(event)}>
+              <form onSubmit={event => onLogin(event)}>
                 <fieldset className="form-group">
                   <input
                     className="form-control form-control-lg"

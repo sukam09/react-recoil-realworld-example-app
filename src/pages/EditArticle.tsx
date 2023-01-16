@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams, Navigate } from "react-router-dom";
-import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams, Navigate } from 'react-router-dom';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
 
-import EditorTag from "../components/tag/EditorTag";
-import Loading from "../components/common/Loading";
-import { putArticle, getArticle } from "../api/article";
-import { isLoggedInState, userState } from "../state";
+import EditorTag from '../components/tag/EditorTag';
+import Loading from '../components/common/Loading';
+import { putArticle, getArticle } from '../api/article';
+import { isLoggedInState, userState } from '../state';
 
 interface EditorProps {
   title: string;
@@ -18,17 +18,17 @@ interface EditorProps {
 
 const EditArticle = () => {
   const [editor, setEditor] = useState<EditorProps>({
-    title: "",
-    description: "",
-    body: "",
-    tag: "",
+    title: '',
+    description: '',
+    body: '',
+    tag: '',
     tagList: [],
   });
   const { title, description, body, tag, tagList } = editor;
   const [error, setError] = useState({
-    title: "",
-    description: "",
-    body: "",
+    title: '',
+    description: '',
+    body: '',
   });
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -49,7 +49,7 @@ const EditArticle = () => {
   };
 
   const onEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       event.preventDefault();
       if (!tagList.includes(tag)) {
         addTag(tag);
@@ -60,13 +60,13 @@ const EditArticle = () => {
   const addTag = (newTag: string) => {
     setEditor({
       ...editor,
-      tag: "",
+      tag: '',
       tagList: [...tagList, newTag],
     });
   };
 
   const removeTag = (target: string) => {
-    setEditor({ ...editor, tagList: tagList.filter((tag) => tag !== target) });
+    setEditor({ ...editor, tagList: tagList.filter(tag => tag !== target) });
   };
 
   const publishArticle = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -100,17 +100,17 @@ const EditArticle = () => {
       try {
         const { article } = await getArticle(URLSlug!);
         if (!isLoggedIn || article.author.username !== user.username) {
-          navigate("/", { replace: true });
+          navigate('/', { replace: true });
         }
         setEditor({
           title: article.title,
           description: article.description,
           body: article.body,
-          tag: "",
+          tag: '',
           tagList: article.tagList,
         });
       } catch (err: any) {
-        navigate("/", { replace: true });
+        navigate('/', { replace: true });
       }
     };
     initArticle().then(() => setLoading(false));
@@ -134,7 +134,7 @@ const EditArticle = () => {
                 {error.description && <li>description can't be blank</li>}
                 {error.body && <li>body can't be blank</li>}
               </ul>
-              <form onSubmit={(event) => publishArticle(event)}>
+              <form onSubmit={event => publishArticle(event)}>
                 <fieldset>
                   <fieldset className="form-group">
                     <input
@@ -183,7 +183,7 @@ const EditArticle = () => {
                     <div className="tag-list"></div>
                   </fieldset>
                   <div>
-                    {tagList.map((tag) => (
+                    {tagList.map(tag => (
                       <EditorTag
                         key={tag}
                         name={tag}

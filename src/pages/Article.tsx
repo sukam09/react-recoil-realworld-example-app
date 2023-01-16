@@ -1,45 +1,45 @@
-import { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useRecoilValue } from "recoil";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { useEffect, useState } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { useRecoilValue } from 'recoil';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
-import Comment from "../components/article/Comment";
-import ArticleTag from "../components/tag/ArticleTag";
-import ArticleAction from "../components/article/ArticleAction";
-import Loading from "../components/common/Loading";
+import Comment from '../components/article/Comment';
+import ArticleTag from '../components/tag/ArticleTag';
+import ArticleAction from '../components/article/ArticleAction';
+import Loading from '../components/common/Loading';
 
-import { getArticle, deleteArticle } from "../api/article";
-import { deleteComment, getComments, postComment } from "../api/comment";
-import { postFavorites, deleteFavorites } from "../api/favorites";
-import { postFollow, deleteFollow } from "../api/profile";
+import { getArticle, deleteArticle } from '../api/article';
+import { deleteComment, getComments, postComment } from '../api/comment';
+import { postFavorites, deleteFavorites } from '../api/favorites';
+import { postFollow, deleteFollow } from '../api/profile';
 
-import { isLoggedInState, userState } from "../state";
-import { ArticleProps, CommentProps } from "../types";
-import { convertToDate } from "../utils";
+import { isLoggedInState, userState } from '../state';
+import { ArticleProps, CommentProps } from '../types';
+import { convertToDate } from '../utils';
 
 const Article = () => {
   const [article, setArticle] = useState<ArticleProps>({
-    slug: "",
-    title: "",
-    description: "",
+    slug: '',
+    title: '',
+    description: '',
     tagList: [],
-    body: "",
-    createdAt: "",
+    body: '',
+    createdAt: '',
     favorited: false,
     favoritesCount: 0,
     author: {
-      username: "",
-      bio: "",
-      image: "",
+      username: '',
+      bio: '',
+      image: '',
       following: false,
     },
   });
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
   const [comments, setComments] = useState<CommentProps[]>([]);
   const [isUser, setIsUser] = useState(false);
-  const [pageTitle, setPageTitle] = useState("");
+  const [pageTitle, setPageTitle] = useState('');
   const [loading, setLoading] = useState(true);
 
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -54,7 +54,7 @@ const Article = () => {
 
   const removeArticle = async () => {
     await deleteArticle(URLSlug!);
-    navigate("/", { replace: true });
+    navigate('/', { replace: true });
   };
 
   const publishComment = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -63,12 +63,12 @@ const Article = () => {
       comment: { body: comment },
     });
     setComments([data.comment, ...comments]);
-    setComment("");
+    setComment('');
   };
 
   const removeComment = async (id: number) => {
     await deleteComment(URLSlug!, id);
-    setComments(comments.filter((comment) => comment.id !== id));
+    setComments(comments.filter(comment => comment.id !== id));
   };
 
   const follow = async () => {
@@ -120,7 +120,7 @@ const Article = () => {
         setPageTitle(article.title);
         setIsUser(article.author.username === user.username);
       } catch (err: any) {
-        navigate("/", { replace: true });
+        navigate('/', { replace: true });
       }
     };
     initArticle().then(() => setLoading(false));
@@ -185,7 +185,7 @@ const Article = () => {
             </div>
           </div>
           <div>
-            {article.tagList.map((tag) => (
+            {article.tagList.map(tag => (
               <ArticleTag key={tag} name={tag} />
             ))}
           </div>
@@ -238,13 +238,13 @@ const Article = () => {
                 </form>
               ) : (
                 <p>
-                  <Link to="/login">Sign in</Link> or{" "}
+                  <Link to="/login">Sign in</Link> or{' '}
                   <Link to="/register">Sign up</Link> to add comments on this
                   article.
                 </p>
               )}
               <div>
-                {comments.map((comment) => (
+                {comments.map(comment => (
                   <Comment
                     key={comment.id}
                     comment={comment}

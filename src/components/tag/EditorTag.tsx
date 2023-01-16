@@ -8,7 +8,7 @@ const EditorTag = ({ name, onClick }: EditorTagProps) => {
     <span className="tag-default tag-pill">
       <i
         className="ion-close-round"
-        style={{ cursor: "pointer", marginRight: "5px" }}
+        style={{ cursor: 'pointer', marginRight: '5px' }}
         onClick={onClick}
       ></i>
       {` ${name} `}

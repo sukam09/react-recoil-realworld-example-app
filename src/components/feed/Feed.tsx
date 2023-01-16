@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from 'react';
 
-import ArticlePreview from "../article/ArticlePreview";
-import Loading from "../common/Loading";
-import Pagination from "../common/Pagination";
-import { getArticles } from "../../api/article";
-import { ArticleProps } from "../../types";
+import ArticlePreview from '../article/ArticlePreview';
+import Loading from '../common/Loading';
+import Pagination from '../common/Pagination';
+import { getArticles } from '../../api/article';
+import { ArticleProps } from '../../types';
 
 interface FeedProps {
   query: string;
@@ -41,7 +41,6 @@ const Feed = ({ query, url, limit }: FeedProps) => {
     initArticles();
 
     return () => {
-      console.log(query + "canceled...");
       didCancel = true;
     };
   }, [limit, page, query, prevQuery]);
@@ -60,7 +59,7 @@ const Feed = ({ query, url, limit }: FeedProps) => {
 
   return (
     <>
-      {articles.map((article) => (
+      {articles.map(article => (
         <ArticlePreview key={article.slug} article={article} />
       ))}
       <Pagination

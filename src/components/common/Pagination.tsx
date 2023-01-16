@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
-import { Link } from "react-router-dom";
+import { Dispatch, SetStateAction } from 'react';
+import { Link } from 'react-router-dom';
 
 const Pagination = ({
   page,
@@ -13,7 +13,7 @@ const Pagination = ({
   url: string;
 }) => {
   const pageLength = Math.ceil(articlesCount / 10);
-  const pageNums = [...Array(pageLength).keys()].map((p) => p + 1);
+  const pageNums = [...Array(pageLength).keys()].map(p => p + 1);
 
   if (pageLength === 1) return null;
 
@@ -21,10 +21,10 @@ const Pagination = ({
     <>
       <nav>
         <ul className="pagination">
-          {pageNums.map((num) => (
+          {pageNums.map(num => (
             <li
               key={num}
-              className={`page-item ${page === num ? "active" : ""}`}
+              className={`page-item ${page === num ? 'active' : ''}`}
             >
               <Link to={url} className="page-link" onClick={() => setPage(num)}>
                 {num}
