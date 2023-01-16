@@ -19,26 +19,31 @@ const Feed = ({ query, url, limit }: FeedProps) => {
   const [articlesCount, setArticlesCount] = useState(0);
   const prevQuery = usePrevious(query);
 
-  // TODO: use lodash debounce
   useEffect(() => {
+    let didCancel = false;
     const initArticles = async () => {
-      setLoading(true);
-      let offset;
-      if (prevQuery === query) {
-        offset = 10 * (page - 1);
-      } else {
-        offset = 0;
+      let offset = 10 * (page - 1);
+      if (prevQuery !== query) {
         setPage(1);
+        offset = 0;
       }
       const queryString = `${query}limit=${limit}&offset=${offset}`;
       try {
         const { articles, articlesCount } = await getArticles(queryString);
-        setArticles(articles);
-        setArticlesCount(articlesCount);
+        if (!didCancel) {
+          setArticles(articles);
+          setArticlesCount(articlesCount);
+        }
       } catch {}
       setLoading(false);
     };
+
     initArticles();
+
+    return () => {
+      console.log(query + "canceled...");
+      didCancel = true;
+    };
   }, [limit, page, query, prevQuery]);
 
   if (loading) {
