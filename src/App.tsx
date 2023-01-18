@@ -4,6 +4,7 @@ import { useSetRecoilState } from 'recoil';
 
 import Header from './components/header/Header';
 import Footer from './components/common/Footer';
+import Loading from './components/common/Loading';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -50,7 +51,7 @@ const App = () => {
     initApp().then(() => setLoading(false));
   }, [setIsLoggedIn, setUser]);
 
-  if (loading) return null;
+  if (loading) return <Loading text="app" />;
 
   return (
     <>
