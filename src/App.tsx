@@ -25,9 +25,9 @@ const App = () => {
 
   useEffect(() => {
     const initApp = async () => {
+      const jwtToken = !!localStorage.getItem('jwtToken');
+      if (!jwtToken) return;
       try {
-        const jwtToken = !!localStorage.getItem('jwtToken');
-        if (!jwtToken) return;
         const data = await getUser();
         const { email, username, bio, image } = data.user;
         setIsLoggedIn(true);
@@ -37,7 +37,7 @@ const App = () => {
           bio: bio,
           image: image,
         });
-      } catch (err: any) {
+      } catch (e: any) {
         localStorage.removeItem('jwtToken');
         setIsLoggedIn(false);
         setUser({
@@ -48,6 +48,7 @@ const App = () => {
         });
       }
     };
+
     initApp().then(() => setLoading(false));
   }, [setIsLoggedIn, setUser]);
 
