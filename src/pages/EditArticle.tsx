@@ -109,11 +109,13 @@ const EditArticle = () => {
           tag: '',
           tagList: article.tagList,
         });
-      } catch (err: any) {
+      } catch (e: any) {
         navigate('/', { replace: true });
       }
+      setLoading(false);
     };
-    initArticle().then(() => setLoading(false));
+
+    initArticle();
   }, [URLSlug, isLoggedIn, navigate, user.username]);
 
   if (loading) return <Loading text="editor" />;

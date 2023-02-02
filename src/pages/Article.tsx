@@ -119,11 +119,13 @@ const Article = () => {
         setArticle(article);
         setPageTitle(article.title);
         setIsUser(article.author.username === user.username);
-      } catch (err: any) {
+      } catch {
         navigate('/', { replace: true });
       }
+      setLoading(false);
     };
-    initArticle().then(() => setLoading(false));
+
+    initArticle();
   }, [URLSlug, user.username, navigate]);
 
   useEffect(() => {
@@ -131,6 +133,7 @@ const Article = () => {
       const { comments } = await getComments(URLSlug!);
       setComments(comments);
     };
+
     initComments();
   }, [URLSlug]);
 

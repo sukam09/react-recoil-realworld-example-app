@@ -17,7 +17,6 @@ const UserInfo = () => {
   });
   const { image, username, bio, following } = userInfo;
   const [loading, setLoading] = useState(true);
-
   const user = useRecoilValue(userAtom);
   const { userId } = useParams();
   const navigate = useNavigate();
@@ -37,8 +36,10 @@ const UserInfo = () => {
       } catch {
         navigate('/', { replace: true });
       }
+      setLoading(false);
     };
-    initUserInfo().then(() => setLoading(false));
+
+    initUserInfo();
   }, [navigate, userId, userInfo.username]);
 
   const follow = async () => {
