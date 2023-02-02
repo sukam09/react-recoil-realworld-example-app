@@ -9,7 +9,8 @@ interface articleAPIBodyProps {
   };
 }
 
-export const getArticles = (query: string) => GET(`/articles${query}`);
+export const getArticles = (query: string, signal: AbortSignal) =>
+  GET(`/articles${query}`, signal);
 
 export const postArticle = (body: articleAPIBodyProps) =>
   POST('/articles', body);

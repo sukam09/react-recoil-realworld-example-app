@@ -4,9 +4,10 @@ interface fetchWrapProps {
   method: 'get' | 'post' | 'put' | 'delete';
   url: string;
   body?: {};
+  signal?: AbortSignal;
 }
 
-const fetchWrap = async ({ method, url, body }: fetchWrapProps) => {
+const fetchWrap = async ({ method, url, body, signal }: fetchWrapProps) => {
   const jwtToken = localStorage.getItem('jwtToken');
   try {
     const config = {
@@ -14,6 +15,7 @@ const fetchWrap = async ({ method, url, body }: fetchWrapProps) => {
       headers: {
         Authorization: !!jwtToken ? `Token ${jwtToken}` : '',
       },
+      signal: signal,
     };
     const { data } =
       (method === 'get' && (await axios.get(url, config))) ||
@@ -22,12 +24,13 @@ const fetchWrap = async ({ method, url, body }: fetchWrapProps) => {
       (method === 'delete' && (await axios.delete(url, config))) ||
       {};
     return data;
-  } catch (err: any) {
-    throw err;
+  } catch (e: any) {
+    throw e;
   }
 };
 
-export const GET = (url: string) => fetchWrap({ method: 'get', url });
+export const GET = (url: string, signal?: AbortSignal) =>
+  fetchWrap({ method: 'get', url, signal });
 
 export const POST = (url: string, body?: {}) =>
   fetchWrap({ method: 'post', url, body });
