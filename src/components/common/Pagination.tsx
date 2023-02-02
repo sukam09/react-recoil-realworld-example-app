@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from 'react';
 import { Link } from 'react-router-dom';
+import { SetterOrUpdater } from 'recoil';
 
 const Pagination = ({
   page,
@@ -9,7 +9,7 @@ const Pagination = ({
 }: {
   page: number;
   articlesCount: number;
-  setPage: Dispatch<SetStateAction<number>>;
+  setPage: SetterOrUpdater<number>;
   url: string;
 }) => {
   const pageLength = Math.ceil(articlesCount / 10);
