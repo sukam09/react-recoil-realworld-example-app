@@ -43,3 +43,5 @@ For more information on how to this works with other frontends/backends, head ov
 # Getting started
 
 > yarn, yarn start, etc.
+
+[![Brought to you by Thinkster](end.png)](https://thinkster.io)
