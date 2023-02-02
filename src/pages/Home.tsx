@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import Feed from '../components/feed/Feed';
 import LinkTag from '../components/tag/LinkTag';
 import Loading from '../components/common/Loading';
 
-import { isLoggedInAtom } from '../atom';
+import { isLoggedInAtom, pageAtom } from '../atom';
 import { getTags } from '../api/tags';
 
 const Home = () => {
@@ -18,10 +18,12 @@ const Home = () => {
   const [tagList, setTagList] = useState<string[]>([]);
   const [tagListLoading, setTagListLoading] = useState(false);
   const [tagName, setTagName] = useState('');
+  const setPage = useSetRecoilState(pageAtom);
 
   const onClickTag = (tag: string) => {
     setToggle(2);
     setTagName(tag);
+    setPage(1);
   };
 
   useEffect(() => {
@@ -29,8 +31,10 @@ const Home = () => {
       setTagListLoading(true);
       const { tags } = await getTags();
       setTagList(tags);
+      setTagListLoading(false);
     };
-    initTags().then(() => setTagListLoading(false));
+
+    initTags();
   }, []);
 
   useEffect(() => navigate('/', { replace: true }), [navigate]);
@@ -60,7 +64,10 @@ const Home = () => {
                     <Link
                       className={`nav-link ${toggle === 0 ? 'active' : ''}`}
                       to="/"
-                      onClick={() => setToggle(0)}
+                      onClick={() => {
+                        setToggle(0);
+                        setPage(1);
+                      }}
                       hidden={!isLoggedIn}
                     >
                       Your Feed
@@ -70,7 +77,10 @@ const Home = () => {
                     <Link
                       className={`nav-link ${toggle === 1 ? 'active' : ''}`}
                       to="/"
-                      onClick={() => setToggle(1)}
+                      onClick={() => {
+                        setToggle(1);
+                        setPage(1);
+                      }}
                     >
                       Global Feed
                     </Link>
@@ -79,7 +89,10 @@ const Home = () => {
                     <Link
                       className="nav-link active"
                       to="/"
-                      onClick={() => setToggle(2)}
+                      onClick={() => {
+                        setToggle(2);
+                        setPage(1);
+                      }}
                       hidden={toggle !== 2}
                     >
                       <i className="ion-pound"></i> {tagName}{' '}

@@ -1,11 +1,14 @@
 import { NavLink, useParams, Route, Routes } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { useSetRecoilState } from 'recoil';
 
 import UserInfo from '../components/profile/UserInfo';
 import Feed from '../components/feed/Feed';
+import { pageAtom } from '../atom';
 
 const Profile = () => {
   const { userId } = useParams();
+  const setPage = useSetRecoilState(pageAtom);
 
   return (
     <>
@@ -30,6 +33,7 @@ const Profile = () => {
                       }
                       end
                       to={encodeURI(`/profile/${userId}`)}
+                      onClick={() => setPage(1)}
                     >
                       My Articles
                     </NavLink>
@@ -41,6 +45,7 @@ const Profile = () => {
                       }
                       end
                       to={encodeURI(`/profile/${userId}/favorites`)}
+                      onClick={() => setPage(1)}
                     >
                       Favorited Articles
                     </NavLink>

@@ -14,3 +14,8 @@ export const userAtom = atom({
     image: '',
   },
 });
+
+export const pageAtom = atom({
+  key: 'pageAtom',
+  default: 1,
+});
