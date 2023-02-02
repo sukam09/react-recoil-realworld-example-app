@@ -44,8 +44,8 @@ const Login = () => {
       setIsLoggedIn(true);
       setUser(data.user);
       navigate('/', { replace: true });
-    } catch (error: any) {
-      const errorMessage = error.response.data.errors;
+    } catch (e: any) {
+      const errorMessage = e.response.data.errors;
       setError({
         email: errorMessage.email,
         password: errorMessage.password,
