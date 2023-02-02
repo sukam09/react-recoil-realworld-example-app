@@ -1,10 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 import ArticlePreview from '../article/ArticlePreview';
 import Loading from '../common/Loading';
 import Pagination from '../common/Pagination';
+
 import { getArticles } from '../../api/article';
 import { ArticleProps } from '../../types';
+import { useRecoilState } from 'recoil';
+import { pageAtom } from '../../atom';
 
 interface FeedProps {
   query: string;
@@ -14,40 +17,33 @@ interface FeedProps {
 
 const Feed = ({ query, url, limit }: FeedProps) => {
   const [articles, setArticles] = useState<ArticleProps[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
   const [articlesCount, setArticlesCount] = useState(0);
-  const prevQuery = usePrevious(query);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useRecoilState(pageAtom);
 
-  // TODO: make dependencies loose
   useEffect(() => {
-    const abortContorller = new AbortController();
-    const signal = abortContorller.signal;
+    const controller = new AbortController();
+    const { signal } = controller;
+
     const initArticles = async () => {
-      let offset = 10 * (page - 1);
-      if (prevQuery !== query) {
-        setPage(1);
-        offset = 0;
-      }
-      const queryString = `${query}limit=${limit}&offset=${offset}`;
+      setLoading(true);
       try {
         const { articles, articlesCount } = await getArticles(
-          queryString,
+          `${query}limit=${limit}&offset=${10 * (page - 1)}`,
           signal
         );
-        if (signal.aborted) return;
         setArticles(articles);
         setArticlesCount(articlesCount);
+        setLoading(false);
       } catch {}
-      setLoading(false);
     };
 
     initArticles();
 
     return () => {
-      abortContorller.abort();
+      controller.abort();
     };
-  }, [limit, page, query, prevQuery]);
+  }, [limit, query, page]);
 
   if (loading) {
     return (
@@ -74,16 +70,6 @@ const Feed = ({ query, url, limit }: FeedProps) => {
       />
     </>
   );
-};
-
-const usePrevious = (value: string) => {
-  const ref = useRef<string>();
-
-  useEffect(() => {
-    ref.current = value;
-  }, [value]);
-
-  return ref.current;
 };
 
 export default Feed;
