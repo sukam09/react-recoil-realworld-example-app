@@ -20,7 +20,7 @@ const LoginForm = () => {
     emailOrPassword: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setAccount({
       ...account,
@@ -28,7 +28,7 @@ const LoginForm = () => {
     });
   };
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     setDisabled(true);
     e.preventDefault();
     try {
@@ -38,8 +38,8 @@ const LoginForm = () => {
           password: password,
         },
       });
-    } catch (err: any) {
-      const errorMessage = err.response.data.errors;
+    } catch (e: any) {
+      const errorMessage = e.response.data.errors;
       setError({
         email: errorMessage.email,
         password: errorMessage.password,
@@ -57,7 +57,7 @@ const LoginForm = () => {
         {error.emailOrPassword && <li>email or password is invalid</li>}
       </ul>
 
-      <form onSubmit={e => handleLogin(e)}>
+      <form onSubmit={e => onLogin(e)}>
         <fieldset className="form-group">
           <input
             className="form-control form-control-lg"
@@ -65,7 +65,7 @@ const LoginForm = () => {
             placeholder="Email"
             name="email"
             value={email}
-            onChange={handleChange}
+            onChange={onChange}
             disabled={disabled}
             autoComplete="off"
           />
@@ -77,7 +77,7 @@ const LoginForm = () => {
             placeholder="Password"
             name="password"
             value={password}
-            onChange={handleChange}
+            onChange={onChange}
             disabled={disabled}
           />
         </fieldset>

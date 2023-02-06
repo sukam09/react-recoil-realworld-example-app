@@ -21,7 +21,7 @@ describe('<LoginForm />', () => {
     expect(password).toHaveAttribute('value', '1111');
   });
 
-  it('disables and enables input fields and sign in button', async () => {
+  it('disables and enables input fields and sign in button', () => {
     render(<LoginForm />);
     const email = screen.getByPlaceholderText('Email');
     const password = screen.getByPlaceholderText('Password');
