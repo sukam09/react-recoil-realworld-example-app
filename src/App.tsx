@@ -25,8 +25,8 @@ const App = () => {
 
   useEffect(() => {
     const initApp = async () => {
-      const jwtToken = !!localStorage.getItem('jwtToken');
-      if (!jwtToken) return;
+      const hasToken = !!localStorage.getItem('jwtToken');
+      if (!hasToken) return;
       try {
         const data = await getUser();
         const { email, username, bio, image } = data.user;
