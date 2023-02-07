@@ -23,7 +23,6 @@ const Home = () => {
   const onClickTag = (tag: string) => {
     setToggle(2);
     setTagName(tag);
-    setPage(1);
   };
 
   useEffect(() => {
@@ -66,7 +65,6 @@ const Home = () => {
                       to="/"
                       onClick={() => {
                         setToggle(0);
-                        setPage(1);
                       }}
                       hidden={!isLoggedIn}
                     >
@@ -79,7 +77,6 @@ const Home = () => {
                       to="/"
                       onClick={() => {
                         setToggle(1);
-                        setPage(1);
                       }}
                     >
                       Global Feed
@@ -91,7 +88,6 @@ const Home = () => {
                       to="/"
                       onClick={() => {
                         setToggle(2);
-                        setPage(1);
                       }}
                       hidden={toggle !== 2}
                     >

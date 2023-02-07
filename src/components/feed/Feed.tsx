@@ -22,6 +22,10 @@ const Feed = ({ query, url, limit }: FeedProps) => {
   const [page, setPage] = useRecoilState(pageAtom);
 
   useEffect(() => {
+    setPage(1);
+  }, [setPage, query]);
+
+  useEffect(() => {
     const controller = new AbortController();
     const { signal } = controller;
 
