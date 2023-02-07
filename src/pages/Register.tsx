@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 import { registerUser } from '../api/user';
 import { userAtom } from '../atom';
+import { isLoggedInAtom } from '../atom';
 
 const Register = () => {
   const [account, setAccount] = useState({
@@ -20,6 +21,7 @@ const Register = () => {
   });
   const [disabled, setDisabled] = useState(false);
   const setUser = useSetRecoilState(userAtom);
+  const isLoggedIn = useRecoilValue(isLoggedInAtom);
   const navigate = useNavigate();
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +56,10 @@ const Register = () => {
     }
     setDisabled(false);
   };
+
+  useEffect(() => {
+    if (isLoggedIn) navigate('/', { replace: true });
+  }, [isLoggedIn, navigate]);
 
   return (
     <>
