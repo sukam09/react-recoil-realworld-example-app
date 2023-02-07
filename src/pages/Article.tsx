@@ -41,6 +41,7 @@ const Article = () => {
   const [isUser, setIsUser] = useState(false);
   const [pageTitle, setPageTitle] = useState('');
   const [loading, setLoading] = useState(true);
+  const [disabled, setDisabled] = useState(false);
 
   const isLoggedIn = useRecoilValue(isLoggedInAtom);
   const user = useRecoilValue(userAtom);
@@ -57,13 +58,17 @@ const Article = () => {
     navigate('/', { replace: true });
   };
 
-  const publishComment = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = await postComment(URLSlug!, {
-      comment: { body: comment },
-    });
-    setComments([data.comment, ...comments]);
-    setComment('');
+  const publishComment = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setDisabled(true);
+    try {
+      const data = await postComment(URLSlug!, {
+        comment: { body: comment },
+      });
+      setComments([data.comment, ...comments]);
+      setComment('');
+    } catch (e: any) {}
+    setDisabled(false);
   };
 
   const removeComment = async (id: number) => {
@@ -234,7 +239,10 @@ const Article = () => {
                   </div>
                   <div className="card-footer">
                     <img src={user.image} className="comment-author-img" />
-                    <button className="btn btn-sm btn-primary">
+                    <button
+                      className="btn btn-sm btn-primary"
+                      disabled={disabled}
+                    >
                       Post Comment
                     </button>
                   </div>
