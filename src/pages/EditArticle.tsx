@@ -118,7 +118,7 @@ const EditArticle = () => {
     initArticle();
   }, [URLSlug, isLoggedIn, navigate, user.username]);
 
-  if (loading) return <Loading text="editor" />;
+  if (loading) return <Loading />;
 
   return (
     <>

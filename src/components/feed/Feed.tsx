@@ -48,7 +48,7 @@ const Feed = ({ query, url, limit }: FeedProps) => {
   if (loading) {
     return (
       <div className="article-preview">
-        <Loading text="articles" />
+        <Loading />
       </div>
     );
   }

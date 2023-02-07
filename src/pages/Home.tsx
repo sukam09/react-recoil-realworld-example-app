@@ -112,7 +112,7 @@ const Home = () => {
                 <p>Popular Tags</p>
                 <div className="tag-list">
                   {tagListLoading ? (
-                    <Loading text="tags" />
+                    <Loading />
                   ) : (
                     tagList.map(tag => (
                       <LinkTag

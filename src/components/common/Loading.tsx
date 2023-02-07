@@ -1,5 +1,7 @@
-const Loading = ({ text }: { text: string }) => {
-  return <div>Loading {text}...</div>;
+import { CircularProgress } from '@mui/material';
+
+const Loading = () => {
+  return <CircularProgress sx={{ color: '#5CB85C' }} />;
 };
 
 export default Loading;

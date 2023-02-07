@@ -23,7 +23,6 @@ const UserInfo = () => {
 
   useEffect(() => {
     const initUserInfo = async () => {
-      if (userId !== userInfo.username) setLoading(true);
       try {
         const data = await getProfile(userId!);
         const { image, username, bio, following } = data.profile;
@@ -62,7 +61,7 @@ const UserInfo = () => {
     <>
       <div className="user-info">
         {loading ? (
-          <Loading text="profile" />
+          <Loading />
         ) : (
           <div className="container">
             <div className="row">

@@ -137,7 +137,7 @@ const Article = () => {
     initComments();
   }, [URLSlug]);
 
-  if (loading) return <Loading text="article" />;
+  if (loading) return <Loading />;
 
   return (
     <>
