@@ -54,8 +54,10 @@ const Article = () => {
   };
 
   const removeArticle = async () => {
-    await deleteArticle(URLSlug!);
-    navigate(-1);
+    try {
+      await deleteArticle(URLSlug!);
+      navigate(-1);
+    } catch {}
   };
 
   const publishComment = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,59 +69,69 @@ const Article = () => {
       });
       setComments([data.comment, ...comments]);
       setComment('');
-    } catch (e: any) {}
+    } catch {}
     setDisabled(false);
   };
 
   const removeComment = async (id: number) => {
-    await deleteComment(URLSlug!, id);
-    setComments(comments.filter(comment => comment.id !== id));
+    try {
+      await deleteComment(URLSlug!, id);
+      setComments(comments.filter(comment => comment.id !== id));
+    } catch {}
   };
 
   const follow = async () => {
-    await postFollow(article.author.username);
-    setArticle({
-      ...article,
-      author: {
-        ...article.author,
-        following: true,
-      },
-    });
+    try {
+      await postFollow(article.author.username);
+      setArticle({
+        ...article,
+        author: {
+          ...article.author,
+          following: true,
+        },
+      });
+    } catch {}
   };
 
   const unfollow = async () => {
-    await deleteFollow(article.author.username);
-    setArticle({
-      ...article,
-      author: {
-        ...article.author,
-        following: false,
-      },
-    });
+    try {
+      await deleteFollow(article.author.username);
+      setArticle({
+        ...article,
+        author: {
+          ...article.author,
+          following: false,
+        },
+      });
+    } catch {}
   };
 
   const favorite = async () => {
-    await postFavorites(article.slug);
-    setArticle({
-      ...article,
-      favorited: true,
-      favoritesCount: article.favoritesCount + 1,
-    });
+    try {
+      await postFavorites(article.slug);
+      setArticle({
+        ...article,
+        favorited: true,
+        favoritesCount: article.favoritesCount + 1,
+      });
+    } catch {}
   };
 
   const unfavorite = async () => {
-    await deleteFavorites(article.slug);
-    setArticle({
-      ...article,
-      favorited: false,
-      favoritesCount: article.favoritesCount - 1,
-    });
+    try {
+      await deleteFavorites(article.slug);
+      setArticle({
+        ...article,
+        favorited: false,
+        favoritesCount: article.favoritesCount - 1,
+      });
+    } catch {}
   };
 
   useEffect(() => {
     const initArticle = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
         const { article } = await getArticle(URLSlug!);
         setArticle(article);
         setPageTitle(article.title);

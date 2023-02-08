@@ -42,19 +42,23 @@ const UserInfo = () => {
   }, [navigate, userId, userInfo.username]);
 
   const follow = async () => {
-    await postFollow(userId!);
-    setUserInfo({
-      ...userInfo,
-      following: true,
-    });
+    try {
+      await postFollow(userId!);
+      setUserInfo({
+        ...userInfo,
+        following: true,
+      });
+    } catch {}
   };
 
   const unfollow = async () => {
-    await deleteFollow(userId!);
-    setUserInfo({
-      ...userInfo,
-      following: false,
-    });
+    try {
+      await deleteFollow(userId!);
+      setUserInfo({
+        ...userInfo,
+        following: false,
+      });
+    } catch {}
   };
 
   return (

@@ -21,15 +21,19 @@ const ArticlePreview = ({ article }: { article: ArticleProps }) => {
   const navigate = useNavigate();
 
   const favorite = async () => {
-    await postFavorites(article.slug);
-    setFavorited(true);
-    setFavoritesCount(favoritesCount + 1);
+    try {
+      await postFavorites(article.slug);
+      setFavorited(true);
+      setFavoritesCount(favoritesCount + 1);
+    } catch {}
   };
 
   const unfavorite = async () => {
-    await deleteFavorites(article.slug);
-    setFavorited(false);
-    setFavoritesCount(favoritesCount - 1);
+    try {
+      await deleteFavorites(article.slug);
+      setFavorited(false);
+      setFavoritesCount(favoritesCount - 1);
+    } catch {}
   };
 
   return (
