@@ -154,7 +154,7 @@ const Article = () => {
     initComments();
   }, [URLSlug]);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading height={100} />;
 
   return (
     <>
