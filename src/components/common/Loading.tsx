@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { CircularProgress } from '@mui/material';
 
-const Loading = ({ height = 0 }: { height?: number }) => {
+const Loading = ({ height }: { height: number }) => {
   const wrapper = css`
     display: flex;
     justify-content: center;
