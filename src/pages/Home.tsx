@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import Feed from '../components/feed/Feed';
 import LinkTag from '../components/tag/LinkTag';
 import Loading from '../components/common/Loading';
 
-import { isLoggedInAtom, pageAtom } from '../atom';
+import { isLoggedInAtom } from '../atom';
 import { getTags } from '../api/tags';
 
 const Home = () => {
@@ -18,7 +18,6 @@ const Home = () => {
   const [tagList, setTagList] = useState<string[]>([]);
   const [tagListLoading, setTagListLoading] = useState(false);
   const [tagName, setTagName] = useState('');
-  const setPage = useSetRecoilState(pageAtom);
 
   const onClickTag = (tag: string) => {
     setToggle(2);
@@ -28,8 +27,10 @@ const Home = () => {
   useEffect(() => {
     const initTags = async () => {
       setTagListLoading(true);
-      const { tags } = await getTags();
-      setTagList(tags);
+      try {
+        const { tags } = await getTags();
+        setTagList(tags);
+      } catch {}
       setTagListLoading(false);
     };
 
@@ -37,6 +38,8 @@ const Home = () => {
   }, []);
 
   useEffect(() => navigate('/', { replace: true }), [navigate]);
+
+  useEffect(() => console.log(toggle), [toggle]);
 
   return (
     <>

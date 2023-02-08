@@ -64,10 +64,10 @@ const NewArticle = () => {
     setEditor({ ...editor, tagList: tagList.filter(tag => tag !== target) });
   };
 
-  const publishArticle = async (event: React.FormEvent<HTMLFormElement>) => {
+  const publishArticle = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setDisabled(true);
     try {
-      event.preventDefault();
-      setDisabled(true);
       const { article } = await postArticle({
         article: {
           title: title,
@@ -77,9 +77,9 @@ const NewArticle = () => {
         },
       });
       navigate(`/article/${article.slug}`);
-    } catch (err: any) {
-      if (err.response.status === 422) {
-        const errorMessage = err.response.data.errors;
+    } catch (e: any) {
+      if (e.response.status === 422) {
+        const errorMessage = e.response.data.errors;
         setError({
           title: errorMessage.title,
           description: errorMessage.description,

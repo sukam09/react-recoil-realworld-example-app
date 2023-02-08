@@ -9,14 +9,14 @@ interface fetchWrapProps {
 
 const fetchWrap = async ({ method, url, body, signal }: fetchWrapProps) => {
   const jwtToken = localStorage.getItem('jwtToken');
+  const config = {
+    baseURL: 'https://api.realworld.io/api',
+    headers: {
+      Authorization: !!jwtToken ? `Token ${jwtToken}` : '',
+    },
+    signal: signal,
+  };
   try {
-    const config = {
-      baseURL: 'https://api.realworld.io/api',
-      headers: {
-        Authorization: !!jwtToken ? `Token ${jwtToken}` : '',
-      },
-      signal: signal,
-    };
     const { data } =
       (method === 'get' && (await axios.get(url, config))) ||
       (method === 'post' && (await axios.post(url, body, config))) ||

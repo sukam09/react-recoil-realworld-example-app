@@ -1,11 +1,8 @@
-import { useEffect } from 'react';
 import { NavLink, useParams, Route, Routes } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { useSetRecoilState } from 'recoil';
 
 import UserInfo from '../components/profile/UserInfo';
 import Feed from '../components/feed/Feed';
-import { pageAtom } from '../atom';
 
 const Profile = () => {
   const { userId } = useParams();
