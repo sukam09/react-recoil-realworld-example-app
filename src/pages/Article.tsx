@@ -55,7 +55,7 @@ const Article = () => {
 
   const removeArticle = async () => {
     await deleteArticle(URLSlug!);
-    navigate('/', { replace: true });
+    navigate(-1);
   };
 
   const publishComment = async (e: React.FormEvent<HTMLFormElement>) => {
