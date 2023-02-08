@@ -65,7 +65,7 @@ const UserInfo = () => {
     <>
       <div className="user-info">
         {loading ? (
-          <Loading height={30} />
+          <Loading height={20} />
         ) : (
           <div className="container">
             <div className="row">

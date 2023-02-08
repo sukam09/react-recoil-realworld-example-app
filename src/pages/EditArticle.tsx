@@ -118,7 +118,7 @@ const EditArticle = () => {
     initArticle();
   }, [URLSlug, isLoggedIn, navigate, user.username]);
 
-  if (loading) return <Loading height={100} />;
+  if (loading) return <Loading height={75} />;
 
   return (
     <>

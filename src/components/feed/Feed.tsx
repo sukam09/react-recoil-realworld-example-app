@@ -52,7 +52,7 @@ const Feed = ({ query, url, limit }: FeedProps) => {
   if (loading) {
     return (
       <div className="article-preview">
-        <Loading height={50} />
+        <Loading height={30} />
       </div>
     );
   }

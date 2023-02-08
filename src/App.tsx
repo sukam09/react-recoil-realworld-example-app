@@ -52,7 +52,7 @@ const App = () => {
     initApp().then(() => setLoading(false));
   }, [setIsLoggedIn, setUser]);
 
-  if (loading) return <Loading height={100} />;
+  if (loading) return <Loading height={75} />;
 
   return (
     <>
