@@ -1,17 +1,14 @@
 import { Link } from 'react-router-dom';
-import { SetterOrUpdater } from 'recoil';
+import { useRecoilState } from 'recoil';
+import { pageAtom } from '../../atom';
 
-const Pagination = ({
-  page,
-  articlesCount,
-  setPage,
-  url,
-}: {
-  page: number;
+interface PaginationProps {
   articlesCount: number;
-  setPage: SetterOrUpdater<number>;
   url: string;
-}) => {
+}
+
+const Pagination = ({ articlesCount, url }: PaginationProps) => {
+  const [page, setPage] = useRecoilState(pageAtom);
   const pageLength = Math.ceil(articlesCount / 10);
   const pageNums = [...Array(pageLength).keys()].map(p => p + 1);
 

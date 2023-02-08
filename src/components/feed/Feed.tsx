@@ -66,12 +66,7 @@ const Feed = ({ query, url, limit }: FeedProps) => {
       {articles.map(article => (
         <ArticlePreview key={article.slug} article={article} />
       ))}
-      <Pagination
-        page={page}
-        articlesCount={articlesCount}
-        setPage={setPage}
-        url={url}
-      />
+      <Pagination articlesCount={articlesCount} url={url} />
     </>
   );
 };
