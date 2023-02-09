@@ -22,6 +22,10 @@ const UserInfo = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
+  }, [userId]);
+
+  useEffect(() => {
     const initUserInfo = async () => {
       try {
         const data = await getProfile(userId!);
@@ -39,7 +43,7 @@ const UserInfo = () => {
     };
 
     initUserInfo();
-  }, [navigate, userId, userInfo.username]);
+  }, [userId, navigate]);
 
   const follow = async () => {
     try {
