@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useRecoilValue } from 'recoil';
@@ -19,6 +19,11 @@ const Home = () => {
   const [tagListLoading, setTagListLoading] = useState(false);
   const [tagName, setTagName] = useState('');
 
+  const queryList = useMemo(
+    () => ['/feed?', '?', `?tag=${tagName}&`],
+    [tagName]
+  );
+
   const onClickTag = (tag: string) => {
     setToggle(2);
     setTagName(tag);
@@ -38,8 +43,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => navigate('/', { replace: true }), [navigate]);
-
-  useEffect(() => console.log(toggle), [toggle]);
 
   return (
     <>
@@ -99,11 +102,7 @@ const Home = () => {
                   </li>
                 </ul>
               </div>
-              {toggle === 0 && <Feed query="/feed?" url="/" limit={10} />}
-              {toggle === 1 && <Feed query="?" url="/" limit={10} />}
-              {toggle === 2 && (
-                <Feed query={`?tag=${tagName}&`} url="/" limit={10} />
-              )}
+              <Feed query={queryList[toggle]} url="/" limit={10} />
             </div>
 
             <div className="col-md-3">
