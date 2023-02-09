@@ -22,11 +22,8 @@ const UserInfo = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLoading(true);
-  }, [userId]);
-
-  useEffect(() => {
     const initUserInfo = async () => {
+      setLoading(true);
       try {
         const data = await getProfile(userId!);
         const { image, username, bio, following } = data.profile;
@@ -43,7 +40,7 @@ const UserInfo = () => {
     };
 
     initUserInfo();
-  }, [userId, navigate]);
+  }, [userId]);
 
   const follow = async () => {
     try {
