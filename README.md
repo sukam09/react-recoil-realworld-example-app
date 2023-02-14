@@ -46,6 +46,5 @@ For more information on how to this works with other frontends/backends, head ov
   - ```git clone https://github.com/sukam09/react-recoil-realworld-example-app.git```
   - ```yarn install```
   - ```yarn start```
-- Open your browser and access ```http://localhost:3000```. Because I used BROWSER=none option in the package.json when developing, you cannot expect the browser to be opened automatically.
 
 [![Brought to you by Thinkster](end.png)](https://thinkster.io)
