@@ -8,6 +8,7 @@ import { userAtom } from '../../atom';
 import FollowButton from '../common/FollowButton';
 import { postFollow, deleteFollow } from '../../api/profile';
 
+// TODO: userInfo refresh issue when 'My/Favorited Articles' button clicked
 const UserInfo = () => {
   const [userInfo, setUserInfo] = useState({
     image: '',
@@ -40,7 +41,7 @@ const UserInfo = () => {
     };
 
     initUserInfo();
-  }, [userId]);
+  }, [userId, navigate]);
 
   const follow = async () => {
     try {
