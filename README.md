@@ -44,7 +44,7 @@ For more information on how to this works with other frontends/backends, head ov
 
 - Move to the folder where you want to clone this repo and run these commands in order.
   - ```git clone https://github.com/sukam09/react-recoil-realworld-example-app.git```
-  - ```yarn install```
-  - ```yarn start```
+  - ```yarn``` or ```npm install```
+  - ```yarn start``` or ```npm start```
 
 [![Brought to you by Thinkster](end.png)](https://thinkster.io)
